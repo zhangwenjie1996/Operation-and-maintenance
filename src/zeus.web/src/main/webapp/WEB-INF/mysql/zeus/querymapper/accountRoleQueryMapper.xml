@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.query.IPermissionQuery" >
+  <resultMap id="AccountRoleResultMap" type="ig.zeus.domain.repository.viewmodel.AccountRoleViewModel" >
+    <id column="accountID" property="accountid" jdbcType="INTEGER" />
+    <id column="roleID" property="roleid" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteAccountRole" parameterType="java.lang.Integer" >
+    delete from accountRole
+    where accountID = #{accountid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertAccountRole" parameterType="ig.zeus.domain.repository.viewmodel.AccountRoleViewModel" >
+    insert into accountRole (accountID, roleID)
+    values (#{accountid,jdbcType=INTEGER}, #{roleid,jdbcType=INTEGER})
+  </insert>
+  <update id="updateAccountRole" parameterType="ig.zeus.domain.repository.viewmodel.AccountRoleViewModel" >
+    update accountRole
+    set roleID = #{roleid,jdbcType=INTEGER}
+    where accountID = #{accountid,jdbcType=INTEGER}
+  </update>
+  <select id="findByIdAccountRole" resultMap="AccountRoleResultMap" parameterType="java.lang.Integer" >
+    select accountID, roleID
+    from accountRole
+    where accountID = #{accountid,jdbcType=INTEGER}
+  </select>
+  <select id="findAllAccountRole" resultMap="AccountRoleResultMap" >
+    select accountID, roleID
+    from accountRole
+  </select>
+</mapper>

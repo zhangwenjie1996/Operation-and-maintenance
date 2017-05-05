@@ -1,0 +1,27 @@
+[
+  {
+    "id": "1",
+    
+    "text": "Root node 1"
+  },
+  {
+    "id": "2",
+    
+    "text": "Root node 2"
+  },
+ {
+    "id": "3",
+   
+    "text": "Child 1"
+  },
+  {
+    "id": "4",
+    
+    "text": "Child 2"
+  },
+  {
+    "id": "5",
+  
+    "text": "Child 2"
+  }
+]

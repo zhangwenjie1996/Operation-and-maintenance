@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/src/json/accessories1.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/json/accessories2.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/json/accessories3.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/json/data1.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/json/data2.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/json/departM.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/json/deviceGrid.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/json/deviceTree.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/json/employee.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/json/equipmentOrder.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/json/patrolEmployee.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/json/patrolGroup.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/json/role.json" charset="UTF-8" />
+  </component>
+</project>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.query.IRoleQueryRepository">
+	<resultMap id="BaseResultMap"
+		type="ig.zeus.domain.repository.viewmodel.RoleViewModel">
+		<id column="roleID" property="roleid" jdbcType="INTEGER" />
+		<result column="roleName" property="rolename" jdbcType="VARCHAR" />
+		<result column="roleType" property="roletype" jdbcType="TINYINT" />
+		<result column="quota" property="quota" jdbcType="INTEGER" />
+		<result column="availability" property="availability" jdbcType="BIT" />
+	</resultMap>
+	<select id="count" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM role
+	</select>
+	<select id="findById" resultType="ig.zeus.domain.repository.viewmodel.RoleViewModel"
+		parameterType="java.lang.Integer">
+		select roleID, roleName, roleType, quota, availability
+		from role
+		where roleID = #{roleid,jdbcType=INTEGER}
+	</select>
+	<select id="findAll" resultMap="BaseResultMap">
+		select roleID, roleName, roleType, quota, availability
+		from role
+	</select>
+	<select id="findPageData" parameterType="ig.archer.infrastructure.data.PagingData"
+		resultType="ig.zeus.domain.repository.viewmodel.RoleViewModel">
+		select roleID, roleName, roleType, quota, 
+		(select ItemName from sysSetting where SettingName ='availability' and ItemID= availability) availability from role
+		limit #{pageStart}, #{rowCount}
+	</select>
+	<select id="findAllSelect" resultType="ig.zeus.domain.repository.viewmodel.RoleViewModel">
+	select roleID,roleName from role 
+	</select>
+</mapper>

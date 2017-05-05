@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.command.IOrganRepository">
+    <delete id="remove" parameterType="java.lang.Integer">
+    delete from organ
+    where organID = #{ID,jdbcType=INTEGER}
+  </delete>
+    <insert id="add" parameterType="ig.zeus.domain.model.user.Organ">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="ID">
+            SELECT LAST_INSERT_ID() AS ID
+        </selectKey>
+        insert into organ (parentOrganID, coding,
+        organName, shortName, sequence,
+        category,Governor,availability,description)
+        values (#{parentorganid,jdbcType=INTEGER}, #{coding,jdbcType=VARCHAR},
+        #{organName,jdbcType=VARCHAR}, #{shortname,jdbcType=VARCHAR}, #{sequence,jdbcType=INTEGER},
+        #{category,jdbcType=TINYINT},#{governor,jdbcType=VARCHAR},#{availability,jdbcType=BIT},#{discription,jdbcType=VARCHAR})
+    </insert>
+    <update id="update" parameterType="ig.zeus.domain.model.user.Organ">
+    update organ
+    set parentOrganID = #{parentorganid,jdbcType=INTEGER},
+      coding = #{coding,jdbcType=VARCHAR},
+      organName = #{organName,jdbcType=VARCHAR},
+      shortName = #{shortname,jdbcType=VARCHAR},
+      sequence = #{sequence,jdbcType=INTEGER},
+      category = #{category,jdbcType=TINYINT},
+      Governor=#{governor,jdbcType=VARCHAR},
+      availability=#{availability,jdbcType=BIT},
+      description=#{discription,jdbcType=VARCHAR}
+    where organID = #{ID,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+    <link href="../../src/css/quote/lib/jquery.bootgrid.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <!-- alert -->
+	<link rel="stylesheet" type="text/css" href="../../src/alert/sweetalert2.min.css">
+    <link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+    <!--<script type="text/javascript" src="dist/js/jquery.i18n.properties-1.0.9.js"></script>-->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript" src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript" src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="postM">
+    <div class="tit">
+        <ol class="breadcrumb">
+            <li><a><i></i>系统管理</a></li>
+        </ol>
+       
+    </div>
+<button class="addBtn btn btn-primary btn-sm"  type="button"> <i class="fa fa-plus"></i>增加
+            </button>
+              <div class="table-rp">
+    <table id="grid-data" class="table table-condensed table-hover table-striped">
+        <thead>
+        <tr>
+<!--             <th data-column-id="systemid" data-identifier="true" data-type="numeric">ID</th> -->
+            <th data-column-id="systemname">系统名称</th>
+            <th data-column-id="url">链接地址</th>
+            <th data-column-id="availability">有效性</th>
+            <th data-column-id="description">描述</th>
+            <th data-column-id="commands" data-formatter="commands" data-sortable="false">操作</th>
+        </tr>
+        </thead>
+    </table>
+    </div>
+</div>
+<div class="cd-popup" role="alert">
+    <div class="cd-popup-container">
+        <a class="cd-popup-close icon-close fa fa-times"></a>
+<div class="tabbar"></div>
+<div class="mnk">
+        <form id="systemForm" class="form-horizontal form-block">
+            <div class="form-group" hidden="hidden">
+                <label for="systemid" class="col-sm-2 control-label">ID</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" id="systemid" placeholder="systemid" name="systemid">
+                </div>
+            </div>
+            <div class="form-group" >
+                <label for="systemname" class="col-sm-2 control-label">名称</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="systemname" placeholder="systemname" name="systemname">
+                </div>
+            </div>
+             <div class="form-group" >
+                <label for="signature" class="col-sm-2 control-label">标识</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" id="signature" placeholder="signature" name="signature">
+                </div>
+            </div>
+            <div class="form-group" >
+                <label for="url" class="col-sm-2 control-label">链接地址</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" id="url" placeholder="url" name="url">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="availability" class="col-sm-2 control-label">有效性</label>
+                <div class="col-sm-10">
+                    	<select class="form-control" id="availability" name="availability">
+								<option value="1">有</option>
+								<option value="0">无</option>
+					</select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="description" class="col-sm-2 control-label">描述</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" id="description" placeholder="description" name="description">
+                </div>
+            </div>
+        </form>
+        <div class="cd-buttons">
+            <button type="button" class="btn btn-primary cd-popup-close cd-btn cd-btn-save">保存</button>
+            <button type="button" class="btn btn-danger cd-popup-close cd-btn cd-btn-deal">取消</button>
+        </div>
+    </div></div>
+    <!-- cd-popup-container-end -->
+</div>
+<script src="../../src/alert/sweetalert2.min.js"></script> 
+	<!-- for IE support -->
+	<script src="../../src/alert/es6-promise.auto.min.js"></script>
+<script src="../../src/js/quote/jquery.ui.min.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+<script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+<script type="text/javascript" src="../../src/js/packtreegrid/pack2.js"></script>
+<script type="text/javascript" src="../../src/js/dialog/dialog.js"></script>
+<script>
+    var planningFilter = function (url) {
+        var $cdBtnSave = $(".cd-btn-save");
+        $(".addBtn").on("click", function (e) {
+        	 $(".tabbar").html("增加");
+            $().dia(e);
+            $("#systemForm")[0].reset();
+            $cdBtnSave.off("click");
+            $cdBtnSave.on("click", function (e) {
+            	   var arr = $("#systemForm").serialize();
+            	   arr = decodeURIComponent(arr,true);
+            	   console.log(arr);
+            	   $.ajaxSetup({
+            		   contentType: "application/x-www-form-urlencoded; charset=utf-8"
+            		 });
+                $.post('../../system/add',arr, function (data) {
+ 
+                            $("#grid-data").bootgrid("reload");
+                            if (data.state == "Success") {
+                            swal({text: data.message});      
+                            } else {
+                            swal({text: data.message})
+                            }
+                        }, 'json')
+            });
+        });
+        $("#grid-data").bootgrid("destroy");
+        var idname = "systemid";
+        var formatters={
+                "commands": function (column, row) {
+                	console.log(row,row[idname])
+                    return "<a abs=\"查看\" class=\"btn-color btn btn-xs btn-default command-view\"  data-row-id=\"" + row[idname] + "\"><span class=\"fa  fa-eye\"></span></a>"
+                            + "<a  abs=\"编辑\" class=\"btn-color btn btn-xs btn-default command-edit\"  data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-pencil\"></span></a> " +
+                            "<a  abs=\"删除\" class=\"btn-color btn btn-xs btn-default command-delete\"  data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                }
+            }
+        var grid = pack.gridInit(url, "grid-data",formatters).on("loaded.rs.jquery.bootgrid", function () {
+            $().tip();
+            grid.find(".command-delete").on("click", function (e) {
+                var _this = this;
+                swal({text: "删除第"+$(this).attr("data-row-id")+"行"});
+                $.get("../../system/delete", {
+                	id: $(this).attr("data-row-id")
+                }, function (data) {
+                    $(_this).parents('tr').remove();
+                 
+               
+                }, 'json');
+            }).end().find(".command-edit").on("click", function (e) {
+          	  $(".tabbar").html("编辑");
+                $().dia(e);
+                $("#systemForm")[0].reset();
+                $.get('../../system/findById',{id: $(this).attr("data-row-id")}, function (data) {
+                	var d = data.data;
+                    for (key in d) {
+                        $("#" + key).val(d[key])
+                    }
+                }, 'json');
+                $cdBtnSave.off("click");
+                $cdBtnSave.on("click", function (e) {
+                    var arr = $("#systemForm").serialize();
+                    $.post('../../system/update', arr, function (data) {
+                        if (data.state == "Success") {
+                      	  $("#grid-data").bootgrid("reload");
+                      	swal({text: data.message})
+                        } else {
+                        swal({text: data.message})
+                        }
+                    }, 'json')
+                });
+            }).end().find(".command-view").on("click", function (e) {
+            	  $(".tabbar").html("查看");
+                $().dia2(e);
+                $("#systemForm")[0].reset();
+                $.get('../../system/findById', {id: $(this).attr("data-row-id")}, function (data) {
+                	var d = data.data;
+                    for (key in d) {
+                        $("#" + key).val(d[key])
+                    }
+                }, 'json');
+            })
+            $(".text-left").remove("class").attr("class","text-center");
+        });
+
+    };
+    planningFilter("../../system/findAll")
+</script>
+</body>
+</html>

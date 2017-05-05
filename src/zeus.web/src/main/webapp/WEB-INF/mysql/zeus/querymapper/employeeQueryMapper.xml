@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.query.IUserQueryRepository">
+	<resultMap id="BaseResultMap"
+		type="ig.zeus.domain.repository.viewmodel.EmployeeViewModel">
+		<id column="employeeID" property="employeeid" jdbcType="INTEGER" />
+		<result column="organID" property="organid" jdbcType="INTEGER" />
+		<result column="postID" property="postid" jdbcType="INTEGER" />
+		<result column="employeeName" property="employeename" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="TINYINT" />
+		<result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+		<result column="identityCard" property="identitycard" jdbcType="CHAR" />
+		<result column="nativePlace" property="nativeplace" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="cellphone" property="cellphone" jdbcType="CHAR" />
+		<result column="politicsStatus" property="politicsstatus"
+			jdbcType="TINYINT" />
+		<result column="createDate" property="createdate" jdbcType="TIMESTAMP" />
+		<result column="availability" property="availability" jdbcType="BIT" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="count" resultType="java.lang.Integer" parameterType="ig.zeus.domain.repository.viewmodel.EmployeeViewModel">
+		SELECT count(e.employeeID) FROM employee e
+		LEFT JOIN employeeAccount ea
+		ON e.employeeID = ea.employeeID
+		LEFT JOIN account a
+		ON a.accountID = ea.accountID
+		LEFT JOIN accountRole ar
+		ON a.accountID = ar.accountID
+		LEFT JOIN role r
+		ON r.roleID = ar.roleID  where 1=1
+		<if test="organid!=null and organid!=0">
+			and e.organID=#{organid}
+		</if>
+		<if test="employeename!=null and employeename!=''">
+			and e.employeeName like concat('%',#{employeename},'%')
+		</if>
+		<if test="accountName!=null and accountName!=''">
+			and a.accountName  like concat('%',#{accountName},'%')
+		</if>
+		<if test="roleName!=null and roleName!=''">
+			and r.roleName like concat('%',#{roleName},'%')
+		</if>
+	</select>
+	<select id="findById" resultType="ig.zeus.domain.repository.viewmodel.EmployeeViewModel" parameterType="java.lang.Integer">
+		SELECT employeeID, e.organID, e.postID, employeeName, sex, birthday,
+		identityCard, nativePlace,
+		address, phone, cellphone, e.politicsStatus,
+		createDate, e.availability,
+		e.description,o.organName,p.postName
+		FROM employee e LEFT JOIN organ o ON e.organID=o.organID LEFT JOIN post p ON p.postID=e.postID
+		where employeeID =
+		#{employeeid,jdbcType=INTEGER}
+	</select>
+	<select id="findAll" resultMap="BaseResultMap">
+		select employeeID, organID,
+		postID, employeeName, sex, birthday,
+		identityCard, nativePlace,
+		address, phone, cellphone, politicsStatus, createDate, availability,
+		description
+		from employee
+	</select>
+	<select id="findPageData" parameterType="ig.archer.infrastructure.data.PagingData"
+		resultType="ig.zeus.domain.repository.viewmodel.EmployeeViewModel">
+		SELECT e.employeeID, e.organID,
+		e.postID, e.employeeName, (SELECT ItemName FROM sysSetting WHERE SettingName ='sex' AND ItemID=e.sex) sex, 
+		DATE_FORMAT(e.birthday,'%Y-%m-%d') birthday,
+		e.identityCard, e.nativePlace,
+		e.address, e.phone, e.cellphone, DATE_FORMAT(e.createDate,'%Y-%m-%d') createDate, 
+		(select ItemName from sysSetting where SettingName ='availability' and ItemID=e.availability) availability,
+		e.description FROM employee e
+		LEFT JOIN employeeAccount ea
+		ON e.employeeID = ea.employeeID
+		LEFT JOIN account a
+		ON a.accountID = ea.accountID
+		LEFT JOIN accountRole ar
+		ON a.accountID = ar.accountID
+		LEFT JOIN role r
+		ON r.roleID = ar.roleID  where 1=1
+		<if test="rows.organid!=null and rows.organid!=0">
+			and e.organID=#{rows.organid}
+		</if>
+		<if test="rows.employeename!=null and rows.employeename!=''">
+			and e.employeeName like concat('%',#{rows.employeename},'%')
+		</if>
+		<if test="rows.accountName!=null and rows.accountName!=''">
+			and a.accountName  like concat('%',#{rows.accountName},'%')
+		</if>
+		<if test="rows.roleName!=null and rows.roleName!=''">
+			and r.roleName like concat('%',#{rows.roleName},'%')
+		</if>
+		limit #{pageStart}, #{rowCount}
+	</select>
+	<select id="findEmployeeByOrganID" resultType="ig.zeus.domain.repository.viewmodel.EmployeeViewModel" parameterType="java.lang.Integer">
+		select employeeID, organID,
+		postID, employeeName, sex, birthday,
+		identityCard, nativePlace,
+		address, phone, cellphone, politicsStatus, createDate, availability,
+		description
+		from employee where organID = #{organID}
+	</select>
+</mapper>

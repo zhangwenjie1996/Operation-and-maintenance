@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+	<!-- ============== Mapping ============== -->
+	<bean id="iMaintainDeviceMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.maintain.IMaintainDeviceMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMaintainPlanMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.maintain.IMaintainPlanMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMaintainRouteDeviceMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.maintain.IMaintainRouteDeviceMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMaintainRouteMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.maintain.IMaintainRouteMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMaintainTaskMemberMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.maintain.IMaintainTaskMemberMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMaintainTaskMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.maintain.IMaintainTaskMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<!-- Query -->
+	<bean id="iMaintainDeviceQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.maintain.querymapper.IMaintainDeviceQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMaintainPlanQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.maintain.querymapper.IMaintainPlanQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMaintainRouteDeviceQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.maintain.querymapper.IMaintainRouteDeviceQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMaintainRouteQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.maintain.querymapper.IMaintainRouteQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMaintainTaskQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.maintain.querymapper.IMaintainTaskQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMaintainTaskMemberQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.maintain.querymapper.IMaintainTaskMemberQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+	<!-- ============== Repository ============== -->
+	<bean id="iMaintainPlanRepository" name="IMaintainPlanRepository"
+		class="ig.device.domain.repository.maintain.MaintainPlanRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iMaintainRouteRepository" name="IMaintainRouteRepository"
+		class="ig.device.domain.repository.maintain.MaintainRouteRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iMaintainTaskRepository" name="IMaintainTaskRepository"
+		class="ig.device.domain.repository.maintain.MaintainTaskRepository"
+		autowire="byName">
+	</bean>
+	<!-- ============== Service ============== -->
+	<!-- Command -->
+	<bean id="iMaintainPlanService" name="IMaintainPlanService"
+		class="ig.device.domain.service.commandhandler.maintain.basis.MaintainPlanService"
+		autowire="byName">
+	</bean>
+	<bean id="iMaintainRouteService" name="IMaintainRouteService"
+		class="ig.device.domain.service.commandhandler.maintain.basis.MaintainRouteService"
+		autowire="byName">
+	</bean>
+	<bean id="iMaintainTaskService" name="IMaintainTaskService"
+		class="ig.device.domain.service.commandhandler.maintain.basis.MaintainTaskService"
+		autowire="byName">
+	</bean>
+
+
+	<!-- ============== Application ============== -->
+	<bean id="MaintainPlanApp" name="IMaintainPlanApp"
+		class="ig.device.application.commandhandler.maintain.basis.MaintainPlanApp"
+		autowire="byName">
+	</bean>
+	<bean id="MaintainRouteApp" name="IMaintainRouteApp"
+		class="ig.device.application.commandhandler.maintain.basis.MaintainRouteApp"
+		autowire="byName">
+	</bean>
+	<bean id="MaintainTaskApp" name="IMaintainTaskApp"
+		class="ig.device.application.commandhandler.maintain.basis.MaintainTaskApp"
+		autowire="byName">
+	</bean>
+	<!-- Query -->
+	<bean id="MaintainPlanQueryApp" name="IMaintainPlanQueryApp"
+		class="ig.device.application.query.maintain.basis.MaintainPlanQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="MaintainRouteQueryApp" name="IMaintainRouteQueryApp"
+		class="ig.device.application.query.maintain.basis.MaintainRouteQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="MaintainTaskQueryApp" name="IMaintainTaskQueryApp"
+		class="ig.device.application.query.maintain.basis.MaintainTaskQueryApp"
+		autowire="byName">
+	</bean>
+
+</beans>

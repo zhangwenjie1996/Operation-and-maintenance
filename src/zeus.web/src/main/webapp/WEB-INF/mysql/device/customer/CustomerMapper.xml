@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.customer.ICustomerMapper">
+<insert id="add" parameterType="ig.device.domain.model.customer.Customer">
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="customerId">
+        SELECT LAST_INSERT_ID() AS customerId
+    </selectKey>
+      INSERT INTO customer(
+        customerName,phone,fax,address,customerLeader,customerType,
+        depositBack,depositAccount,depositName,remark,registrantName,
+        registrantID,registrantDate,availability)
+        VALUES(
+        #{customerName},#{phone},#{fax},#{address},#{customerLeader},#{customerType},
+        #{depositBack},#{depositAccount},#{depositName},#{remark},#{registrantName},
+        #{registrantID},NOW(),#{availability})
+
+</insert>
+<update id="update" parameterType="ig.device.domain.model.customer.Customer">
+UPDATE customer set customerName=#{customerName},phone=#{phone},fax=#{fax},
+    address=#{address},customerLeader=#{customerLeader},customerType=#{customerType},
+        depositBack=#{depositBack},depositAccount=#{depositAccount},depositName=#{depositName},
+        remark=#{remark},availability=#{availability} where customerID=#{customerId}
+</update>
+    <delete id="remove" parameterType="java.lang.Integer">
+        delete from customer where customerID = #{id}
+    </delete>
+
+
+    <!--联系人-->
+<insert id="addContact" parameterType="ig.device.domain.model.customer.Customer">
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="contactId">
+        SELECT LAST_INSERT_ID() AS contactId
+    </selectKey>
+     INSERT INTO contact(contactName,telePhone,cellPhone,postID,postName,contactAddress,customerID,availability,contactRemark)
+     VALUES(
+        #{contactName}, #{telePhone}, #{cellPhone}, #{postId}, #{postName}, #{contactAddress}, #{customerId}, #{availability},#{contactRemark}
+)
+
+</insert>
+<update id="updateContact" parameterType="ig.device.domain.model.customer.Customer">
+UPDATE contact set contactName=#{contactName},telePhone=#{telePhone},cellPhone=#{cellPhone},
+ postName=#{postName},contactAddress=#{contactAddress},postID=#{postId},availability=#{availability},contactRemark=#{contactRemark}
+ where contactID=#{contactId}
+</update>
+    <delete id="removeContact" parameterType="java.lang.Integer">
+        delete from contact where contactID = #{id}
+    </delete>
+</mapper>

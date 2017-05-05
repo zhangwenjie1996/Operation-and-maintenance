@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.fault.query.IOperatorLogQueryMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.viewmodel.fault.OperatorLogViewModel" >
+    <constructor >
+      <idArg column="operatorLogID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="operatorID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="faultID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="operatorName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="operatorDate" jdbcType="DATE" javaType="java.util.Date" />
+      <arg column="operatorState" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    operatorLogID, operatorID, faultID, operatorName, operatorDate, operatorState, description
+  </sql>
+  <select id="findFaultId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from operatorLog
+    where faultID = #{faultID,jdbcType=INTEGER} order by operatorLogID desc
+  </select>
+  
+</mapper>

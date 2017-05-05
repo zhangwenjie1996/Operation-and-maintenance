@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="ig.device.domain.mapper.maintain.querymapper.IMaintainTaskMemberQueryMapper">
+	<resultMap id="BaseResultMap"
+		type="ig.device.domain.viewmodel.maintain.MaintainTaskMemberViewModel">
+		<constructor>
+			<idArg column="maintainTaskMemberID" jdbcType="INTEGER"
+				javaType="java.lang.Integer" />
+			<arg column="maintainTaskID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="maintainGroupID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="employeeID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="maintainTaskMemberName" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+			<arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+		</constructor>
+	</resultMap>
+	<sql id="Base_Column_List">
+		maintainTaskMemberID, maintainTaskID, maintainGroupID,employeeID, maintainTaskMemberName,
+		availability,
+		description
+	</sql>
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from maintainTaskMember
+		where maintainTaskMemberID = #{maintainTaskMemberID,jdbcType=INTEGER}
+	</select>
+	<select id="countMemberByTaskId" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		SELECT COUNT(1) FROM maintainTaskMember
+		where maintainTaskID = #{maintainTaskID,jdbcType=INTEGER} and availability=1
+	</select>
+	<select id="findMemberByTaskId" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from maintainTaskMember
+		where maintainTaskID =
+		#{2} and availability=1 limit
+		#{0}, #{1}
+	</select>
+	<select id="findGroupIdByEmployeeID"
+		resultType="ig.device.domain.viewmodel.maintain.MaintainTaskMemberViewModel"
+		parameterType="java.lang.Integer">
+		select
+		*
+		from maintainTaskMember
+		where employeeID =
+		#{employeeID,jdbcType=INTEGER} and availability=1
+	</select>
+</mapper>

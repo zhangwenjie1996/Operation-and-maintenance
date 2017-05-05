@@ -1,0 +1,162 @@
+{
+  "current": 2,
+  "rowCount": 5,
+  "rows": [
+    {
+     "materialModelName": 1,
+      "materialModelCode": "2",
+      "materialCategoryName": "3",
+      "unitnName": "03Z",
+      "sup materialModelName": "03Z",
+      "maxInventory": "a",
+      "minInventory": "100",
+      "providerName": "100",
+      "description": "描述..."
+    },
+    {
+     "materialModelName": 2,
+      "materialModelCode": "2",
+      "materialCategoryName": "3",
+      "unitnName": "03Z",
+      "sup materialModelName": "03Z",
+      "maxInventory": "a",
+      "minInventory": "100",
+      "providerName": "100",
+      "description": "描述..."
+    },
+    {
+     "materialModelName": 3,
+      "materialModelCode": "2",
+      "materialCategoryName": "3",
+      "unitnName": "03Z",
+      "sup materialModelName": "03Z",
+      "maxInventory": "a",
+      "minInventory": "100",
+      "providerName": "100",
+      "description": "描述..."
+    },
+    {
+     "materialModelName": 4,
+      "materialModelCode": "2",
+      "materialCategoryName": "3",
+      "unitnName": "03Z",
+      "sup materialModelName": "03Z",
+      "maxInventory": "a",
+      "minInventory": "100",
+      "providerName": "100",
+      "description": "描述..."
+    },
+    {
+     "materialModelName": 5,
+      "materialModelCode": "2",
+      "materialCategoryName": "3",
+      "unitnName": "03Z",
+      "sup materialModelName": "03Z",
+      "maxInventory": "a",
+      "minInventory": "100",
+      "providerName": "100",
+      "description": "描述..."
+    },
+    {
+     "materialModelName": 6,
+      "materialModelCode": "2",
+      "materialCategoryName": "3",
+      "unitnName": "03Z",
+      "sup materialModelName": "03Z",
+      "maxInventory": "a",
+      "minInventory": "100",
+      "providerName": "100",
+      "description": "描述..."
+    },
+    {
+     "materialModelName": 7,
+      "materialModelCode": "2",
+      "materialCategoryName": "3",
+      "unitnName": "03Z",
+      "sup materialModelName": "03Z",
+      "maxInventory": "a",
+      "minInventory": "100",
+      "providerName": "100",
+      
+      "description": "描述..."
+    },
+    {
+     "materialModelName": 8,
+      "materialModelCode": "2",
+      "materialCategoryName": "3",
+      "unitnName": "03Z",
+      "sup materialModelName": "03Z",
+      "maxInventory": "a",
+      "minInventory": "100",
+      "providerName": "100",
+      "description": "描述..."
+    },
+    {
+     "materialModelName": 9,
+      "materialModelCode": "2",
+      "materialCategoryName": "3",
+      "unitnName": "03Z",
+      "sup materialModelName": "03Z",
+      "maxInventory": "a",
+      "minInventory": "100",
+      "providerName": "100",
+      "description": "描述..."
+    },
+    {
+     "materialModelName": 10,
+      "materialModelCode": "2",
+      "materialCategoryName": "3",
+      "unitnName": "03Z",
+      "sup materialModelName": "03Z",
+      "maxInventory": "a",
+      "minInventory": "100",
+      "providerName": "100",
+      "description": "描述..."
+    },
+    {
+     "materialModelName": 11,
+      "materialModelCode": "2",
+      "materialCategoryName": "3",
+      "unitnName": "03Z",
+      "sup materialModelName": "03Z",
+      "maxInventory": "a",
+      "minInventory": "100",
+      "providerName": "100",
+      "description": "描述..."
+    },
+    {
+     "materialModelName": 12,
+      "materialModelCode": "2",
+      "materialCategoryName": "3",
+      "unitnName": "03Z",
+      "sup materialModelName": "03Z",
+      "maxInventory": "a",
+      "minInventory": "100",
+      "providerName": "100",
+      "description": "描述..."
+    },
+    {
+     "materialModelName": 13,
+      "materialModelCode": "2",
+      "materialCategoryName": "3",
+      "unitnName": "03Z",
+      "sup materialModelName": "03Z",
+      "maxInventory": "a",
+      "minInventory": "100",
+      "providerName": "100",
+      "description": "描述..."
+    },
+    {
+     "materialModelName": 14,
+      "materialModelCode": "2",
+      "materialCategoryName": "3",
+      "unitnName": "03Z",
+      "sup materialModelName": "03Z",
+      "maxInventory": "a",
+      "minInventory": "100",
+      "providerName": "100",
+      "description": "描述..."
+    }
+  ],
+  "total": 10
+}

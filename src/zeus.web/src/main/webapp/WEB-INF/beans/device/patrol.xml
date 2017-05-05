@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+	<!-- ============== Mapping ============== -->
+	<bean id="iPatrolDeviceDetailsMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.patrol.IPatrolDeviceDetailsMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iPatrolDeviceMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.patrol.IPatrolDeviceMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iPatrolGroupMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.patrol.IPatrolGroupMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iPatrolGroupMemberMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.patrol.IPatrolGroupMemberMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iPatrolPlanMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.patrol.IPatrolPlanMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iPatrolRouteDeviceMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.patrol.IPatrolRouteDeviceMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iPatrolRouteMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.patrol.IPatrolRouteMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iPatrolTaskMemberMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.patrol.IPatrolTaskMemberMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iPatrolTaskMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.patrol.IPatrolTaskMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<!-- Query -->
+	<bean id="iPatrolDeviceDetailsQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.patrol.querymapper.IPatrolDeviceDetailsQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iPatrolDeviceQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.patrol.querymapper.IPatrolDeviceQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iPatrolGroupMemberQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.patrol.querymapper.IPatrolGroupMemberQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iPatrolGroupQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.patrol.querymapper.IPatrolGroupQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iPatrolPlanQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.patrol.querymapper.IPatrolPlanQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iPatrolRouteDeviceQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.patrol.querymapper.IPatrolRouteDeviceQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iPatrolRouteQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.patrol.querymapper.IPatrolRouteQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iPatrolTaskQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.patrol.querymapper.IPatrolTaskQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iPatrolTaskMemberQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.patrol.querymapper.IPatrolTaskMemberQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+	<!-- ============== Repository ============== -->
+	<bean id="iPatrolGroupRepository" name="IPatrolGroupRepository"
+		class="ig.device.domain.repository.patrol.PatrolGroupRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iPatrolPlanRepository" name="IPatrolPlanRepository"
+		class="ig.device.domain.repository.patrol.PatrolPlanRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iPatrolDeviceRepository" name="IPatrolDeviceRepository"
+		class="ig.device.domain.repository.patrol.PatrolDeviceRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iPatrolRouteRepository" name="IPatrolRouteRepository"
+		class="ig.device.domain.repository.patrol.PatrolRouteRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iPatrolTaskRepository" name="IPatrolTaskRepository"
+		class="ig.device.domain.repository.patrol.PatrolTaskRepository"
+		autowire="byName">
+	</bean>
+	<!-- ============== Service ============== -->
+	<!-- Command -->
+	<bean id="iPatrolGroupService" name="IPatrolGroupService"
+		class="ig.device.domain.service.commandhandler.patrol.basis.PatrolGroupService"
+		autowire="byName">
+	</bean>
+	<bean id="iPatrolPlanService" name="IPatrolPlanService"
+		class="ig.device.domain.service.commandhandler.patrol.basis.PatrolPlanService"
+		autowire="byName">
+	</bean>
+	<bean id="iPatrolDeviceService" name="IPatrolDeviceService"
+		class="ig.device.domain.service.commandhandler.patrol.basis.PatrolDeviceService"
+		autowire="byName">
+	</bean>
+	<bean id="iPatrolRouteService" name="IPatrolRouteService"
+		class="ig.device.domain.service.commandhandler.patrol.basis.PatrolRouteService"
+		autowire="byName">
+	</bean>
+	<bean id="iPatrolTaskService" name="IPatrolTaskService"
+		class="ig.device.domain.service.commandhandler.patrol.basis.PatrolTaskService"
+		autowire="byName">
+	</bean>
+
+
+	<!-- ============== Application ============== -->
+	<bean id="PatrolGroupApp" name="IPatrolGroupApp"
+		class="ig.device.application.commandhandler.patrol.basis.PatrolGroupApp"
+		autowire="byName">
+	</bean>
+	<bean id="PatrolPlanApp" name="IPatrolPlanApp"
+		class="ig.device.application.commandhandler.patrol.basis.PatrolPlanApp"
+		autowire="byName">
+	</bean>
+	<bean id="PatrolRouteApp" name="IPatrolRouteApp"
+		class="ig.device.application.commandhandler.patrol.basis.PatrolRouteApp"
+		autowire="byName">
+	</bean>
+	<bean id="PatrolTaskApp" name="IPatrolTaskApp"
+		class="ig.device.application.commandhandler.patrol.basis.PatrolTaskApp"
+		autowire="byName">
+	</bean>
+	<!-- Query -->
+	<bean id="PatrolGroupQueryApp" name="IPatrolGroupQueryApp"
+		class="ig.device.application.query.patrol.basis.PatrolGroupQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="PatrolPlanQueryApp" name="IPatrolPlanQueryApp"
+		class="ig.device.application.query.patrol.basis.PatrolPlanQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="PatrolDeviceQueryApp" name="IPatrolDeviceQueryApp"
+		class="ig.device.application.query.patrol.basis.PatrolDeviceQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="PatrolRouteQueryApp" name="IPatrolRouteQueryApp"
+		class="ig.device.application.query.patrol.basis.PatrolRouteQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="PatrolTaskQueryApp" name="IPatrolTaskQueryApp"
+		class="ig.device.application.query.patrol.basis.PatrolTaskQueryApp"
+		autowire="byName">
+	</bean>
+
+</beans>

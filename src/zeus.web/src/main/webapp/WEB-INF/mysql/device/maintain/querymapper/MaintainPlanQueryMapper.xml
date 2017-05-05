@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="ig.device.domain.mapper.maintain.querymapper.IMaintainPlanQueryMapper">
+	<resultMap id="BaseResultMap"
+		type="ig.device.domain.viewmodel.maintain.MaintainPlanViewModel">
+		<constructor>
+			<idArg column="maintainPlanID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="maintainPlanName" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="maintainGroupID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="maintainRouteID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="start" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+			<arg column="end" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+			<arg column="period" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+			<arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="taskStartTime" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="taskEndTime" jdbcType="VARCHAR" javaType="java.lang.String" />
+		</constructor>
+	</resultMap>
+	<sql id="Base_Column_List">
+		maintainPlanID,maintainPlanName, maintainGroupID,
+		maintainRouteID,DATE_FORMAT(start,'%Y-%m-%d %H:%i:%s')
+		start,DATE_FORMAT(end,'%Y-%m-%d %H:%i:%s') end, period, availability,
+		description,
+		taskStartTime,taskEndTime
+	</sql>
+	<select id="findById" resultType="ig.device.domain.viewmodel.maintain.MaintainPlanViewModel" parameterType="java.lang.Integer">
+		SELECT
+		a.maintainPlanID,a.maintainPlanName, a.maintainGroupID,a.maintainRouteID,c.patrolGroupName maintainGroupName,
+		b.maintainRouteName,DATE_FORMAT(a.start,'%Y-%m-%d %H:%i:%s')
+		START,DATE_FORMAT(a.end,'%Y-%m-%d %H:%i:%s') END,
+		a.period,
+		a.availability,
+		a.description ,
+		taskStartTime, taskEndTime
+		FROM maintainPlan a LEFT JOIN patrolGroup c
+		ON a.maintainGroupID=c.patrolGroupID LEFT JOIN maintainRoute b
+		ON
+		a.maintainRouteID=b.maintainRouteID
+		WHERE maintainPlanID =
+		#{maintainPlanID,jdbcType=INTEGER}
+	</select>
+	<select id="findPageData" resultType="ig.device.domain.viewmodel.maintain.MaintainPlanViewModel"
+		parameterType="ig.archer.infrastructure.data.PagingData">
+		SELECT
+		a.maintainPlanID,a.maintainPlanName, a.maintainGroupID,a.maintainRouteID,c.patrolGroupName maintainGroupName,
+		b.maintainRouteName,DATE_FORMAT(a.start,'%Y-%m-%d %H:%i:%s')
+		START,DATE_FORMAT(a.end,'%Y-%m-%d %H:%i:%s') END,
+		a.period,
+		a.availability,
+		a.description ,
+		taskStartTime, taskEndTime
+		FROM maintainPlan a LEFT JOIN patrolGroup c
+		ON a.maintainGroupID=c.patrolGroupID LEFT JOIN maintainRoute b
+		ON
+		a.maintainRouteID=b.maintainRouteID
+		where a.availability = 1 limit #{pageStart},
+		#{rowCount}
+	</select>
+	<select id="count" resultType="java.lang.Integer">
+		SELECT COUNT(1)FROM maintainPlan
+	</select>
+
+	<select id="findPageDataByPlan" parameterType="ig.archer.infrastructure.data.PagingData"
+		resultType="ig.device.domain.viewmodel.maintain.MaintainPlanViewModel">
+		SELECT
+		a.maintainPlanID,a.maintainPlanName, a.maintainGroupID,a.maintainRouteID,c.patrolGroupName maintainGroupName,
+		b.maintainRouteName,DATE_FORMAT(a.start,'%Y-%m-%d %H:%i:%s')
+		START,DATE_FORMAT(a.end,'%Y-%m-%d %H:%i:%s') END,
+		a.period,
+		a.availability,
+		a.description ,
+		taskStartTime, taskEndTime
+		FROM maintainPlan a LEFT JOIN patrolGroup c
+		ON a.maintainGroupID=c.patrolGroupID LEFT JOIN maintainRoute b
+		ON
+		a.maintainRouteID=b.maintainRouteID where a.availability=1
+
+		<if test="rows.maintainGroupID != null and rows.maintainGroupID!=0">
+			and a.maintainGroupID=
+			#{rows.maintainGroupID,jdbcType=INTEGER}
+		</if>
+		<if test="rows.maintainRouteID != null and rows.maintainRouteID!=0">
+			and a.maintainRouteID=
+			#{rows.maintainRouteID,jdbcType=INTEGER}
+		</if>
+		<if test="rows.start != null and rows.start!='' ">
+			and a.start &gt; #{rows.start,jdbcType=TIMESTAMP}
+		</if>
+		<if test="rows.end != null and rows.end!='' ">
+			and a.end &lt; #{rows.end,jdbcType=TIMESTAMP}
+		</if>
+		<if test="rows.period != null">
+			and a.period=#{rows.period,jdbcType=INTEGER}
+		</if>
+
+		limit #{pageStart}, #{rowCount}
+	</select>
+
+	<select id="countByPage"
+		parameterType="ig.device.domain.viewmodel.maintain.MaintainPlanViewModel"
+		resultType="java.lang.Integer">
+		select count(maintainPlanID) from maintainPlan where availability=1
+
+		<if test="maintainGroupID != null and maintainGroupID!=0">
+			and maintainGroupID= #{maintainGroupID,jdbcType=INTEGER}
+		</if>
+		<if test="maintainRouteID != null and maintainRouteID!=0">
+			and maintainRouteID= #{maintainRouteID,jdbcType=INTEGER}
+		</if>
+		<if test="start != null and start!=''">
+			and start &gt; #{start,jdbcType=TIMESTAMP}
+		</if>
+		<if test="end != null and end!=''">
+			and end &lt; #{end,jdbcType=TIMESTAMP}
+		</if>
+		<if test="period != null">
+			and period=#{period,jdbcType=INTEGER}
+		</if>
+	</select>
+</mapper>

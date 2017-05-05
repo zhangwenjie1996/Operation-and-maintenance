@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../src/css/quote/themes/default/style.min.css"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link href="../../src/css/quote/lib/jquery.bootgrid.min.css" rel="stylesheet"/>
+    <link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+    <!--<script type="text/javascript" src="dist/js/jquery.i18n.properties-1.0.9.js"></script>-->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript" src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript" src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="row  warehouseM">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <div class="user-search-row">
+            <ol class="breadcrumb">
+                <li><a><i class="fa fa-search"></i>仓库搜索</a></li>
+            </ol>
+
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="warehouseName2">仓库名</label>
+                    <input type="text" class="form-control" id="warehouseName2" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label>负责人名</label>
+                    <select id="warehouseSelect" class="form-control">
+                        <option>-请选择-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="validity">有效性</label>
+                    <input type="text" class="form-control" id="validity" placeholder="">
+                </div>
+                <button type="button" class="ware-search btn btn-primary"><i class="fa fa-search"></i>查询</button>
+            </form>
+        </div>
+        <div class="user-list-row">
+            <div class="tit">
+                <ol class="breadcrumb">
+                    <li><a><i class="fa  fa-tasks"></i>仓库列表</a></li>
+                </ol>
+                 
+            </div>
+            <button class="addBtn btn btn-primary btn-sm"  type="button"> <i class="fa fa-plus"></i>增加
+            </button>
+            <table id="grid-data" class="table table-condensed table-hover table-striped ">
+                <thead>
+                <tr>
+                    <!--data-identifier="true"id-->
+                    <th data-column-id="warehouseID" data-identifier="true" data-type="numeric">序号</th>
+                    <th data-column-id="warehouseName">仓库名</th>
+                    <th data-column-id="warehouseType">仓库类型</th>
+                    <th data-column-id="hasChildren">是否有子级仓库</th>
+                    <th data-column-id="availability">有效性</th>
+                    <th data-column-id="storagable">可存储</th>
+                    <th data-column-id="capacity">容量</th>
+                    <th data-column-id="unusedCapacity">可用容量</th>
+                    <th data-column-id="usedCapacity">使用容量</th>
+                    <th data-column-id="chargeName">负责人名</th>
+                    <th data-column-id="description">描述</th>
+                    <th data-column-id="commands" data-formatter="commands" data-sortable="false">Commands</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+    <!-- cd-popup-container-start -->
+    <div class="cd-popup" role="alert">
+        <div class="cd-popup-container">
+            <a class="cd-popup-close icon-close fa fa-times"></a>
+
+             <form id="form1">
+               <div class="form-group">
+                    <label for="warehouseID" class="col-sm-4 control-label">ID</label>
+
+                    <div class="col-sm-8">
+                        <input class="form-control" id="warehouseID" placeholder="仓库名" name="warehouseID">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="warehouseName" class="col-sm-4 control-label">仓库名</label>
+
+                    <div class="col-sm-8">
+                        <input class="form-control" id="warehouseName" placeholder="仓库名" name="warehouseName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="warehouseType" class="col-sm-4 control-label">仓库类型</label>
+
+                    <div class="col-sm-8">
+                        <input class="form-control" id="warehouseType" placeholder="仓库类型" name="warehouseType">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="hasChildren" class="col-sm-4 control-label">子级仓库</label>
+
+                    <div class="col-sm-8">
+                        <input class="form-control" id="hasChildren" placeholder="子级仓库" name="hasChildren">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="availability" class="col-sm-4 control-label">有效性</label>
+
+                    <div class="col-sm-8">
+                        <input class="form-control" id="availability" placeholder="有效性" name="availability">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="storagable" class="col-sm-4 control-label">可存储</label>
+
+                    <div class="col-sm-8">
+                        <input class="form-control" id="storagable" placeholder="可存储" name="storagable">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="capacity" class="col-sm-4 control-label">容量</label>
+
+                    <div class="col-sm-8">
+                        <input class="form-control" id="capacity" placeholder="容量" name="capacity">
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="unusedCapacity" class="col-sm-4 control-label">可用容量</label>
+
+                    <div class="col-sm-8">
+                        <input class="form-control" id="unusedCapacity" placeholder="可用容量" name="unusedCapacity">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="usedCapacity" class="col-sm-4 control-label">使用容量</label>
+
+                    <div class="col-sm-8">
+                        <input class="form-control" id="usedCapacity" placeholder="使用容量" name="usedCapacity">
+                    </div>
+                </div> 
+                <div class="form-group">
+                    <label for="chargeName" class="col-sm-4 control-label">负责人名</label>
+
+                    <div class="col-sm-8">
+                        <input class="form-control" id="chargeName" placeholder="负责人名" name="chargeName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description" class="col-sm-4 control-label">描述</label>
+
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="description" placeholder="描述" name="description"></textarea>
+                    </div>
+                </div>
+            </form>
+            <div class="cd-buttons">
+                <button type="button" class="btn btn-primary cd-popup-close cd-btn cd-btn-save">保存</button>
+                <button type="button" class="btn btn-danger cd-popup-close cd-btn cd-btn-deal">取消</button>
+            </div>
+        </div>
+        <!-- cd-popup-container-end -->
+
+    </div>
+
+
+</div>
+<script src="../../src/js/quote/jquery.bootgrid.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+<script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+<script src="../../src/js/quote/jstree.min.js"></script>
+<script src="../../src/js/packtreegrid/pack.js"></script>
+<script src="../../src/js/dialog/dialog.js"></script>
+<script>
+    ~function () {
+        $('#ajax').jstree(false);
+        var treeid = "ajax";
+        pack.showCheckboxTree("../../src/json/usertree.json", treeid, "yellow fa fa-users", false, ["dnd", "search",
+            "state", "types", "wholerow"]).bind("activate_node.jstree", function (obj, e) {
+            // 处理代码
+            // 获取当前节点
+            var currentNode = e.node;
+            console.log(currentNode, currentNode.text);
+            $(".drop-down-unit").val(currentNode.text);
+            $('#ajax').hide();
+        });
+    }();
+</script>
+<script>
+
+    var planningFilter = function (url) {
+
+        var $cdBtnSave = $(".cd-btn-save");
+        $(".addBtn").on("click", function (e) {
+
+            alert("add");
+            console.log($("#warehouseID"),$("#warehouseID").parents(".form-group"));
+        	$("#warehouseID").parents(".form-group").css("display","none");
+        	$("#unusedCapacity").parents(".form-group").css("display","none");
+        	$("#usedCapacity").parents(".form-group").css("display","none");
+            $().dia(e);
+            $cdBtnSave.off("click");
+            $cdBtnSave.on("click", function (e) {
+            	var arr = $("#form1").serialize();
+                $.post('WarehouseController/add', arr, function (data) {/*../../src/json/qx.json  */
+                    alert("add-save");
+                }, 'json')
+            });
+        });
+        $("#grid-data").bootgrid("destroy");
+        grid = $("#grid-data").bootgrid({
+            ajax: true,
+            ajaxSettings: {
+                method: "post",
+                cache: false
+            },
+            url: url,
+            pagination: 1,
+            selection: true,
+            multiSelect: true,
+            formatters: {
+                "commands": function (column, row) {
+                    return "<a abs=\"查看\" class=\"btn-color btn btn-xs btn-default command-view\" data-row-id=\"" + row.warehouseID + "\"><span class=\"fa  fa-eye\"></span></a>"
+                            + "<a  abs=\"编辑\" class=\"btn-color btn btn-xs btn-default command-edit\" data-row-id=\"" + row.warehouseID + "\"><span class=\"glyphicon glyphicon-pencil\"></span></a> " +
+                            "<a  abs=\"删除\" class=\"btn-color btn btn-xs btn-default command-delete\" data-row-id=\"" + row.warehouseID + "\"><span class=\"glyphicon glyphicon-trash\"></span></a>" +
+                            "<a  abs=\"增加\" class=\"btn-color btn btn-xs btn-default command-add\" data-row-id=\"" + row.warehouseID + "\"><span class=\"fa fa-plus\"></span></a>";
+                }
+            }
+        }).on("loaded.rs.jquery.bootgrid", function () {
+
+            /* Executes after data is loaded and rendered */
+            $().tip();
+            grid.find(".command-add").on("click", function (e) {
+                $.post(url, {id: $(this).attr("data-row-id")}, function (data) {
+                    planningFilter(url);
+//                    var str='';
+//                  $.each(data.rows,function (index,item) {
+//                      console.log(item);
+//                        str+="<tr><td>"+item['id']+"</td><td>"+item['username']+"</td></tr>"
+//                    })
+//                    $("#grid-data tbody").html(str);
+                }, 'json');
+            }).end().find(".command-delete").on("click", function (e) {
+                var _this = this;
+                alert("You pressed delete on row: " + $(this).attr("data-row-id"));
+                $.post("WarehouseController/delete", {id: $(this).attr("data-row-id")}, function (data) {
+                    $(_this).parents('tr').remove();
+                }, 'json');
+            }).end().find(".command-edit").on("click", function (e) {
+            	$("#warehouseID").parents(".form-group").css("display","block");
+            	$("#unusedCapacity").parents(".form-group").css("display","block");
+            	$("#usedCapacity").parents(".form-group").css("display","block");
+                alert("edit");
+                $().dia(e);
+
+                $.post('WarehouseQueryController/findByID', {id: $(this).attr("data-row-id")}, function (data) {
+                	for (key in data.data) {
+                        $("#" + key).val(data.data[key])
+                    }
+
+                }, 'json');
+                $cdBtnSave.off("click");
+                $cdBtnSave.on("click", function (e) {
+                    var arr = $("#form1").serialize();
+                    $.post('WarehouseController/update', arr, function (data) {
+                        alert("edit-save");
+                    }, 'json')
+                });
+            }).end().find(".command-view").on("click", function (e) {
+            	$("#warehouseID").parents(".form-group").css("display","block");
+            	$("#unusedCapacity").parents(".form-group").css("display","block");
+            	$("#usedCapacity").parents(".form-group").css("display","block");
+                alert("view");
+                $().dia2(e);
+
+                $.post('WarehouseQueryController/findByID', {id: $(this).attr("data-row-id")}, function (data) {
+                	 for (key in data.data) {
+                         $("#" + key).val(data.data[key])
+                     }
+
+
+                }, 'json');
+            })
+        });
+
+    };
+    planningFilter("WarehouseQueryController/findAll")
+    /* planningFilter("../../src/json/usergrid.json") */
+</script>
+<script>
+
+    $(document).ready(function () {
+
+//要请求的一级机构JSON获取页面
+
+//var url="HandlerBranchOne.aspx";
+
+//$.getJSON(url,function (data) {
+//
+////对请求返回的JSON格式进行分解加载
+//
+//$(data).each(function () {
+//
+//$("#ddlBranchOne").append($("<option/>").text(this.name).attr("value",this.id));
+//
+//});
+//
+//});
+
+//一级下拉联动二级下拉
+
+        $("#warehouseName2").change(function () {
+
+//清除二级下拉列表
+
+//$("#warehouseSelect").empty();
+//$("#warehouseSelect").append($("<option/>").text("--请选择--").attr("value",""));
+
+//要请求的二级下拉JSON获取页面
+
+            var url = "../../src/json/data1.json";
+
+//将选中的一级下拉列表项的id传过去
+
+            $.getJSON(url, {"warehouseName": $("#warehouseName2").val()}, function (data) {
+
+//对请求返回的JSON格式进行分解加载
+
+                $.each(data, function (index, item) {
+
+                    $("#warehouseSelect").append($("<option/>").text(item.name).attr("value", item.id));
+
+                });
+
+            });
+
+        });
+
+//二级下拉联动三级下拉
+        var chargeID = $('#warehouseSelect option:selected').attr("value"), chargeName = $('#warehouseSelect option:selected').text();
+        $("#warehouseSelect").change(function () {
+
+//    $("#warehouseSelect ").get(0).selectedIndex
+            var url = "../../src/json/data1.json";
+            $.getJSON(url, {"chargeID": chargeID, "chargeName": chargeName}, function (data) {
+                if (data && data.code == 0) {
+                    console.log("有效")
+                } else {
+                    console.log("无效")
+                }
+            });
+        });
+        var param = {"warehouseName": $("#warehouseName2").val(), "chargeID": chargeID, "chargeName": chargeName};
+        $(".ware-search").on("click", function () {
+            $.post('../../src/json/data1.json', param, function (data) {
+                console.log("search-success")
+            })
+        })
+    });
+
+</script>
+</body>
+</html>

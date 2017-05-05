@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.manage.IDeviceMapper">
+	<resultMap id="BaseResultMap" type="ig.device.domain.model.manage.Device">
+		<constructor>
+			<idArg column="ID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="storageID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="categoryID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="categoryName" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="modelID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="modelName" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="amount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="unitPrice" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+			<arg column="totalPrice" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+			<arg column="availability" jdbcType="BIT" javaType="java.lang.Boolean" />
+			<arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+		</constructor>
+	</resultMap>
+	<sql id="Base_Column_List">
+		groupID ID, storageID, categoryID, categoryName, modelID, modelName, amount,
+		unitPrice,
+		totalPrice, availability, description
+	</sql>
+	<select id="findByID" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from device
+		where groupID = #{groupID,jdbcType=INTEGER}
+	</select>
+
+	<select id="findByDeviceAreaID" resultType="ig.device.domain.model.manage.Device"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from device
+		where storageID = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<select id="findByDeviceAreaIDAndModelID" resultType="ig.device.domain.model.manage.Device"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from device
+		where storageID = #{0} AND modelID = #{1}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from device
+		where groupID = #{groupID,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insertSelective" parameterType="ig.device.domain.model.manage.Device">
+		insert into device (groupID, storageID, categoryID,
+		categoryName, modelID, modelName,
+		amount, unitPrice, totalPrice,
+		availability, description)
+		values (#{groupID,jdbcType=INTEGER}, #{storageID,jdbcType=INTEGER},
+		#{categoryID,jdbcType=INTEGER},
+		#{categoryName,jdbcType=VARCHAR}, #{modelID,jdbcType=INTEGER}, #{modelName,jdbcType=VARCHAR},
+		#{amount,jdbcType=INTEGER}, #{unitPrice,jdbcType=DECIMAL},
+		#{totalPrice,jdbcType=DECIMAL},
+		1, #{description,jdbcType=VARCHAR})
+	</insert>
+
+	<insert id="insert" parameterType="ig.device.domain.model.manage.Device" useGeneratedKeys="true" keyProperty="ID">
+		insert into device
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ID != null">
+				groupID,
+			</if>
+			<if test="storageID != null">
+				storageID,
+			</if>
+			<if test="categoryID != null">
+				categoryID,
+			</if>
+			<if test="categoryName != null">
+				categoryName,
+			</if>
+			<if test="modelID != null">
+				modelID,
+			</if>
+			<if test="modelName != null">
+				modelName,
+			</if>
+			<if test="amount != null">
+				amount,
+			</if>
+			<if test="unitPrice != null">
+				unitPrice,
+			</if>
+			<if test="totalPrice != null">
+				totalPrice,
+			</if>
+			<if test="availability != null">
+				availability,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ID != null">
+				#{ID,jdbcType=INTEGER},
+			</if>
+			<if test="storageID != null">
+				#{storageID,jdbcType=INTEGER},
+			</if>
+			<if test="categoryID != null">
+				#{categoryID,jdbcType=INTEGER},
+			</if>
+			<if test="categoryName != null">
+				#{categoryName,jdbcType=VARCHAR},
+			</if>
+			<if test="modelID != null">
+				#{modelID,jdbcType=INTEGER},
+			</if>
+			<if test="modelName != null">
+				#{modelName,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				#{amount,jdbcType=INTEGER},
+			</if>
+			<if test="unitPrice != null">
+				#{unitPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="totalPrice != null">
+				#{totalPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="availability != null">
+				1,
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="ig.device.domain.model.manage.Device">
+		update device
+		<set>
+			<if test="storageID != null">
+				storageID = #{storageID,jdbcType=INTEGER},
+			</if>
+			<if test="categoryID != null">
+				categoryID = #{categoryID,jdbcType=INTEGER},
+			</if>
+			<if test="categoryName != null">
+				categoryName = #{categoryName,jdbcType=VARCHAR},
+			</if>
+			<if test="modelID != null">
+				modelID = #{modelID,jdbcType=INTEGER},
+			</if>
+			<if test="modelName != null">
+				modelName = #{modelName,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				amount = #{amount,jdbcType=INTEGER},
+			</if>
+			<if test="unitPrice != null">
+				unitPrice = #{unitPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="totalPrice != null">
+				totalPrice = #{totalPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="availability != null">
+				availability = #{availability,jdbcType=BIT},
+			</if>
+			<if test="description != null">
+				description = #{description,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where groupID = #{ID,jdbcType=INTEGER}
+	</update>
+</mapper>

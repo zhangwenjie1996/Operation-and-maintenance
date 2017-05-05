@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.material.querymapper.IMaintainApproachQueryMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.viewmodel.material.MaintainApproachViewModel" >
+    <constructor >
+      <idArg column="maintainApproachID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="maintainApproachName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="maintainApproachValue" jdbcType="LONGVARCHAR" javaType="java.lang.String" />
+      <arg column="materialModelID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    maintainApproachID, maintainApproachName, maintainApproachValue, materialModelID
+  </sql>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from maintainApproach
+    where maintainApproachID = #{maintainApproachID,jdbcType=INTEGER}
+  </select>
+  
+  <select id="findAll" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from maintainApproach
+  </select>
+  
+  <select id="findMaterialModel" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from maintainApproach
+    where materialModelID = #{2} limit #{0}, #{1}
+  </select>
+  
+  <select id="findmmCount" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    select 
+    count(1)
+    from maintainApproach
+    where materialModelID = #{materialModelID,jdbcType=INTEGER}
+  </select>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.warehouse.query.IWarehouseOutMaterialQueryMapper" >
+
+  <sql id="Base_Column_List" >
+    storageOutMaterialID, storageOutInvoiceID, itemCode, categoryID, categoryName, modelID, 
+    modelName, amount, unitName, unitPrice, providerID, providerName, producer, availability, 
+    description
+  </sql>
+  
+  <select id="findByID" resultType="ig.device.domain.viewmodel.warehouse.WarehouseOutMaterialViewModel" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from warehouseOutMaterial
+    where storageOutMaterialID = #{id}
+  </select>
+  
+  <select id="findByWarehouseOutInvoiceID" resultType="ig.device.domain.viewmodel.warehouse.WarehouseOutMaterialViewModel" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from warehouseOutMaterial
+    where storageOutInvoiceID = #{id}
+  </select>
+  
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.command.IPermission" >
+  <resultMap id="EmployeeAccountResultMap" type="ig.zeus.domain.service.command.EmployeeAccountCommand" >
+    <id column="employeeID" property="employeeid" jdbcType="INTEGER" />
+    <result column="accountID" property="accountid" jdbcType="CHAR" />
+  </resultMap>
+  <delete id="deleteEmployeeAccount" parameterType="java.lang.Integer" >
+    delete from employeeAccount
+    where employeeID = #{employeeid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertEmployeeAccount" parameterType="ig.zeus.domain.service.command.EmployeeAccountCommand" >
+    insert into employeeAccount (employeeID, accountID)
+    values (#{employeeid,jdbcType=INTEGER}, #{accountid,jdbcType=CHAR})
+  </insert>
+  <update id="updateEmployeeAccount" parameterType="ig.zeus.domain.service.command.EmployeeAccountCommand" >
+    update employeeAccount
+    set accountID = #{accountid,jdbcType=CHAR}
+    where employeeID = #{employeeid,jdbcType=INTEGER}
+  </update>
+  <select id="findByIdEmployeeAccount" resultMap="EmployeeAccountResultMap" parameterType="java.lang.Integer" >
+    select employeeID, accountID
+    from employeeAccount
+    where employeeID = #{employeeid,jdbcType=INTEGER}
+  </select>
+  <select id="findAllEmployeeAccount" resultMap="EmployeeAccountResultMap" >
+    select employeeID, accountID
+    from employeeAccount
+  </select>
+</mapper>

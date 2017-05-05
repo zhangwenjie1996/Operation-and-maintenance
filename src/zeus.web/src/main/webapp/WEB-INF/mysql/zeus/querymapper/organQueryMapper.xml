@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.query.IOrganQueryRepository" >
+  <resultMap id="BaseResultMap" type="ig.zeus.domain.repository.viewmodel.OrganViewModel" >
+    <id column="organID" property="organid" jdbcType="INTEGER" />
+    <result column="parentOrganID" property="parentorganid" jdbcType="INTEGER" />
+    <result column="coding" property="coding" jdbcType="VARCHAR" />
+    <result column="organName" property="organname" jdbcType="VARCHAR" />
+    <result column="shortName" property="shortname" jdbcType="VARCHAR" />
+    <result column="sequence" property="sequence" jdbcType="INTEGER" />
+    <result column="category" property="category" jdbcType="TINYINT" />
+    <result column="Governor" property="governor" jdbcType="VARCHAR" />
+    <result column="availability" property="availability" jdbcType="BIT" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from organ
+    where organID = #{organid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="ig.zeus.domain.repository.viewmodel.OrganViewModel" >
+    insert into organ (organID, parentOrganID, coding, 
+      organName, shortName, sequence, 
+      category, Governor, availability, 
+      description)
+    values (#{organid,jdbcType=INTEGER}, #{parentorganid,jdbcType=INTEGER}, #{coding,jdbcType=VARCHAR}, 
+      #{organname,jdbcType=VARCHAR}, #{shortname,jdbcType=VARCHAR}, #{sequence,jdbcType=INTEGER}, 
+      #{category,jdbcType=TINYINT}, #{governor,jdbcType=VARCHAR}, #{availability,jdbcType=BIT}, 
+      #{description,jdbcType=VARCHAR})
+  </insert>
+  <select id="count" resultType="java.lang.Integer">
+	SELECT COUNT(1)FROM organ
+  </select>
+  <update id="update" parameterType="ig.zeus.domain.repository.viewmodel.OrganViewModel" >
+    update organ
+    set parentOrganID = #{parentorganid,jdbcType=INTEGER},
+      coding = #{coding,jdbcType=VARCHAR},
+      organName = #{organname,jdbcType=VARCHAR},
+      shortName = #{shortname,jdbcType=VARCHAR},
+      sequence = #{sequence,jdbcType=INTEGER},
+      category = #{category,jdbcType=TINYINT},
+      Governor = #{governor,jdbcType=VARCHAR},
+      availability = #{availability,jdbcType=BIT},
+      description = #{description,jdbcType=VARCHAR}
+    where organID = #{organid,jdbcType=INTEGER}
+  </update>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select organID, parentOrganID, coding, organName, shortName, sequence, category, 
+    Governor, availability, description
+    from organ
+    where organID = #{organid,jdbcType=INTEGER}
+  </select>
+  <select id="findAll" resultMap="BaseResultMap" >
+    select organID, parentOrganID, coding, organName, shortName, sequence, category, 
+    Governor, availability, description
+    from organ
+  </select>
+   <select id="findPageData" parameterType="ig.archer.infrastructure.data.PagingData"
+		resultType="ig.zeus.domain.repository.viewmodel.OrganViewModel">
+		select * from organ
+		limit #{pageStart}, #{rowCount}
+	</select>
+  
+  <select id="findOrganTree" resultType="ig.zeus.domain.repository.viewmodel.TreeListViewModel" >
+    select organID id, parentOrganID parentId, organName text 
+    from organ
+  </select>
+  <select id="findOrganListTree" resultType="ig.zeus.domain.repository.viewmodel.TreeListViewModel" >
+    select organID id, parentOrganID parent, organName text   from organ
+  </select>
+  <select id="findOrganReactTree" resultType="ig.zeus.domain.repository.viewmodel.TreeViewModel">
+  SELECT organID id, parentOrganID parent,organName title FROM organ
+  </select>
+</mapper>

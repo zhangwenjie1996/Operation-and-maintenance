@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.fault.IOperatorLogMapper" >
+
+  <delete id="remove" parameterType="java.lang.Integer" >
+    delete from operatorLog
+    where operatorLogID = #{operatorLogID,jdbcType=INTEGER}
+  </delete>
+  <insert id="add" parameterType="ig.device.domain.model.fault.OperatorLog" >
+    insert into operatorLog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="operatorLogID != null" >
+        operatorLogID,
+      </if>
+      <if test="operatorID != null" >
+        operatorID,
+      </if>
+      <if test="faultID != null" >
+        faultID,
+      </if>
+      <if test="operatorName != null" >
+        operatorName,
+      </if>
+      <if test="operatorDate != null" >
+        operatorDate,
+      </if>
+      <if test="operatorState != null" >
+        operatorState,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="operatorLogID != null" >
+        #{operatorLogID,jdbcType=INTEGER},
+      </if>
+      <if test="operatorID != null" >
+        #{operatorID,jdbcType=INTEGER},
+      </if>
+      <if test="faultID != null" >
+        #{faultID,jdbcType=INTEGER},
+      </if>
+      <if test="operatorName != null" >
+        #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorDate != null" >
+        #{operatorDate,jdbcType=DATE},
+      </if>
+      <if test="operatorState != null" >
+        #{operatorState,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="ig.device.domain.model.fault.OperatorLog" >
+     update operatorLog
+    <set >
+      <if test="operatorID != null" >
+        operatorID = #{operatorID,jdbcType=INTEGER},
+      </if>
+      <if test="faultID != null" >
+        faultID = #{faultID,jdbcType=INTEGER},
+      </if>
+      <if test="operatorName != null" >
+        operatorName = #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorDate != null" >
+        operatorDate = #{operatorDate,jdbcType=DATE},
+      </if>
+      <if test="operatorState != null" >
+        operatorState = #{operatorState,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where operatorLogID = #{operatorLogID,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.query.IPermissionQueryRepository">
+	<select id="findSystemByRoleId" parameterType="java.lang.Integer"
+		resultType="ig.zeus.domain.repository.viewmodel.RoleResourceViewModel">
+		SELECT roleID roleId,systemID resource, permission FROM roleSystem WHERE roleID=#{0}
+	</select>
+	<select id="findMenuByRoleId" parameterType="java.lang.Integer"
+		resultType="ig.zeus.domain.repository.viewmodel.RoleResourceViewModel">
+		SELECT rm.roleID roleId,rm.menuID resource, rm.permission  FROM roleMenu rm left join menu m 
+		ON m.menuID=rm.menuID WHERE m.URLAddress   &lt;&gt;'' and rm.roleID=#{0}
+	</select>
+	<select id="findElementByRoleId" parameterType="java.lang.Integer"
+		resultType="ig.zeus.domain.repository.viewmodel.RoleResourceViewModel">
+		SELECT roleID roleId,elementID resource, permission  FROM roleElement WHERE roleID=#{0}
+	</select>
+</mapper>

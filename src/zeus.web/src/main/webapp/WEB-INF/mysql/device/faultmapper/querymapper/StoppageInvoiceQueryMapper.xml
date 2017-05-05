@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.fault.query.IStoppageInvoiceQueryMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.viewmodel.fault.StoppageInvoiceViewModel" >
+    <constructor >
+      <idArg column="faultID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="faultState" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="faultPhenomena" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="faultNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="handleMethod" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="repairID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="repairName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="faultType" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="itemCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="availability1" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="createPeopleId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="createPeopleName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="approvePeopleId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="approvePeopleName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createDate" jdbcType="DATE" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    faultID, faultState, faultPhenomena, faultNo, handleMethod, repairID, repairName, 
+    faultType, itemCode, availability1, createPeopleId, createPeopleName, approvePeopleId, approvePeopleName, createDate
+  </sql>
+  
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from stoppage
+    where faultID = #{faultID,jdbcType=INTEGER}
+  </select>
+  
+  
+  <select id="findFaultCondition" resultMap="BaseResultMap" parameterType="ig.archer.infrastructure.data.PagingData">
+  		select 
+  		<include refid="Base_Column_List" />
+  		from stoppage 
+  		where 1=1 
+ 		<if test="rows.faultState != null"> 
+  			<![CDATA[
+   			AND faultState = #{rows.faultState} 
+   			]]> 
+  		</if>
+  		<if test='rows.faultNo != null and rows.faultNo != ""'>
+  			<![CDATA[
+  			AND faultNo = #{rows.faultNo}
+  			]]>
+  		</if>
+  		<if test='rows.repairName != null and rows.repairName != ""'>
+  			<![CDATA[
+  			AND repairName = #{rows.repairName}
+  			]]>
+  		</if>
+  		<if test='rows.faultType != null and rows.faultType != ""'>
+  			<![CDATA[
+  			AND faultType = #{rows.faultType}
+  			]]>
+  		</if> 
+  		<if test='rows.availability1 != null and rows.availability1 != ""'>
+  			<![CDATA[
+  			AND availability1 = #{rows.availability1}
+  			]]>
+  		</if> 
+  		<if test="rows.createPeopleId != null">
+  			<![CDATA[
+  			AND createPeopleId = #{rows.createPeopleId}
+  			]]>
+  		</if> 
+  		<if test="rows.approvePeopleId != null">
+  			<![CDATA[
+  			AND approvePeopleId = #{rows.approvePeopleId}
+  			]]>
+  		</if> 
+  		
+  		limit #{pageStart}, #{rowCount}
+  	</select>
+  	
+  	<select id="findFaultConditionCount" resultType="java.lang.Integer" parameterType="ig.archer.infrastructure.data.PagingData">
+  		select 
+  		count(1)
+  		from stoppage 
+  		where 1=1 
+ 		<if test="rows.faultState != null"> 
+  			<![CDATA[
+   			AND faultState = #{rows.faultState} 
+   			]]> 
+  		</if>
+  		<if test='rows.faultNo != null and rows.faultNo != ""'>
+  			<![CDATA[
+  			AND faultNo = #{rows.faultNo}
+  			]]>
+  		</if>
+  		<if test='rows.repairName != null and rows.repairName != ""'>
+  			<![CDATA[
+  			AND repairName = #{rows.repairName}
+  			]]>
+  		</if>
+  		<if test='rows.faultType != null and rows.faultType != ""'>
+  			<![CDATA[
+  			AND faultType = #{rows.faultType}
+  			]]>
+  		</if> 
+  		<if test="rows.availability1 != null">
+  			<![CDATA[
+  			AND availability1 = #{rows.availability1}
+  			]]>
+  		</if> 
+  		<if test="rows.createPeopleId != null">
+  			<![CDATA[
+  			AND createPeopleId = #{rows.createPeopleId}
+  			]]>
+  		</if> 
+  		<if test="rows.approvePeopleId != null">
+  			<![CDATA[
+  			AND approvePeopleId = #{rows.approvePeopleId}
+  			]]>
+  		</if> 
+  	</select>
+  
+</mapper>

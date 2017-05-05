@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../src/css/quote/themes/default/style.min.css"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet"
+          href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link href="../../src/css/quote/lib/jquery.bootgrid.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="../../src/alert/sweetalert2.min.css">
+    <link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+    <!--<script type="text/javascript" src="dist/js/jquery.i18n.properties-1.0.9.js"></script>-->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript" src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript" src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+   
+</head>
+<body>
+<div class="row deviceM">
+    <div class="col-sm-4 col-md-3 col-lg-3">
+        <div class="row-tree-menu">
+            <ol class="breadcrumb">
+                <li><a href="#">区域查询</a></li>
+            </ol>
+              <ol class="breadcrumb path-navigation">
+                <li><a href="#">当前区域</a></li>
+                <li class="active" id="currentDepart"></li>
+            </ol>
+            <div class="search-tree">     
+                <input type="text" value=""
+                     class="form-control"
+                       id="search-tree" placeholder="搜索">
+            </div>
+          
+            <div id="ajax" class="demo"></div>
+        </div>
+    </div>
+    <div class="col-sm-8 col-md-9 col-lg-9">
+<!--         <div class="btns"> -->
+<!--             <button type="button" class="btn btn-primary btn-sm" onclick="demo_create();"><i -->
+<!--                     class="glyphicon glyphicon-asterisk"></i> 添加 -->
+<!--             </button> -->
+<!--             <button type="button" class="btn btn-info btn-sm" onclick="demo_rename();"  style="background:#5fa2dd"><i -->
+<!--                     class="glyphicon glyphicon-pencil"></i> 编辑 -->
+<!--             </button> -->
+<!--             <button type="button" class="btn btn-danger btn-sm" onclick="demo_delete();" ><i -->
+<!--                     class="glyphicon glyphicon-remove"></i> 删除 -->
+<!--             </button> -->
+
+
+<!--         </div> -->
+        <!--<div class="row-tree3">-->
+        <!--<div id="ajax" class="demo"></div>-->
+        <!--</div>-->
+        <div class="panel  right-info ">
+            <div class="panel-heading">
+                <h3 class="panel-title">查看</h3>
+            </div>
+            <div class="panel-body" style="border-color: #dedede;text-align:center;" id="grid-data">
+                <form class="form-horizontal form" style="width:65%;display:inline-block;">
+                    <div class="form-group"  hidden="hidden">
+                        <label for="storageID" class="col-sm-4 control-label">位置ID</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="storageID" placeholder="" name="storageID">
+                        </div>
+                    </div>
+                    <div class="form-group"  hidden="hidden">
+                        <label for="supStorageID" class="col-sm-4 control-label">父级位置ID</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="supStorageID" placeholder="" name="">
+                        </div>
+                    </div>
+                   <!--  <div class="form-group"  hidden="hidden">
+                        <label for="availability" class="col-sm-4 control-label">有效性</label>
+                        <div class="col-sm-8">
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="availability" placeholder="" name="availability" value="1">
+                        </div>
+                        <select class="form-control" id="availability" name="availability">
+                                <option value="1" >是</option>
+                                <option value="0" >否</option>
+                        </select>
+                        </div>
+                    </div>  -->
+                    <div class="form-group">
+                        <label for="storageName" class="col-sm-4 control-label">区域名称</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="storageName" placeholder="" name="storageName">
+                        </div>
+                    </div>
+                     <div class="form-group" >
+                        <label for="storagable" class="col-sm-4 control-label">可放置设备</label>
+                        <div class="col-sm-8">
+                            
+                            <select class="form-control" id="storagable" name="storagable">
+                                <option value="1" >是</option>
+                                <option value="0" >否</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <label for="hasChildren" class="col-sm-4 control-label">可有子区域</label>
+                        <div class="col-sm-8">
+                        	
+                            <select class="form-control" id="hasChildren" name="hasChildren">
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="name" class="col-sm-4 control-label">详细地址</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="address" placeholder="" name="address">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-sm-4 control-label">描述信息</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="description" placeholder="" name="description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group canEdit" style="display:none">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="save btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>保存</button>
+                            <button type="button" class="cancel btn btn-primary">取消</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+	<script src="../../src/js/rowtree/rowtree.js"></script>
+<script src="../../src/alert/sweetalert2.min.js"></script> 
+<script src="../../src/alert/es6-promise.auto.min.js"></script>
+<script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+<script src="../../src/js/quote/jstree.js"></script>
+<script src="../../src/js/packtreegrid/pack2.js"></script>
+<script src="../../src/js/dialog/dialog.js"></script>
+<script src="../../src/js/ajaxurl/ajax.js"></script>
+<!-- <script type="text/javascript" data-main="../../src/js/main" src="../../src/js/quote/require.js"></script> -->
+<!--     <script type="text/javascript"> -->
+<!-- //         require(["jquery","rowtree"], function ($,rowtree){ -->
+<!-- //             rowtree.dosome(); -->
+<!-- //         }); -->
+<!--     </script> -->
+<script>
+
+	function ff(){
+	    var storageID;
+	    $.ajax({
+	        url: "../../DeviceArea/findTreeByDeviceArea",
+	        type: "get",
+	        success: function (data) {       	 
+	            var jsonData = JSON.parse(data);
+	 			callBack(jsonData.data);
+	        }
+	    });
+	}
+	
+	ff();
+    
+    function callBack(data) {
+        var treeid = "ajax";
+        var tree = $("#" + treeid);
+        var inst, clickedNode;
+        var $save = $("#save");
+        var reg = /^j1_(\d+)/;
+        tree.jstree(false);
+        pack.showCheckboxTree(
+                data,
+                treeid,
+                "blue  fa fa-sitemap",
+                "search-tree",
+                ["dnd", "search", "state", "types", "wholerow", "contextmenu", "checkbox"
+                ], false,
+                false,
+                {
+                    "items": {
+                        "create": {
+                            "label": "增加",
+                            "icon": "fa fa-plus",
+                            "_disabled": false,
+                            "action": function (obj) {//obj:右击菜单对象
+                            	demo_create()
+                            }
+                        },
+                        "remove": {
+                            "label": "删除",
+                            "icon": "fa fa-times",
+                            "action": function (obj) {
+                            	demo_delete()
+                            }
+                        },
+                        "rename": {
+                            "label": "编辑",
+                            "icon": "fa fa-pencil",
+                            "_disabled": false,
+                            "action": function (obj) {
+                            	demo_rename()
+                            }
+
+                        },
+                        "refresh": {
+                            "label": "刷新",
+                            "icon": "fa fa-refresh",
+                            "action": function (data) {
+                                tree.jstree("refresh");
+                            }
+                        }
+                    }
+                }).bind("activate_node.jstree", function (e, data) {
+                    $panelTitle.html("查看");
+                    $canEdit.hide();
+            var cur = data.node;
+
+            $("#currentDepart").html(cur.text);
+            storageID = cur.id;
+            $("#storageID").val(storageID);
+
+//            if (data.selected.length) {
+//                $(".right-info").show().find(".panel-body #name").val(data.instance.get_node(data.selected[0]).text);
+            var param = {
+                storageID: cur.id,
+            };
+             $.get("../../DeviceArea/findByID", param, function (data) {
+				 data=JSON.parse(data);
+				 //console.log(data.data.hasChildren);
+                 for (var key in data.data) {
+                	 $("#" + key).val(data.data[key]);
+                	 
+                }
+            });
+    })}
+
+    var $save = $(".save"),$panelTitle=$(".panel-title"),$canEdit= $(".canEdit");
+    function demo_create() {
+        $panelTitle.html("新增");
+        $canEdit.show();
+        var hasChildren = $("#hasChildren").val();
+        
+        
+        
+         //var hasChildren = 1;
+	     if(hasChildren == "1"){
+	        $(".panel-body input,.panel-body select").val("");
+        	$("#description").val("");
+	        $save.off("click");
+	        $save.on("click", function () {
+	            	var clickedNode = storageID;
+
+	                var storageName = $("#storageName").val();
+	                var arr = $(".form").serialize()+"&supStorageID="+clickedNode+ "&availability=" + 1;
+
+	                if(clickedNode == "[object HTMLInputElement]" ){
+	                	
+	                	swal({text: "请选择添加区域"})
+	                } else if( $("#storageName").val() == "") {   
+        				swal({text: "请输入区域名称"});  
+	                }else {
+	                
+		                $.post("../../DeviceArea/insert", arr, function (data) {
+		                	//$(".form")[0].reset();
+		                	//console.log(clickedNode);
+		                	swal({text: "保存成功"});
+		                	$canEdit.hide();
+		                	ff();
+		                	var ref = $('#ajax').jstree(true), sel = ref.get_selected();
+		                    if (!sel.length) {
+		                        return false;
+		                    }
+		                    sel = sel[0];
+		
+		                    sel = ref.create_node(sel, {
+		                        "type": "file", "text": storageName
+		                    });
+		                    if (sel) {
+		                        ref.edit(sel);
+		                    }
+		                })
+	                }
+	        });
+        }  else {
+        	//alert("该区域没有下属车间!")
+        	swal({text: "该区域不能添加区域"})
+        }
+
+    }
+    function demo_rename() {
+        $panelTitle.html("编辑");
+        $canEdit.show();
+        var clickedNode = $('#ajax').jstree(true).get_selected()[0];
+
+        var storageName = $("#storageName").val();  
+        //console.log(storageName);
+/*      var arr = $(".form").serialize();
+        $.post("../../DeviceArea/findByID", arr, function (data) {
+
+            for (var key in data) {
+                $("#" + key).val(data[key])
+            }
+        }); */
+        $save.off("click");
+        $save.on("click", function () {
+            var arr = $(".form").serialize()+"&supStorageID="+$("#supStorageID").val()+ "&availability=" + 1;
+            $.post("../../DeviceArea/update", arr, function (data) {
+            	//data=JSON.parse(data);
+                /* var ref = $('#ajax').jstree(true), sel = ref.get_selected();
+                if (!sel.length) {
+                    return false;
+                }
+                sel = sel[0];
+                console.log(storageName);
+                sel = ref.set_text(sel, $("#name").val());
+                if (sel) {
+                    ref.edit(sel);
+                } */
+                
+                if (data.state == "Success") {
+                	//$(".form")[0].reset();
+                	ff();
+                	swal({text: "编辑成功"})
+                	$canEdit.hide();
+                } else {
+                	swal({text: data.message})
+                }
+                
+                
+            })
+        });
+    }
+    
+    function demo_delete() {
+ 
+    	var param = {
+    			deviceAreaID: storageID,
+            };
+    	
+
+    	if (storageID == "[object HTMLInputElement]") {
+            
+        	
+        	swal({text: "请选择要删除的区域!"})
+        } else {
+	    	$.get("../../DeviceArea/delete", param, function (data) {
+	            if (data.state == "Success") {
+	            	swal({text: "删除成功"})
+	                var ref = $('#ajax').jstree(true),
+	                sel = ref.get_selected();
+			        if (!sel.length) {
+			            return false;
+			        }
+			        ref.delete_node(sel);
+	                
+	            } else {
+	            	swal({text: data.message})
+	            }
+	        })
+        }
+    	
+    	
+    };
+    $(".cancel").on("click",function () {
+        $(".panel-body input,.panel-body select").val("");
+    })
+    
+    
+</script>
+<script>
+$.get("../../DeviceArea/findByID", { storageID: 1}, function (data) {
+	 data=JSON.parse(data);
+    for (var key in data.data) {
+   	 $("#" + key).val(data.data[key]);
+   	 
+   }
+})
+</script>
+</body>
+</html>

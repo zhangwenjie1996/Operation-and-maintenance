@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.patrol.querymapper.IPatrolRouteDeviceQueryMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.viewmodel.patrol.PatrolRouteDeviceViewModel" >
+   <constructor >
+      <idArg column="patrolRouteDeviceID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="patrolRouteID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="patrolRouteDeviceName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="itemID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="orderCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="deviceAddress" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sequence" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="modelID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="state" jdbcType="TINYINT" javaType="java.lang.Byte" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    patrolRouteDeviceID, patrolRouteID, patrolRouteDeviceName, itemID, orderCode, availability, 
+    description, deviceAddress, sequence, modelID,state
+  </sql>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from patrolRouteDevice
+    where patrolRouteDeviceID = #{patrolRouteDeviceID,jdbcType=INTEGER}
+  </select>
+   <select id="findByPatrolRouteId" resultType="ig.device.domain.viewmodel.patrol.PatrolRouteDeviceViewModel" parameterType="java.lang.Integer" >
+    select 
+    *
+    from patrolRouteDevice
+    where patrolRouteID = #{2} and availability=1 limit #{0}, #{1}
+  </select>
+  <select id="findByName" resultMap="BaseResultMap" parameterType="String" >
+    select 
+    <include refid="Base_Column_List" />
+    from patrolRouteDevice
+    where patrolRouteDeviceName LIKE CONCAT(CANCAT('%',#{patrolRouteDeviceName}),'%')
+  </select>
+  <select id="countRouteDevice" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		SELECT COUNT(1)FROM patrolRouteDevice
+		where patrolRouteID =
+		#{patrolRouteID,jdbcType=INTEGER} and availability=1
+	</select>
+	<select id="findPageDataByName" parameterType="ig.archer.infrastructure.data.PagingData"
+		resultType="ig.device.domain.viewmodel.patrol.PatrolRouteDeviceViewModel">
+		select 
+		<include refid="Base_Column_List" />
+		from patrolRouteDevice
+		where
+		<if test="rows.patrolRouteDeviceName!=null and rows.patrolRouteDeviceName!=0">
+			and patrolRouteDeviceName=#{rows.patrolRouteDeviceName}
+		</if>
+		limit #{pageStart}, #{rowCount}
+	</select>
+	<select id="countByDeviceName" resultType="java.lang.Integer" parameterType="java.lang.String">
+		SELECT COUNT(1)FROM patrolRouteDevice
+		where patrolRouteDeviceName =
+		#{patrolRouteDeviceName,jdbcType=INTEGER}
+	</select>
+	<select id="findListByRouteId" resultType="ig.device.domain.viewmodel.patrol.PatrolRouteDeviceViewModel" parameterType="java.lang.Integer" >
+    select 
+    *
+    from patrolRouteDevice
+    where patrolRouteID = #{patrolRouteDeviceName,jdbcType=INTEGER} and availability=1
+  </select>
+</mapper>

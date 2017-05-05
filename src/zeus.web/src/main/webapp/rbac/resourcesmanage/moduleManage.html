@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../src/css/quote/themes/default/style.min.css"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link href="../../src/css/quote/lib/jquery.bootgrid.min.css" rel="stylesheet"/>
+    <link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+    <!--<script type="text/javascript" src="dist/js/jquery.i18n.properties-1.0.9.js"></script>-->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript" src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript" src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="row menuM">
+    <div class="col-sm-4 col-md-3 col-lg-3">
+        <div class="row-tree-menu">
+            <ol class="breadcrumb">
+                <li><a href="#">菜单管理</a></li>
+            </ol>
+            <div class="treeList">
+                <div class="search-tree"><input type="text" class="form-control" id="search-tree" placeholder="搜索"
+                                                style="-webkit-border-radius: 0;-moz-border-radius: 0;border-radius: 0;">
+                </div>
+                <div id="ajax" class="menu-load"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8 col-md-9 col-lg-9">
+
+        <div class="tit">
+            <ol class="breadcrumb">
+                <li><a><i></i>数据展示</a></li>
+            </ol>
+            <a class="addBtn">
+                <i class="fa fa-plus"></i>
+            </a>
+        </div>
+
+        <table id="grid-data" class="table table-condensed table-hover table-striped">
+            <thead>
+            <tr>
+                <th data-column-id="id" data-identifier="true" data-type="numeric">Article ID</th>
+                <th data-column-id="sender">Sender</th>
+                <th data-column-id="received" data-order="desc">Received</th>
+                <th data-column-id="commands" data-formatter="commands" data-sortable="false">Commands</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<!--Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">编辑</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">名称</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" placeholder="名称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">序号</label>
+
+                        <div class="col-sm-10">
+                            <select class="form-control">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="save" data-dismiss="modal" class="btn btn-primary">保存</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- cd-popup-container-start -->
+<div class="cd-popup" role="alert">
+    <div class="cd-popup-container">
+        <a class="cd-popup-close icon-close fa fa-times"></a>
+
+        <form class="form-horizontal form-block">
+            <div class="form-group">
+                <label for="sender" class="col-sm-2 control-label">Sender</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" id="sender" placeholder="sender" name="sender">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="received" class="col-sm-2 control-label">Received</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" id="received" placeholder="received" name="received">
+                </div>
+            </div>
+        </form>
+        <div class="cd-buttons">
+            <button type="button" class="cd-popup-close cd-btn cd-btn-save">保存</button>
+            <button type="button" class="cd-popup-close cd-btn cd-btn-deal">取消</button>
+        </div>
+    </div>
+    <!-- cd-popup-container-end -->
+</div>
+<script src="http://cdn.gbtags.com/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="../../src/js/quote/bootstrapValidator.min.js"></script>
+<script src="../../src/js/quote/jstree.min.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+<script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+<script type="text/javascript" src="../../src/js/packtreegrid/pack.js"></script>
+<script type="text/javascript" src="../../src/js/dialog/dialog.js"></script>
+<script>
+    var planningFilter = function (url) {
+        var $cdBtnSave = $(".cd-btn-save");
+        $(".addBtn").on("click", function (e) {
+            alert("add");
+            $().dia(e);
+            $cdBtnSave.off("click");
+            $cdBtnSave.on("click", function (e) {
+                $.post('../../src/json/qx.json', {
+                    sender: $("#sender").val(),
+                    received: $("#received").val()
+                }, function (data) {
+                    alert("add-save");
+                }, 'json')
+
+            });
+        });
+        $("#grid-data").bootgrid("destroy");
+        var grid= pack.gridInit(url, "grid-data").on("loaded.rs.jquery.bootgrid", function () {
+            /* Executes after data is loaded and rendered */
+            $().tip();
+            grid.find(".command-delete").on("click", function (e) {
+                var _this = this;
+                alert("You pressed delete on row: " + $(this).attr("data-row-id"));
+                $.get("../../src/json/departM.json", {id: $(this).attr("data-row-id")}, function (data) {
+                    $(_this).parents('tr').remove();
+                }, 'json');
+            }).end().find(".command-edit").on("click", function (e) {
+                alert("edit");
+                $().dia(e);
+                $.post('../../src/json/data.json', {id: $(this).attr("data-row-id")}, function (data) {
+                    $("#sender").val(1);
+                    $("#received").val(2);
+                }, 'json');
+                $cdBtnSave.off("click");
+                $cdBtnSave.on("click", function (e) {
+                    $.post('../../src/json/qx.json', {
+                        sender: $("#sender").val(),
+                        received: $("#received").val()
+                    }, function (data) {
+                        alert("edit-save");
+                    }, 'json')
+                });
+            }).end().find(".command-view").on("click", function (e) {
+                alert("view");
+                $().dia2(e);
+                $.post('../../src/json/data.json', {id: $(this).attr("data-row-id")}, function (data) {
+                    $("#sender").val(data["sender"]);
+                    $("#received").val(data["received"]);
+                }, 'json');
+            })
+        });
+
+    };
+    planningFilter("../../src/json/data.json")
+</script>
+<script>
+    ~function () {
+        var treeid = "ajax";
+        var inst, clickedNode;
+        var $save = $("#save");
+        var reg = /^j1_(\d+)/;
+        $('#' + treeid).jstree(false);
+        $.ajaxSetup({cache: false});
+        pack.showCheckboxTree("../../src/json/tree.json", treeid, "blue  fa fa-sitemap", "search-tree", ["dnd", "search",
+                    "state", "types", "wholerow", "checkbox"],"true",
+                {
+                    "select_node": false,
+                    "show_at_node": false,
+                    "items": {
+                        "create": null,
+                        "rename": null,
+                        "remove": null,
+                        "ccp": null,
+                        "add": {
+                            "label": "增加",
+                            "icon": "fa fa-plus",
+                            "_disabled": false,
+                            "action": function (obj) {//obj:右击菜单对象
+                                alert("add");
+                                //var deptIds=$("#ajax").jstree(true).get_selected();
+                                //console.log(deptIds);
+                                inst = jQuery.jstree.reference(obj.reference);
+                                clickedNode = inst.get_node(obj.reference);
+                                $('#myModal').modal().find("input").removeAttr("readonly", "readonly");
+                                $("#myModalLabel").html("增加");
+                                $(".modal-footer").show();
+                                $save.off("click");
+                                $save.on("click", function () {
+                                    alert("增加");
+                                    var parm = $("#name").val();
+                                    $.post("../../src/json/tree.json", {
+                                        name: parm,
+                                        id: clickedNode.id.replace(reg, "$1")
+                                    }, function (data) {
+                                        var ref = $('#ajax').jstree(true),
+                                                sel = ref.get_selected();
+                                        if (!sel.length) {
+                                            return false;
+                                        }
+                                        sel = sel[0];
+                                        console.log(clickedNode, sel, data, clickedNode.children[0]);
+                                        sel = ref.create_node(sel, {"type": "file", "text": $('#name').val()});
+                                        if (sel) {
+                                            ref.edit(sel);
+                                        }
+                                    })
+                                })
+                            }
+                        },
+                        "delete": {
+                            "label": "删除",
+//                            "_disabled": true,
+                            "icon": "fa fa-times",
+                            "action": function (obj) {
+                                var ref = $('#ajax').jstree(true),
+                                        sel = ref.get_selected();
+                                sel = sel[0];
+                                if (confirm("确定要删除此菜单？删除后不可恢复。")) {
+                                    $.post("../../src/json/tree.json", {id: sel.replace(reg, "$1")}, function (data) {
+                                        if (!sel.length) {
+                                            return false;
+                                        }
+                                        ref.delete_node(sel);
+                                        alert("删除菜单成功！");
+                                        $('#jstree').jstree("refresh");
+                                    });
+                                }
+                            }
+                        },
+                        "edit": {
+                            "label": "编辑",
+                            "icon": "fa fa-pencil",
+                            "_disabled": false,
+                            "action": function (obj) {
+                                inst = $.jstree.reference(obj.reference);
+                                clickedNode = inst.get_node(obj.reference);
+                                $('#myModal').modal().find("input").removeAttr("readonly", "readonly");
+                                $("#myModalLabel").html("编辑");
+                                $(".modal-footer").show();
+                                $.post("../../src/json/tree.json", {id: clickedNode}, function (data) {
+                                    console.log(data);
+                                });
+                                $save.off("click");
+                                $save.on("click", function () {
+                                    alert("编辑");
+                                    var parm = $("#name").val();
+                                    $.post("../../src/json/tree.json", {
+                                        name: parm,
+                                        id: clickedNode.id.replace(reg, "$1")
+                                    }, function (data) {
+                                        var ref = $('#ajax').jstree(true),
+                                                sel = ref.get_selected();
+                                        if (!sel.length) {
+                                            return false;
+                                        }
+                                        sel = sel[0];
+                                        console.log(data);
+                                        sel = ref.set_text(sel, $("#name").val());
+                                        if (sel) {
+                                            ref.edit(sel);
+                                        }
+                                    })
+
+                                })
+                            }
+
+                        },
+                        "refresh": {
+                            "label": "刷新",
+                            "icon": "fa fa-refresh",
+                            "action": function (data) {
+                                jQuery('#ajax').jstree("refresh");
+                            }
+                        },
+                        "view": {
+                            "label": "查看",
+                            "icon": "fa fa-eye",
+                            "_disabled": false,
+                            "action": function (obj) {
+                                alert("view");
+                                inst = $.jstree.reference(obj.reference);
+                                clickedNode = inst.get_node(obj.reference);
+                                $('#myModal').modal().find("input").attr("readonly", "readonly");
+                                $("#myModalLabel").html("查看");
+                                $(".modal-footer").hide();
+                                $.post("../../src/json/tree.json", {id: clickedNode}, function (data) {
+                                    inst = $.jstree.reference(obj.reference);
+                                    clickedNode = inst.get_node(obj.reference);
+                                    $("#myModal").find("#name").val(clickedNode.text, clickedNode.id);
+                                });
+                            }
+                        }
+                    }
+                }
+        )
+
+
+    }();
+</script>
+<script>
+    $("#myModal").draggable({
+        handle: ".modal-header"
+    });
+</script>
+</body>
+</html>

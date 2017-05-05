@@ -1,0 +1,46 @@
+{
+  "current": 2,
+  "rowCount": 5,
+  "rows": [
+    {
+      "id": 1,
+      "warehouseName": "A",
+      "warehouseType": "标准仓库",
+      "hasChildren": "有",
+      "availability": "有",
+      "storagable": "不可以",
+      "capacity": 100,
+      "unusedCapacity": 50,
+      "usedCapacity":50,
+      "chargeName":"张三",
+      "description":"aaaaaaa"
+    },
+    {
+      "id": 2,
+      "warehouseName": "B",
+      "warehouseType": "冷库",
+      "hasChildren": "有",
+      "availability": "有",
+      "storagable": "可以",
+      "capacity": 0,
+      "unusedCapacity": "0",
+      "usedCapacity":0,
+      "chargeName":"张三",
+      "description":"bbbb"
+    },
+    {
+      "id": 3,
+      "warehouseName": "C",
+      "warehouseType": "车间",
+      "hasChildren": "没有",
+      "availability": "有",
+      "storagable": "可以",
+      "capacity":200,
+      "unusedCapacity": "80",
+      "usedCapacity":120,
+      "chargeName":"张三",
+      "description":"cc"
+    }
+  ],
+  "total": 200
+}

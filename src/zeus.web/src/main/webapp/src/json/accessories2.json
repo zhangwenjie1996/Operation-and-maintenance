@@ -1,0 +1,57 @@
+{
+  "current": 2,
+  "rowCount": 5,
+  "rows": [
+    {
+     "parameterName": 1,
+      "parameterValue": "2",
+      "materialCategoryName": "3"
+    },
+    {
+     "parameterName": 2,
+      "parameterValue": "2",
+      "materialCategoryName": "3"
+    },
+    {
+     "parameterName": 3,
+      "parameterValue": "2",
+      "materialCategoryName": "3"
+    },
+    {
+     "parameterName": 4,
+      "parameterValue": "2",
+      "materialCategoryName": "3"
+    },
+    {
+     "parameterName": 5,
+      "parameterValue": "2",
+      "materialCategoryName": "3"
+    },
+    {
+     "parameterName": 6,
+      "parameterValue": "2",
+      "materialCategoryName": "3"
+    },
+    {
+     "parameterName": 7,
+      "parameterValue": "2",
+      "materialCategoryName": "3"
+    },
+    {
+     "parameterName": 8,
+      "parameterValue": "2",
+      "materialCategoryName": "3"
+    },
+    {
+     "parameterName": 9,
+      "parameterValue": "2",
+      "materialCategoryName": "3"
+    },
+    {
+     "parameterName": 10,
+      "parameterValue": "2",
+      "materialCategoryName": "3"
+    }
+  ],
+  "total": 10
+}

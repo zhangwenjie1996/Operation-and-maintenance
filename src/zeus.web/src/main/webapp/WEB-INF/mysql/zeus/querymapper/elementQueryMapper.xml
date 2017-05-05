@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.query.IElementQueryRepository">
+	<resultMap id="BaseResultMap"
+		type="ig.zeus.domain.repository.viewmodel.ElementViewModel">
+		<id column="elementID" property="elementid" jdbcType="INTEGER" />
+		<result column="menuID" property="menuid" jdbcType="INTEGER" />
+		<result column="elementName" property="elementname" jdbcType="VARCHAR" />
+		<result column="signature" property="signature" jdbcType="VARCHAR" />
+		<result column="elementType" property="elementtype" jdbcType="TINYINT" />
+		<result column="availability" property="availability" jdbcType="BIT" />
+	</resultMap>
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select elementID, menuID, elementName, signature, elementType,
+		availability
+		from element
+		where elementID =
+		#{elementid,jdbcType=INTEGER}
+	</select>
+	<select id="findAllByMenuId" parameterType="java.lang.Integer"
+		resultType="ig.zeus.domain.repository.viewmodel.ElementViewModel">
+		select e.elementID, e.menuID, e.elementName, e.signature, e.elementType,
+		(select ItemName from sysSetting where SettingName ='availability' and ItemID= e.availability) availability,
+		re.roleid,re.permission
+		from element e  LEFT JOIN roleElement re ON e.elementID=re.elementID AND re.roleID = #{3} where menuID=#{2} limit #{0}, #{1}
+	</select>
+	<select id="countByMenuId" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM element where menuID=#{0}
+	</select>
+	<select id="findElementTree" resultType="ig.zeus.domain.repository.viewmodel.TreeListViewModel" parameterType="java.lang.Integer">
+	  SELECT elementID id,elementName TEXT ,'#' parent FROM element WHERE menuID=#{0}
+	</select>
+</mapper>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../src/css/quote/themes/default/style.min.css"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link href="../../src/css/quote/lib/jquery.bootgrid.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="../../src/alert/sweetalert2.min.css">
+    <link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+    <!--<script type="text/javascript" src="dist/js/jquery.i18n.properties-1.0.9.js"></script>-->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+    
+    
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript"
+            src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript"
+            src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="row deviceM">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <div class="device-filter-row common-filter">
+            <ol class="breadcrumb">
+                <li><a><i></i>筛选条件</a></li>
+            </ol>
+            <form class="form-horizontal form-addInBound form-common" role="form" id="filter-criteria">
+                <div class="form-group col-xs-11 col-sm-6 col-md-4  col-lg-3 ">
+                    <label class="col-sm-4 control-label" for="device-state">报废单号</label> 
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="p_storageOutInvoiceID" name="storageOutInvoiceID">
+                    </div>
+                </div>
+                <div class="form-group col-xs-11 col-sm-6 col-md-4  col-lg-3 ">
+                    <label class="col-sm-4 control-label" for="device-depart">单据状态</label> 
+                    <div class="col-sm-8">
+	                    <select class="  device-depart form-control" id="p_invoiceState" name="invoiceState">
+		                    <option value="">-请选择-</option>
+		                    <option value="0">审核中</option>
+		                    <option value="2">已通过</option>
+		                    <option value="3">未通过</option>
+	                	</select>
+                    </div>
+                </div>
+				<div class="form-group col-xs-11 col-sm-6 col-md-4  col-lg-3 ">
+                    <label class="col-sm-4 control-label" for="device-state">开始时间</label>
+ 					<div class="col-sm-8">
+ 						<input size="16" type="text" class="form-control form_datetime" id="p_creatTime" placeholder="" name="creatTime">
+                    </div>
+                </div>
+                <div class="form-group col-xs-11 col-sm-6 col-md-4  col-lg-3 ">
+                    <label class="col-sm-4 control-label" for="device-state">截止时间</label>
+ 					<div class="col-sm-8">
+ 						<input size="16" type="text" class="form-control form_datetime" id="p_endTime" placeholder="" name="endTime">
+                    </div>
+                </div>
+                <div class="form-group locate-p col-xs-11 col-sm-6 col-md-4  col-lg-3">
+                    <label for="storageName" class="col-sm-4 control-label">报废区域</label>
+                    <div class="col-sm-8">
+	                    <input type="text" class="form-control drop-down-unit " id="p_storageName" readonly="readonly"
+	                           placeholder="" name="storageName">
+	                    <div id="deviceAreaTree" class=" form-control unit-tree" style="right:15px;display: none;"></div>
+                    </div>
+                </div>
+                <button type="button" class="btn searchBtn  btn-primary"><i class="fa fa-search" aria-hidden="true"></i>查询</button>
+            </form>
+        </div>
+        <div class="device-list-row">
+            <ol class="breadcrumb">
+                <li><a><i></i>单据列表</a></li>
+            </ol>
+            <!-- <a href="addOutbound.html">
+                <button class=" btn btn-primary btn-sm" type="button">
+                    <i class="fa fa-plus"></i>新增出库
+                </button>
+            </a> -->
+            <div class="table-rp">
+            <table id="grid-data"
+                   class="table table-condensed table-hover table-striped">
+                <thead>
+                <tr>
+                    <!--<th data-column-id="id" data-identifier="true" data-type="numeric">Article ID</th>-->
+
+                    <th data-column-id="storageOutInvoiceID" data-order="desc">报废单号</th>
+                    <!-- <th data-column-id="storageID" data-order="desc">位置ID</th> -->
+                    <th data-column-id="storageName" data-order="desc">报废区域</th>
+                    <th data-column-id="invoiceState" data-order="desc">单据状态</th>
+                    <th data-column-id="creatTime" data-order="desc">报废时间</th>
+                    <!-- <th data-column-id="createrID" data-order="desc">创建人</th> -->
+                    <th data-column-id="createrName" data-order="desc">创建人</th>
+                    <!-- <th data-column-id="approverID" data-order="desc">审批人</th> -->
+                    <th data-column-id="approverName" data-order="desc">审批人</th>
+                    <th data-column-id="commands" data-formatter="commands"
+                        data-sortable="false">操作
+                    </th>
+                </tr>
+                </thead>
+            </table>
+        	</div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">编辑</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formTree" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="storageName" class="col-sm-2 control-label">名称</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="storageName"
+                                   placeholder="名称" name="storageName">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="save" data-dismiss="modal"
+                        class="btn btn-primary">保存
+                </button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- cd-popup-container-start -->
+<div class="cd-popup page-nun" role="alert" >
+    <div class="cd-popup-container" style="max-height: 600px; overflow: auto;  max-width:80%; ">
+        <a class="cd-popup-close icon-close fa fa-times"></a>
+
+        <div class="tabbar"></div>
+        <div class="mnk">
+            <!-- <form id="formDevice" class="form-horizontal form-block"> -->
+            <form id="formDevice" class="form-inline outBoundForm">
+                <!--                 <div class="form-group" hidden="hidden">
+                                    <label for="storageOutInvoiceID" class="col-sm-2 control-label">设备报废单ID</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="storageOutInvoiceID" placeholder=""
+                                               name="itemID">
+                                    </div>
+                                </div> -->
+<!--                                 <div class="form-group col-sm-6"> -->
+<!-- 							<label for="organid" class="col-sm-4 control-label">组织部门</label> -->
+
+<!-- 							<div class="col-sm-8"> -->
+<!-- 								<select class="form-control" id="organid" name="organid" disabled="disabled"> -->
+<!-- 									<option>-请选择-</option> -->
+<!-- 								<option value="1">部门1</option><option value="2">部门2</option><option value="3">部门3</option></select> -->
+<!-- 								                    <input class="form-control" id="organid" placeholder="组织部门" name="organid"> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+                <div class="form-group col-sm-6">
+                    <label for="storageName" class="col-sm-4 control-label">报废位置</label>
+
+                    <div class="col-sm-8">
+                        <input class="form-control" id="_storageName"
+                               placeholder="" name="storageName">
+                    </div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label for="createrName" class="col-sm-4 control-label">创建人</label>
+
+                    <div class="col-sm-8">
+                        <input class="form-control" id="createrName" placeholder=""
+                               name="createrName">
+                    </div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label for="creatTime" class="col-sm-4 control-label">报废时间</label>
+
+                    <div class="col-sm-8">
+                        <input class="form-control" id="creatTime"
+                               placeholder="" name="creatTime">
+                    </div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label for="description" class="col-sm-4 control-label">描述</label>
+
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="description" placeholder="" name="description"></textarea>
+                    </div>
+                </div>
+            </form>
+            <table id="each-out"
+                   class="table table-condensed table-hover table-striped">
+                <thead>
+                <tr>
+                    <!--<th data-column-id="id" data-identifier="true" data-type="numeric">Article ID</th>-->
+                    <th data-column-id="itemCode" data-order="desc">设备编号</th>
+                    <th data-column-id="categoryName" data-order="desc">设备类型</th>
+                    <th data-column-id="modelName" data-order="desc">设备型号</th>
+                    <th data-column-id="unitPrice" data-order="desc">价格(元)</th>
+                    <th data-column-id="providerName" data-order="desc">供应商</th>
+                    <th data-column-id="producer" data-order="desc">生产商</th>
+                    <th data-column-id="description" data-order="desc">描述</th>
+                </tr>
+                </thead>
+            </table>
+            <div class="cd-buttons">
+                <button type="button"
+                        class="btn btn-primary cd-popup-close cd-btn cd-btn-save">保存
+                </button>
+                <button type="button"
+                        class="btn btn-danger cd-popup-close cd-btn cd-btn-deal">取消
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- cd-popup-container-end -->
+</div>
+<script src="../../src/alert/sweetalert2.min.js"></script> 
+<script src="../../src/alert/es6-promise.auto.min.js"></script>
+<script src="../../src/css/quote/lib/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+<script src="../../src/css/quote/lib/bootstrap-datetimepicker-master/locals/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="http://cdn.gbtags.com/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+<script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+<script src="../../src/js/quote/jstree.js"></script>
+<script src="../../src/js/packtreegrid/pack2.js"></script>
+<script src="../../src/js/dialog/dialog.js"></script>
+<script src="../../src/js/ajaxurl/ajax.js"></script>
+<script src="../../src/js/curd/curd2.js"></script>
+<!-- <script src="../../src/js/grid/grid.js"></script> -->
+
+<script>
+//左侧areaTree 
+    var storageID = "", deviceArea = [];
+    $(window).on("resize", resize);
+    function resize() {
+        $("#deviceAreaTree").width($("#p_storageName").width());
+    }
+    resize();
+    $("#p_storageName").off("click");
+    $("#p_storageName").on("click", function () {
+        $("#deviceAreaTree").toggle();
+    });
+    ~function () {
+	    $.ajax({
+	        async: false,
+	         url: "../../DeviceArea/findTreeByDeviceArea",
+	        type: "get",
+	        success: function (data) {
+	            var jsonData = JSON.parse(data);
+	            callBack(jsonData.data);
+	        }
+	    });
+	    function callBack(data) {
+	        var treeid = "deviceAreaTree";
+	        var tree = $("#" + treeid);
+	        var inst, clickedNode;
+	        var $save = $("#save");
+	        var reg = /^j1_(\d+)/;
+	        tree.jstree(false);
+	        pack.showCheckboxTree(
+	                data,
+	                treeid,
+	                "blue  fa fa-sitemap",
+	                "search-tree",
+	                ["dnd", "search", "state", "types", "wholerow", "checkbox"
+	                ], false,
+	                false,
+	                null).bind("activate_node.jstree", function (e, data) {
+	                    
+	                	var currentNode = data.node,aryParentID=[],aryChildID=[];
+                        clickID = currentNode.id;
+                        $("#p_storageName").val(currentNode.text);
+                        $('#deviceAreaTree').hide();
+                        aryChildID=currentNode.children_d;
+                        aryParentID.push(currentNode.id);
+	                    deviceArea= aryParentID.concat(aryChildID);
+	                })
+	    	}
+    }();
+</script>
+<script>
+//单据列表 singleDataList
+    var f = function (url) {
+        var $grid = $("#grid-data"), $cdBtnSave = $(".cd-btn-save");
+        $grid.bootgrid("destroy");
+        var idname = "storageOutInvoiceID";
+        var formatters = {
+            "commands": function (column, row) {
+                return "<a abs=\"查看\" class=\"btn-color btn btn-xs btn-default command-view\"  data-row-id=\"" + row[idname] + "\"><span class=\"fa  fa-eye\"></span></a>"
+                        + "<a  abs=\"通过\" class=\"btn-color btn btn-xs btn-default command-edit\"  data-row-id=\"" + row[idname] + "\"><span class=\"fa fa-check\"></span></a> "
+                        + "<a  abs=\"未通过\" class=\"btn-color btn btn-xs btn-default command-delete\"  data-row-id=\"" + row[idname] + "\"><span class=\"fa fa-times\"></span></a>";
+            }
+        };
+        var grid = pack.gridInit(url, "grid-data", formatters).on("loaded.rs.jquery.bootgrid",
+                function () {
+                    $("tr").each(function (index, item) {
+                        var text = $($(item).find("td")[2]);
+                        if (text.text() == 0) {
+                            text.text("审核中");
+                        }
+                        if (text.text() == 2) {
+                            text.text("已通过");
+                        }
+                        if (text.text() == 3) {
+                            text.text("未通过");
+                        }
+                    });
+                    /* Executes after data is loaded and rendered */
+                    $().tip();
+                    grid.find(".command-delete").on("click",
+                          function (e) {
+                  			var _this=this;
+                              $(".tabbar").html("未通过");
+                              if($(_this).parents("tr").find("td").eq(5).html() == "&nbsp;"){ 
+                                $.get("../../DeviceInOut/approvalDeviceOutInvoice", {
+                               		storageOutInvoiceID: $(this).attr("data-row-id"),
+                               		invoiceState: 3
+				                       }, function (data) {
+				                    	  if (data.state == "Success") {
+			                                    swal({text: "提交成功!"})
+			                                    $.get('../../DeviceRelate/findCreateTimeAndName', "", function (data) {
+ 			                                    	$(_this).parents("tr").find("td").eq(2).text("未通过");
+ 			                                    	$(_this).parents("tr").find("td").eq(5).text(data.data.createName);
+											}, 'json')		                                   
+			                                } else {
+			                                    swal({text: "提交失败!"})
+			                                }
+				                       }, 'json');
+	                            } else {
+	                           	swal({text: "已审批,不可重复审批!"})
+	                            }
+                            }).end().find(".command-edit").on("click",
+                            function (e) {
+                            	var _this=this;
+                                /* $().dia(e); */
+                                $(".tabbar").html("通过");
+                                if($(_this).parents("tr").find("td").eq(5).html() == "&nbsp;"){ 
+	                                $.get("../../DeviceInOut/approvalDeviceOutInvoice", {
+	                                	storageOutInvoiceID: $(this).attr("data-row-id")
+	 				                       }, function (data) {
+	 				                    	  if (data.state == "Success") {
+	 			                                    swal({text: "提交成功!"})
+	 			                                    $.get('../../DeviceRelate/findCreateTimeAndName', "", function (data) {
+	 			                                    	//console.log($(_this).parents("tr").find("td").eq(5).text("1"));
+	  			                                    	$(_this).parents("tr").find("td").eq(2).text("已通过");
+	  			                                    	$(_this).parents("tr").find("td").eq(5).text(data.data.createName);
+													}, 'json')		                                   
+	 			                                } else {
+	 			                                    swal({text: "提交失败!"})
+	 			                                }
+	 				                       }, 'json');
+                                } else {
+                               	swal({text: "已审批,不可重复审批!"})
+                                }
+                            }).end().find(".command-view").on("click",
+                            function (e) {
+                                $().dia2(e);
+                                $(".tabbar").html("查看");
+                                var id = $(this).attr("data-row-id");
+                                //curd.showInfo("../../DeviceInOut/findStorageOutByID",this,"get")
+                                $.get("../../DeviceInOut/findStorageOutByID", {
+		                           id: $(this).attr("data-row-id")
+				                       }, function (data) {
+				                    	   $("#_storageName").val(data.data.storageName);
+				                    	   $("#creatTime").val(data.data.creatTime);
+				                    	   $("#createrName").val(data.data.createrName);
+				                    	   $("#description").val(data.data.description);
+				                       }, 'json');
+                                pack.gridInit("../../DeviceInOut/findStorageOutByID?id=" + $(this).attr("data-row-id"), "each-out" );
+                       })
+
+                })
+    };
+
+</script>
+<script>
+
+    f("../../DeviceInOut/findConditionPageStorageOut?");
+    $("#filter-criteria button").on( "click", function () {
+       f("../../DeviceInOut/findConditionPageStorageOut?deviceArea=" + deviceArea + "&" + $("#filter-criteria").serialize());
+    });
+</script>
+<script type="text/javascript">
+//时间控件
+ $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii',  language:  'zh-CN',autoclose:'true',todayHighlight:'true',showMeridian:'true'});
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="ig.device.domain.mapper.patrol.querymapper.IPatrolTaskMemberQueryMapper">
+	<resultMap id="BaseResultMap"
+		type="ig.device.domain.viewmodel.patrol.PatrolTaskMemberViewModel">
+		<constructor>
+			<idArg column="patrolTaskMemberID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="patrolTaskID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="employeeID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="patrolGroupID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="patrolTaskMemberName" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+			<arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+		</constructor>
+	</resultMap>
+	<sql id="Base_Column_List">
+		patrolTaskMemberID, patrolTaskID,employeeID, patrolGroupID, patrolTaskMemberName, availability,
+		description
+	</sql>
+	<select id="findById"
+		resultType="ig.device.domain.viewmodel.patrol.PatrolTaskMemberViewModel"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from patrolTaskMember
+		where patrolTaskMemberID = #{patrolTaskMemberID,jdbcType=INTEGER}
+	</select>
+     <select id="findAllMemberByTaskId" resultType="ig.device.domain.viewmodel.patrol.PatrolTaskMemberViewModel"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from patrolTaskMember
+		where patrolTaskID =
+		#{2} and availability=1 
+	</select>
+	<select id="countMemberByTaskId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		SELECT COUNT(1) FROM patrolTaskMember
+	    where patrolTaskID = #{patrolTaskID,jdbcType=INTEGER} and availability=1
+	</select>
+	<select id="findMemberByTaskId" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from patrolTaskMember
+		where patrolTaskID =
+		#{2} and availability=1 limit #{0}, #{1}
+	</select>
+	<select id="findByEmployeeID" resultType="ig.device.domain.viewmodel.patrol.PatrolTaskMemberViewModel"
+		parameterType="java.lang.Integer">
+		select
+		*
+		from patrolTaskMember
+		where employeeID =
+		#{employeeID,jdbcType=INTEGER} and availability=1 
+	</select>
+</mapper>

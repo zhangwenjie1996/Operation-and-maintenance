@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.fault.query.IRepairedMaterielQueryMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.viewmodel.fault.RepairedMaterielViewModel" >
+    <constructor >
+      <idArg column="repairedMaterielID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="repairedID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="faultID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="warehouseID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="warehouseName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createPeopleID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="createPeopleName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createDate" jdbcType="DATE" javaType="java.util.Date" />
+      <arg column="modelName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="categoryName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="materielCount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    repairedMaterielID, repairedID, faultID, warehouseID, warehouseName, createPeopleID, 
+    createPeopleName, createDate, modelName, categoryName, materielCount
+  </sql>
+  <select id="findAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from repairedMateriel
+  </select>
+  
+  <select id="findFaultId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from repairedMateriel
+    where faultID = #{faultID,jdbcType=INTEGER}
+  </select>
+  
+  <select id="findRepairedId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from repairedMateriel
+    where repairedID = #{repairedID,jdbcType=INTEGER}
+  </select>
+  
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from repairedMateriel
+    where repairedMaterielID = #{repairedMaterielID,jdbcType=INTEGER}
+  </select>
+</mapper>

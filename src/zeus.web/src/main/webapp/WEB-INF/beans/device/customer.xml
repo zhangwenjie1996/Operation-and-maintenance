@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+    <!-- ============== Mapping ============== -->
+    <bean id="iCustomerQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface"
+                  value="ig.device.domain.mapper.customer.query.ICustomerQueryMapper"></property>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    <bean id="iCustomerMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface"
+                  value="ig.device.domain.mapper.customer.ICustomerMapper"></property>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    <!-- ============== Repository ============== -->
+    <bean id="iCustomerRepository" class="ig.device.domain.repository.customer.CustomerRepository" autowire="byName"/>
+
+    <!--service-->
+    <bean id="iCustomerService" class="ig.device.domain.service.commandhandler.customer.basis.CustomerService" autowire="byName"/>
+    <!-- ============== Application ============== -->
+    <!--query-->
+    <bean id="iCustomerQueryApp" class="ig.device.application.query.customer.basis.CustomerQueryApp" autowire="byName"/>
+    <bean id="iCustomerApp" class="ig.device.application.commandhandler.customer.basis.CustomerApp" autowire="byName"/>
+</beans>

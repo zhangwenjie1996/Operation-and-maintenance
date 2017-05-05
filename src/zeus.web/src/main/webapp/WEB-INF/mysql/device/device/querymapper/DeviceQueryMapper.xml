@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.manage.query.IDeviceQueryMapper">
+	<resultMap id="BaseResultMap"
+		type="ig.device.domain.viewmodel.manage.DeviceViewModel">
+		<constructor>
+			<idArg column="groupID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="storageID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="categoryID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="categoryName" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="modelID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="modelName" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="amount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="unitPrice" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+			<arg column="totalPrice" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+			<arg column="availability" jdbcType="BIT" javaType="java.lang.Boolean" />
+			<arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+		</constructor>
+	</resultMap>
+	<sql id="Base_Column_List">
+		groupID, storageID, categoryID, categoryName, modelID, modelName, amount,
+		unitPrice,
+		totalPrice, availability, description
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from device
+		where groupID = #{groupID,jdbcType=INTEGER}
+	</select>
+
+
+
+	<select id="findAllByDeviceArea" resultType="ig.device.domain.viewmodel.manage.DeviceViewModel"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from device
+		where storageID = #{id,jdbcType=INTEGER}
+	</select>
+
+
+
+
+
+	<!-- 类型树 -->
+	<select id="findAllMaterialCategory" resultType="ig.device.domain.viewmodel.util.TreeViewModel"
+		parameterType="java.lang.Integer">
+		select
+		materialCategoryID id, materialCategoryName title,superiorID parent
+		from materialCategory
+		where availability = 1
+	</select>
+
+
+	<!-- 查询设备种类 -->
+	<select id="findPageMaterialModel"
+		resultType="ig.device.domain.viewmodel.warehouse.queryObject.FindMaterialModel"
+		parameterType="ig.archer.infrastructure.data.PagingData">
+		SELECT
+		materialModelCode itemCode,materialCategory.materialCategoryID categoryID,
+		materialCategory.materialCategoryName categoryName,
+		materialModelID modelID,materialModelName modelName,unit.unitnName unitName,
+		materialPrice unitPrice, providerID, providerName,minInventory,maxInventory
+		FROM materialModel
+		LEFT OUTER JOIN materialCategory
+		ON materialCategory.materialCategoryID =
+		materialModel.materialCategoryID
+		LEFT OUTER JOIN unit
+		ON unit.unitID = materialCategory.unitID
+		where materialModel.availability = 1
+		<if test="rows.categoryID != null">
+			AND materialCategory.materialCategoryID =
+			#{rows.categoryID}
+		</if>
+	</select>
+
+	<select id="findPageTotal" resultType="java.lang.Integer"
+		parameterType="ig.archer.infrastructure.data.PagingData">
+		select
+		count(1)
+		FROM materialModel
+		LEFT OUTER JOIN materialCategory
+		ON materialCategory.materialCategoryID =
+		materialModel.materialCategoryID
+		LEFT OUTER JOIN unit
+		ON unit.unitID = materialCategory.unitID
+		where materialModel.availability = 1
+		<if test="rows.categoryID != null">
+			AND materialCategory.materialCategoryID =
+			#{rows.categoryID}
+		</if>
+	</select>
+
+
+	<select id="findModelName" resultType="java.lang.String"
+		parameterType="java.lang.Integer">
+		select
+		modelName
+		from device
+		where storageID = #{storageID,jdbcType=INTEGER} ORDER BY groupID
+	</select>
+	<select id="findModelCount" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select
+		amount
+		from device
+		where storageID = #{storageID,jdbcType=INTEGER} ORDER BY groupID
+	</select>
+
+
+
+
+
+</mapper>

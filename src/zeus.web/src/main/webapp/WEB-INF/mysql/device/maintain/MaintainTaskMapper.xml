@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.maintain.IMaintainTaskMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.model.maintain.task.MaintainTask" >
+    <constructor >
+      <idArg column="maintainTaskID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+       <arg column="maintainTaskName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="maintainPlanID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="state" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="start" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="end" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="maintainTime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="maintainRouteID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="maintainGroupID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="functionary" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    maintainTaskID ID, maintainTaskName, maintainPlanID, state, start, end, maintainTime, maintainRouteID, 
+    maintainGroupID, functionary, description, availability
+  </sql>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from maintainTask
+    where maintainTaskID = #{maintainTaskID,jdbcType=INTEGER}
+  </select>
+  <select id="findAvailableTask" resultType="ig.device.domain.model.maintain.task.MaintainTask" >
+		select
+	    <include refid="Base_Column_List" />
+		from maintainTask
+		where availability = 1
+	</select>
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from maintainTask
+		where
+		maintainTaskID = #{ID,jdbcType=INTEGER}
+	</delete>
+	<update id="remove" parameterType="java.lang.Integer">
+		update maintainTask
+		set
+		availability = 0
+		where maintainTaskID = #{ID,jdbcType=INTEGER}
+	</update>
+  <insert id="insert" parameterType="ig.device.domain.model.maintain.task.MaintainTask" >
+    insert into maintainTask (maintainTaskName,  maintainPlanID, state, 
+      start, end, maintainTime, 
+      maintainRouteID, maintainGroupID, functionary, 
+      description, availability)
+    values (#{maintainTaskName,jdbcType=VARCHAR},  #{maintainPlanID,jdbcType=INTEGER}, #{state,jdbcType=TINYINT}, 
+      #{start,jdbcType=TIMESTAMP}, #{end,jdbcType=TIMESTAMP}, #{maintainTime,jdbcType=TIMESTAMP}, 
+      #{maintainRouteID,jdbcType=INTEGER}, #{maintainGroupID,jdbcType=INTEGER}, #{functionary,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{availability,jdbcType=TINYINT})
+  </insert>
+  <insert id="add" useGeneratedKeys="true" keyProperty="ID" parameterType="ig.device.domain.model.maintain.task.MaintainTask" >
+    insert into maintainTask
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ID != null" >
+        maintainTaskID,
+      </if>
+        <if test="maintainTaskName != null" >
+        maintainTaskName,
+      </if>
+      <if test="maintainPlanID != null" >
+        maintainPlanID,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="start != null" >
+        start,
+      </if>
+      <if test="end != null" >
+        end,
+      </if>
+      <if test="maintainTime != null" >
+        maintainTime,
+      </if>
+      <if test="maintainRouteID != null" >
+        maintainRouteID,
+      </if>
+      <if test="maintainGroupID != null" >
+        maintainGroupID,
+      </if>
+      <if test="functionary != null" >
+        functionary,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="availability != null" >
+        availability,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ID != null" >
+        #{ID,jdbcType=INTEGER},
+      </if>
+       <if test="maintainTaskName != null" >
+        #{maintainTaskName,jdbcType=VARCHAR},
+      </if>
+     <if test="maintainPlanID != null" >
+        #{maintainPlanID,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="start != null" >
+        #{start,jdbcType=TIMESTAMP},
+      </if>
+      <if test="end != null" >
+        #{end,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maintainTime != null" >
+        #{maintainTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maintainRouteID != null" >
+        #{maintainRouteID,jdbcType=INTEGER},
+      </if>
+      <if test="maintainGroupID != null" >
+        #{maintainGroupID,jdbcType=INTEGER},
+      </if>
+      <if test="functionary != null" >
+        #{functionary,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="availability != null" >
+       1,
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ig.device.domain.model.maintain.task.MaintainTask" >
+    update maintainTask
+    <set >
+      <if test="maintainTaskName != null" >
+        maintainTaskName = #{maintainTaskName,jdbcType=VARCHAR},
+      </if>
+      <if test="maintainPlanID != null" >
+        maintainPlanID = #{maintainPlanID,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="start != null" >
+        start = #{start,jdbcType=TIMESTAMP},
+      </if>
+      <if test="end != null" >
+        end = #{end,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maintainTime != null" >
+        maintainTime = #{maintainTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maintainRouteID != null" >
+        maintainRouteID = #{maintainRouteID,jdbcType=INTEGER},
+      </if>
+      <if test="maintainGroupID != null" >
+        maintainGroupID = #{maintainGroupID,jdbcType=INTEGER},
+      </if>
+      <if test="functionary != null" >
+        functionary = #{functionary,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="availability != null" >
+        availability = #{availability,jdbcType=TINYINT},
+      </if>
+    </set>
+    where maintainTaskID = #{ID,jdbcType=INTEGER}
+  </update>
+  <update id="update" parameterType="ig.device.domain.model.maintain.task.MaintainTask" >
+    update maintainTask
+    set maintainTaskName = #{maintainTaskName,jdbcType=VARCHAR},
+      maintainPlanID = #{maintainPlanID,jdbcType=INTEGER},
+      state = #{state,jdbcType=TINYINT},
+      start = #{start,jdbcType=TIMESTAMP},
+      end = #{end,jdbcType=TIMESTAMP},
+      maintainTime = #{maintainTime,jdbcType=TIMESTAMP},
+      maintainRouteID = #{maintainRouteID,jdbcType=INTEGER},
+      maintainGroupID = #{maintainGroupID,jdbcType=INTEGER},
+      functionary = #{functionary,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      availability = #{availability,jdbcType=TINYINT}
+    where maintainTaskID = #{ID,jdbcType=INTEGER}
+  </update>
+  <update id="updateAvailability" parameterType="java.lang.Integer">
+		update maintainTask
+		set
+		availability =
+		0
+		where maintainTaskID =
+		#{ID,jdbcType=INTEGER}
+	</update>
+</mapper>

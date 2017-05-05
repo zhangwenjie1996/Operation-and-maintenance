@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../src/css/quote/themes/default/style.min.css"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link href="../../src/css/quote/lib/jquery.bootgrid.min.css" rel="stylesheet"/>
+    	<!-- alert -->
+	<link rel="stylesheet" type="text/css" href="../../src/alert/sweetalert2.min.css">
+    <link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+    <!--<script type="text/javascript" src="dist/js/jquery.i18n.properties-1.0.9.js"></script>-->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript" src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript" src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="row menuM">
+    <div class="col-sm-4 col-md-3 col-lg-3">
+        <div class="row-tree-menu">
+            <ol class="breadcrumb">
+                <li><a href="#">菜单管理</a></li>
+            </ol>
+            
+		            <div style="overflow: hidden;margin-bottom: 10px;">
+						<label class="col-sm-4 control-label">系统选择</label>
+								<div class="col-sm-8">
+								<select id="systemId" class="form-control" name="systemId"> 
+								</select>
+						</div>
+					</div>
+            <div class="treeList">
+          
+                <div class="search-tree"><input type="text" class="form-control" id="search-tree" placeholder="搜索"
+                                                style="-webkit-border-radius: 0;-moz-border-radius: 0;border-radius: 0;">
+                </div>
+                <div id="ajax" class="menu-load"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8 col-md-9 col-lg-9">
+
+        <div class="tit">
+            <ol class="breadcrumb">
+                <li><a><i></i>页面组件</a></li>
+            </ol>
+            
+        </div>
+<button class="addBtn btn btn-primary btn-sm"  type="button"> <i class="fa fa-plus"></i>增加
+            </button>
+              <div class="table-rp">
+        <table id="grid-data" class="table table-condensed table-hover table-striped">
+            <thead>
+            <tr>
+<!--                 <th data-column-id="elementid" data-identifier="true" data-type="numeric">序号</th> -->
+                <th data-column-id="elementname" data-order="desc">名称</th>
+                <th data-column-id="signature">标识</th>
+                <th data-column-id="availability">有效性</th>
+                <th data-column-id="commands" data-formatter="commands" data-sortable="false">操作</th>
+            </tr>
+            </thead>
+        </table>
+        </div>
+    </div>
+</div>
+<!--Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"  aria-hidden="true" data-backdrop="static">
+    <div  class="modal-dialog" role="document">
+        <div  class="dialog modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">编辑</h4>
+            </div>
+            <div class="modal-body">
+                <form id="menuForm" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="menuName" class="col-sm-2 control-label">名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="menuname" placeholder="名称" name="menuname">
+                            <input  type="hidden" name="parentmenuid" id="parentmenuid"/>
+                            <input  type="hidden" name="menuid" id="menuid"/>
+                            <input  type="hidden" name="systemid" id="systemid"/>
+                        </div>
+                    </div>
+<!--                     <div class="form-group"> -->
+<!--                         <label for="systemid" class="col-sm-2 control-label">所属系统id</label> -->
+<!--                         <div class="col-sm-10"> -->
+<!--                             <input type="text" class="form-control" id="systemid" placeholder="所属系统id" name="systemid"> -->
+<!--                         </div> -->
+<!--                     </div> -->
+                    <div class="form-group">
+                        <label for="sequence" class="col-sm-2 control-label">序列</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="sequence" placeholder="序列" name="sequence">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="iconstyle" class="col-sm-2 control-label">图标风格</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="iconstyle" placeholder="图标风格" name="iconstyle">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="urladdress" class="col-sm-2 control-label">路径</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="urladdress" placeholder="url" name="urladdress">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signature" class="col-sm-2 control-label">signature</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="signature" placeholder="signature" name="signature">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-sm-2 control-label">描述</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="description" placeholder="描述" name="description">
+                        </div>
+                    </div>
+<!--                     <div class="form-group"> -->
+<!--                         <label class="col-sm-2 control-label">序号</label> -->
+<!--                         <div class="col-sm-10"> -->
+<!--                             <select class="form-control"> -->
+<!--                                 <option>1</option> -->
+<!--                                 <option>2</option> -->
+<!--                                 <option>3</option> -->
+<!--                             </select> -->
+<!--                         </div> -->
+<!--                     </div> -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="save" data-dismiss="modal" class="btn btn-primary">保存</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- cd-popup-container-start -->
+<div class="cd-popup" role="alert">
+    <div class="dialog cd-popup-container">
+        <a class="cd-popup-close icon-close fa fa-times"></a>
+<div class="tabbar"></div>
+<div class="mnk">
+        <form id="elementForm" class="form-horizontal form-block">
+            <div class="form-group" hidden="hidden">
+                <label for="elementid" class="col-sm-2 control-label">ID</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="elementid" placeholder="elementid" name="elementid">
+                </div>
+            </div>
+            <div class="form-group" hidden="hidden">
+                <label for="menuid" class="col-sm-2 control-label">页面id</label>
+                <div class="col-sm-10">
+                    <input class="form-control menuid"  placeholder="menuid" name="menuid">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="elementname" class="col-sm-2 control-label">名称</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" id="elementname" placeholder="elementname" name="elementname">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="signature2" class="col-sm-2 control-label">标识</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control"  id="signature2" placeholder="signature" name="signature" class="signature">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="elementtype" class="col-sm-2 control-label">页面元素类型</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" id="elementtype" placeholder="elementtype" name="elementtype">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="availability" class="col-sm-2 control-label">有效性</label>
+
+                <div class="col-sm-10">
+                   	<select class="form-control" id="availability" name="availability">
+								<option value="1">有</option>
+								<option value="0">无</option>
+							</select>
+                </div>
+            </div>
+        </form>
+        <div class="cd-buttons">
+            <button type="button" class="btn btn-primary cd-popup-close cd-btn cd-btn-save">保存</button>
+            <button type="button" class="btn btn-danger cd-popup-close cd-btn cd-btn-deal">取消</button>
+        </div>
+    </div></div>
+    <!-- cd-popup-container-end -->
+</div>
+<script src="../../src/alert/sweetalert2.min.js"></script> 
+	<!-- for IE support -->
+	<script src="../../src/alert/es6-promise.auto.min.js"></script>
+<!--<script src="http://cdn.gbtags.com/jqueryui/1.10.4/jquery-ui.min.js"></script>-->
+<script src="../../src/js/quote/jquery.ui.min.js"></script>
+<script src="../../src/js/quote/bootstrapValidator.min.js"></script>
+<script src="../../src/js/quote/jstree.min.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+<script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+<script type="text/javascript" src="../../src/js/packtreegrid/pack2.js"></script>
+<script type="text/javascript" src="../../src/js/dialog/dialog.js"></script>
+<script type="text/javascript" src="../../src/js/draggable/draggable.js"></script> 
+<script>
+    var planningFilter = function (url,menuId) {
+        var $cdBtnSave = $(".cd-btn-save");
+        $(".addBtn").on("click", function (e) {
+            	 $("#elementForm")[0].reset();
+            $(".tabbar").html("增加");
+            $().dia(e);
+            $cdBtnSave.off("click");
+            $cdBtnSave.on("click", function (e) {
+		    	$(".menuid").val(menuId);
+            	var arr = $("#elementForm").serialize();
+                $.post('../../element/add',arr, function (data) {
+                            $("#grid-data").bootgrid("reload");
+                            if (data.state == "Success") {
+                            	swal({text:data.message})
+                            } else {
+                            	swal({text:data.message})
+                            }
+                }, 'json')
+            });
+        });
+        $("#grid-data").bootgrid("destroy");
+        var idname = "elementid";
+        var formatters={
+                "commands": function (column, row) {
+                    return "<a abs=\"查看\" class=\"btn-color btn btn-xs btn-default command-view\"  data-row-id=\"" + row[idname] + "\"><span class=\"fa  fa-eye\"></span></a>"
+                            + "<a  abs=\"编辑\" class=\"btn-color btn btn-xs btn-default command-edit\"  data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-pencil\"></span></a> " +
+                            "<a  abs=\"删除\" class=\"btn-color btn btn-xs btn-default command-delete\"  data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                }
+            }
+        var grid= pack.gridInit(url, "grid-data",formatters).on("loaded.rs.jquery.bootgrid", function () {
+            /* Executes after data is loaded and rendered */
+            $().tip();
+            grid.find(".command-delete").on("click", function (e) {
+                var _this = this;
+                $.post("../../element/delete", {elementid: $(this).attr("data-row-id")}, function (data) {
+                    $(_this).parents('tr').remove();
+                }, 'json');
+            }).end().find(".command-edit").on("click", function (e) {
+            	  $(".tabbar").html("编辑");
+                $().dia(e);
+                $("#elementForm")[0].reset();
+                $.post('../../element/findById', {elementid: $(this).attr("data-row-id")}, function (data) {
+                	var d = data.data;
+                	//因界面中有两个id为menuid元素故将其中的改为名为class
+                	$(".menuid").val(d["menuid"]);
+                	$("#signature2").val(d["signature"]);
+                    for (key in d) {
+                        $("#" + key).val(d[key]);
+                    }
+                }, 'json');
+                $cdBtnSave.off("click");
+                $cdBtnSave.on("click", function (e) {
+                    var arr = $("#elementForm").serialize();
+                    $.post('../../element/update', arr, function (data) {
+                        if (data.state == "Success") {
+                        	  $("#grid-data").bootgrid("reload");
+                        	  swal({text:data.message})
+                        } else {
+                        	swal({text:data.message})
+                        }
+                    }, 'json')
+                });
+            }).end().find(".command-view").on("click", function (e) {
+            	  $(".tabbar").html("查看");
+                $().dia2(e);
+                $("#elementForm")[0].reset();
+                $.post('../../element/findById', {elementid: $(this).attr("data-row-id")}, function (data) {
+                	var d = data.data;
+                	$("#signature2").val(d["signature"]);
+                    for (key in d) {
+                        $("#" + key).val(d[key]);
+                    }
+                }, 'json');
+            })
+        });
+
+    };
+
+//     planningFilter("elementController/findAllByMenuId");
+
+</script>
+<script>
+loadSystemSelect();
+function loadSystemSelect(){
+	  $.getJSON("../../system/findAllSelect", function (data) {
+          $.each(data.data, function (index, item) {
+              $("#systemId").append("<option value='"+item.systemid+"'>"+item.systemname+"</optiont>");
+          });
+          loadMenuTree();
+        
+          $("#systemId").change(loadMenuTree);
+      });
+}
+var systemId="";
+function loadMenuTree(){
+	 systemId = $("#systemId").val(); 
+	$.ajax({
+		async:true,
+		url:"../../menu/findMenuTree?systemId="+systemId,
+		type:"get",
+		success:function(data){ 
+			var  jsonData=JSON.parse(data);
+			var newData=jsonData.data;
+		    callBack(newData);
+		}
+	});
+}
+function callBack(data){
+	  var treeid = "ajax";
+	  var tree=$("#"+treeid);
+    var inst, clickedNode;
+    var $save = $("#save");
+    var reg = /^j1_(\d+)/;
+     pack.showCheckboxTree(
+                data,
+                treeid,
+                "blue  fa fa-sitemap",
+                "search-tree",
+                ["dnd", "search", "state", "types", "wholerow", "contextmenu", "checkbox"
+                 ],false,
+                false,
+                {
+                    "items": {
+                        "create": {
+                            "label": "增加",
+                            "icon": "fa fa-plus",
+                            "_disabled": false,
+                            "action": function (obj) {//obj:右击菜单对象
+                                inst = jQuery.jstree.reference(obj.reference);
+                                clickedNode = inst.get_node(obj.reference);
+                            	if(""!=clickedNode.original.URL){
+                            		swal({text:"若要为此级添加子菜单请先清空url!"})
+                                	return;
+                            	}
+                                $('#myModal').modal().find("input").removeAttr("readonly", "readonly");
+                                $("#myModalLabel").html("增加");
+                                $(".modal-footer").show();
+                                $("#menuForm")[0].reset();
+                                $save.off("click");
+                                $save.on("click", function () {
+                                	$("#parentmenuid").val(clickedNode.id.replace(reg, "$1"));
+                                	$("#systemid").val(systemId);
+                                	var menuname = $("#menuname").val();
+                                    var param = $("#menuForm").serialize();
+                                    $.post("../../menu/add", param, function (data) {
+                                    	 loadMenuTree();
+                                        var ref = $('#ajax').jstree(true), sel = ref.get_selected();
+                                        if (!sel.length) {
+                                            return false;
+                                        }
+                                        sel = sel[0];
+                                       // console.log(clickedNode, sel, data, clickedNode.children[0]);
+                                        sel = ref.create_node(sel, {
+                                            "type": "file", "text": menuname
+                                        });
+                                        if (sel) {
+                                            ref.edit(sel);
+                                        }
+                                    })
+                                })
+                            }
+                        },
+                        "delete": {
+                            "label": "删除",
+                            "icon": "fa fa-times",
+                            "action": function (obj) {
+                            	 inst = jQuery.jstree.reference(obj.reference);
+                                 clickedNode = inst.get_node(obj.reference);
+                                var ref = $('#ajax').jstree(true), sel = ref.get_selected();
+                                sel = sel[0];
+                                if(""==clickedNode.original.URL){
+                                	swal({text:"请先删除子菜单!"})
+                                	return;
+                                }
+                                if (confirm("确定要删除此菜单？删除后不可恢复。")) {
+                                    $.post("../../menu/delete", {
+                                                id: sel.replace(reg, "$1")
+                                            },
+                                            function (data) {
+                                                if (!sel.length) {
+                                                    return false;
+                                                }
+                                                ref.delete_node(sel);
+                                                swal({text:"删除菜单成功！"})
+                                                $('#jstree').jstree("refresh");
+                                            });
+                                }
+                            }
+                        },
+                        "edit": {
+                            "label": "编辑",
+                            "icon": "fa fa-pencil",
+                            "_disabled": false,
+                            "action": function (obj) {
+                                inst = $.jstree.reference(obj.reference);
+                                clickedNode = inst.get_node(obj.reference);
+                                $('#myModal').modal().find("input").removeAttr("readonly", "readonly");
+                                $("#myModalLabel").html("编辑");
+                                $(".modal-footer").show();
+                                $("#menuForm")[0].reset();
+                                $.post("../../menu/findById", {id: clickedNode.id.replace(reg, "$1")}, function (data) {
+                                    var d = JSON.parse(data).data;
+                                    for(var key in d){
+                                    	 $("#" + key).val(d[key])
+                                    }
+                                });
+                                $save.off("click");
+                                $save .on( "click",  function () {
+                                	var menuname = $("#menuname").val();
+                                    var arr = $("#menuForm").serialize();
+                                    $.post("../../menu/update",arr,
+                                            function (data) {
+                                                var ref = $( '#ajax') .jstree(true), sel = ref.get_selected();
+                                                if (!sel.length) {
+                                                    return false;
+                                                }
+                                                sel = sel[0];
+                                                sel = ref.set_text( sel, $("#menuname").val());
+                                                if (sel) {
+                                                    ref.edit(sel);
+                                                }
+                                            })
+
+                                })
+                            }
+
+                        },
+                        "refresh": {
+                            "label": "刷新",
+                            "icon": "fa fa-refresh",
+                            "action": function (data) {
+                                jQuery('#ajax').jstree("refresh");
+                            }
+                        },
+                        "view": {
+                            "label": "查看",
+                            "icon": "fa fa-eye",
+                            "_disabled": false,
+                            "action": function (obj) {
+                                inst = $.jstree .reference(obj.reference);
+                                clickedNode = inst.get_node(obj.reference);
+                                $('#myModal').modal().find("input") .attr("readonly","readonly");
+                                $("#myModalLabel").html("查看");
+                                $(".modal-footer").hide();
+                                $("#menuForm")[0].reset();
+                                $.post("../../menu/findById",
+                                        {
+                                            id: clickedNode.id.replace(reg, "$1")
+                                        },
+                                        function (data) {
+//                                         	alert(data);
+//                                             inst = $.jstree .reference(obj.reference);
+//                                             clickedNode = inst .get_node(obj.reference);
+//                                             $("#myModal") .find("#menuName").val(clickedNode.text );
+                                        	 var d = JSON.parse(data).data;
+                                             for(var key in d){
+                                             	 $("#" + key).val(d[key])
+                                             }
+                                        });
+                            }
+                        }
+                    }
+                }).bind("activate_node.jstree", function (e, data) {
+                    var cur = data.node;
+                    $("#currentDepart").html(cur.text);
+                  var  menuId = cur.id.replace(reg, "$1");
+                  if(""!=cur.original.URL){
+                   	planningFilter("../../element/findAllByMenuId?menuId="+menuId,menuId);
+                  }
+                })
+              
+//                 console.log($('#ajax').jstree('destroy'));
+ 
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.material.ISpecificationMapper" >
+  <delete id="remove" parameterType="java.lang.Integer" >
+    delete from specification
+    where specificationID = #{specificationID,jdbcType=INTEGER}
+  </delete>
+  <insert id="add" parameterType="ig.device.domain.model.material.model.Specification" >
+    insert into specification
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="specificationID != null" >
+        specificationID,
+      </if>
+      <if test="materialModelID != null" >
+        materialModelID,
+      </if>
+      <if test="specificationName != null" >
+        specificationName,
+      </if>
+      <if test="specificationValue != null" >
+        specificationValue,
+      </if>
+      <if test="unitsID != null" >
+        unitsID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="specificationID != null" >
+        #{specificationID,jdbcType=INTEGER},
+      </if>
+      <if test="materialModelID != null" >
+        #{materialModelID,jdbcType=INTEGER},
+      </if>
+      <if test="specificationName != null" >
+        #{specificationName,jdbcType=VARCHAR},
+      </if>
+      <if test="specificationValue != null" >
+        #{specificationValue,jdbcType=INTEGER},
+      </if>
+      <if test="unitsID != null" >
+        #{unitsID,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="ig.device.domain.model.material.model.Specification" >
+    update specification
+    <set >
+      <if test="specificationName != null" >
+        specificationName = #{specificationName,jdbcType=VARCHAR},
+      </if>
+      <if test="specificationValue != null" >
+        specificationValue = #{specificationValue,jdbcType=INTEGER},
+      </if>
+      <if test="unitsID != null" >
+        unitsID=#{unitsID,jdbcType=INTEGER},
+      </if>
+    </set>
+    where specificationID = #{specificationID,jdbcType=INTEGER}
+  </update>
+</mapper>

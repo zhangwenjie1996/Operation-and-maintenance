@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.maintain.querymapper.IMaintainDeviceQueryMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.viewmodel.maintain.MaintainDeviceViewModel" >
+    <constructor >
+      <idArg column="maintainDeviceID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="maintainTaskID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="maintainApproachID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="maintainDeviceName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="state" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sequence" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="deviceAddress" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    maintainDeviceID, maintainTaskID, maintainApproachID, maintainDeviceName, state, 
+    availability, description, sequence, deviceAddress
+  </sql>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from maintainDevice
+    where maintainDeviceID = #{maintainDeviceID,jdbcType=INTEGER}
+  </select>
+  <select id="findDeviceByTaskId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from maintainDevice
+    where availability=1  and maintainTaskID = #{2}
+     ORDER BY sequence ASC 
+     limit #{0}, #{1}
+  </select>
+  	<select id="countDevice" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		SELECT COUNT(1)FROM maintainDevice
+		where maintainTaskID =
+		#{maintainTaskID,jdbcType=INTEGER} and availability=1
+	</select>
+</mapper>

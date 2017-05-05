@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submit Handler Demo</title>
+    <link rel="stylesheet" href="src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="src/css/quote/lib/bootstrapValidator.min.css"/>
+    <link rel="stylesheet" href="src/css/login.css"/>
+    <script type="text/javascript" src="src/js/quote/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<header>
+    <div class="logo"><img src="src/img/logo/smallLogo.png"></div>
+    <p>设备智能运维平台</p>
+<!--     <h1>欢迎使用后台系统</h1> -->
+</header>
+<article class="container">
+    <div class="row">
+        <div class="col-lg-4 col-md-4  col-sm-4 col-xs-12   col-md-offset-1 col-lg-offset-1">
+            <img src="src/img/leftimg.png">
+        </div>
+        <!-- form: -->
+        <section>
+            <div class="col-lg-4 col-md-4  col-sm-4 col-xs-12 col-sm-offset-4  col-md-offset-2 col-lg-offset-2">
+                <div class="page-header">
+                    <h2>��¼</h2>
+                </div>
+                <form id="defaultForm" method="post" class="form-horizontal"
+                      action="login/login"
+                      data-bv-message="This value is not valid"
+                      data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                      data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                      data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                    <div class="alert alert-success" style="display: none;"></div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 col-md-3  control-label" id="userName">Username</label>
+
+                        <div class="col-lg-9 col-md-9 ">
+                            <input id="loginUser" type="text" class="form-control" name="username"
+                                   data-bv-message="The username is not valid"
+                                   required data-bv-notempty-message="The username is required and cannot be empty"
+                                   pattern="[a-zA-Z0-9_\.]+"
+                                   data-bv-regexp-message="The username can only consist of alphabetical, number, dot and underscore"
+                                   data-bv-stringlength="true" data-bv-stringlength-min="6"
+                                   data-bv-stringlength-max="30"
+                                   data-bv-stringlength-message="The username must be more than 6 and less than 30 characters long"
+                                    />
+                        </div>
+                    </div>
+
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-lg-3 control-label" id="EmailAddress"></label>-->
+
+                        <!--<div class="col-lg-5">-->
+                            <!--<input id="loginEmail" type="text" class="form-control" name="email" required-->
+                                   <!--data-bv-emailaddress-message="The input is not a valid email address"-->
+                                   <!--data-bv-notempty-message="The email is required and cannot be empty"-->
+                                   <!--pattern="\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+"-->
+                                    <!--/>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <div class="form-group">
+                        <label class="col-lg-3 col-md-3 control-label" id="Password"></label>
+
+                        <div class="col-lg-9 col-md-9">
+                            <input id="loginPass" type="password" class="form-control" name="password" required
+                                   data-bv-notempty-message="The password is required and cannot be empty"/>
+                        </div>
+                    </div>
+					  <div class="form-group">
+						    <div class="col-sm-offset-2 col-sm-10">
+						      <div class="checkbox">
+						        <label>
+						          <input type="checkbox" name="rememberMe" id="rememberme"> Remember me
+						        </label>
+						      </div>
+						    </div>
+					  </div>
+                    <div class="form-group">
+                        <div class="col-lg-9 col-lg-offset-3">
+                            <button type="submit" class="btn btn-primary" id="Login"></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!-- :form -->
+    </div>
+</article>
+<footer>
+    <p>2016 绪正达成科技有限公司  123456号</p>
+</footer>
+<script src="http://cdn.gbtags.com/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="src/js/quote/bootstrapValidator.min.js"></script>
+<script type="text/javascript" src="src/js/quote/jquery.i18n.properties-1.0.9.js"></script>
+<script type="text/javascript" src="src/js/i18n/i18main.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#defaultForm').bootstrapValidator({
+            submitHandler: function (validator, form, submitButton) {
+                // validator is the BootstrapValidator instance
+                // form is the jQuery object present the current form
+// form.find('.alert').html('Thanks for signing up. Now you can sign in as ' + validator.getFieldElements('username').val()).show();
+                $.post(form.attr('action'), form.serialize(), function (result) {
+                    if (result && result["state"] != "Success") {
+                        alert(result["message"]);
+                   		 form.find('.alert').html('Thanks for signing up. Now you can sign in as ' + validator.getFieldElements('username').val()).show();
+                    } else {
+                        window.location.href = 'index.html';
+                    }
+                    console.log(result);
+                }, 'json');
+            }
+        })
+    })
+</script>
+
+</body>
+</html>

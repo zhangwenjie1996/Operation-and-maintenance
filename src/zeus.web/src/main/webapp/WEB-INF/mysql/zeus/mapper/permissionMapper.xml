@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.command.IPermissionRepository">
+	<insert id="addRoleSystem" parameterType="java.util.List">
+		INSERT INTO roleSystem(roleID,systemID,permission) VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.ID.roleID},#{item.ID.resourceID},#{item.permission})
+		</foreach>
+	</insert>
+	<insert id="addRoleElement" parameterType="java.util.List">
+		INSERT INTO roleElement(roleID,elementID,permission) VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.ID.roleID},#{item.ID.resourceID},#{item.permission})
+		</foreach>
+	</insert>
+	<insert id="addRoleMenu" parameterType="java.util.List">
+		INSERT INTO roleMenu(roleID,menuID,permission) VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.ID.roleID},#{item.ID.resourceID},#{item.permission})
+		</foreach>
+	</insert>
+	<delete id="removeRoleMenu" parameterType="java.lang.Integer">
+		delete from roleMenu
+		where roleID=#{0}
+	</delete>
+	<delete id="removeRoleSystem" parameterType="java.lang.Integer">
+		delete from
+		roleSystem where roleID=#{0}
+	</delete>
+	<delete id="removeRoleElement" parameterType="java.lang.Integer">
+		delete from
+		roleElement where roleID=#{0}
+	</delete>
+</mapper>

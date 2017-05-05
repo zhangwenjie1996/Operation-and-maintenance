@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
+    <meta name="zwj" content="zwj"/>
+    <title></title>
+    <link rel="stylesheet" href="src/css/quote/themes/default/style.min.css"/>
+    <link rel="stylesheet"
+          href="src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet"
+          href="src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link href="src/css/quote/lib/jquery.bootgrid.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="src/css/quote/jquery.mCustomScrollbar.css">
+    <link href="src/css/style.css" rel="stylesheet" type="text/css">
+    <!--<script type="text/javascript" src="dist/js/jquery.i18n.properties-1.0.9.js"></script>-->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript" src="src/js/quote/jquery-1.11.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript"
+            src="src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-default nav-change ">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                    aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <a style="font-size: 26px;" class="navbar-brand nv-change"><span
+                    class="logo-icon"><img src="src/img/logo/logo-icon.png"/></span><span
+                    class="title">工厂智能运维管理平台</span></a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse"
+             id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right nav-tz">
+                <li class="dropdown"><a href="#" class="dropdown-toggle"
+                                        data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false"><span class="glyphicon glyphicon-user"></span>管理员
+                </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+<!--<div class="first-level"  >-->
+<!--<div class="first-level-menu">-->
+<!--<div class="active">-->
+<!--<i class="fa fa-graduation-cap"></i>培训系统-->
+<!--</div>-->
+<!--<div>-->
+<!--<i class="fa fa-cogs"></i>系统管理-->
+<!--</div>-->
+<!--<div>-->
+<!--<i class="fa fa-balance-scale"></i>法律法规-->
+<!--</div>-->
+<!--<div>-->
+<!--<i class="fa fa-code-fork"></i>安全检查-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<div id="top">
+    <div class="x-toolbar left-header">
+        <div class="search">
+            <input id="search" placeholder="搜索"><i class="fa  fa-search"></i>
+        </div>
+        <div class="setup">
+            <a href="javascript:"><span class="fa fa-cog"></span></a>
+        </div>
+    </div>
+
+    <div id="topTags">
+        <a class="left-arrow glyphicon glyphicon-chevron-left"></a>
+
+        <div class="inner" id="inner">
+            <ul>
+                <li id="home"
+                    style="color: rgb(95, 162, 221); background-color: white;">首页
+                </li>
+            </ul>
+        </div>
+        <a class="right-arrow glyphicon glyphicon-chevron-right"></a>
+    </div>
+</div>
+<div id="main">
+    <div id="leftMenu">
+        <ul class="left-menu-ul  fir-ul">
+            <li class="nav-header">
+                <a> <i class="fa fa-fw fa-dashboard"></i>设备台账<i class="arrow1 glyphicon glyphicon-chevron-down"></i><i
+                        class="arrow2 glyphicon glyphicon-chevron-up"></i></a>
+                <ul class="left-menu-ul  sec-ul">
+                 	
+                 	
+                 	<li class="one"><a data-attr="devicemanage/deviceManage/deviceManage.html"
+                                               href="#deviceManage"><i
+                                    class="fa fa-caret-right"></i> 设备管理</a></li>
+                 	<li class="one"><a data-attr="devicemanage/deviceManage/deviceStatistics.html"
+                                               href="#deviceStatistics"><i
+                                    class="fa fa-caret-right"></i> 设备统计</a></li>
+
+                    <!-- <li class=" nav-header"><a> <i class="fa fa-fw fa-dashboard"></i>设备管理</a>
+
+                        <ul class="left-menu-ul  thr-ul">
+
+                            <li class="one"><a data-attr="devicemanage/deviceManage/deviceManage.html"
+                                               href="#deviceManage"><i
+                                    class="glyphicon glyphicon-cloud"></i> 设备查询</a></li>
+                            <li class="one"><a data-attr="devicemanage/equipmentOrder/addInbound.html "
+                                               href="#addInbound"><i
+                                    class="fa fa-caret-right"></i>增加设备</a></li>
+                            <li class="one"><a data-attr="devicemanage/equipmentOrder/addOutbound.html "
+                                               href="#addOutbound"><i
+                                    class="fa fa-caret-right"></i>报废设备</a></li>
+                        </ul>
+                	</li> -->
+                    <!-- <li class="nav-header">
+                        <a> <i class="fa fa-fw fa-dashboard"></i>单据管理<i
+                                class="arrow1 glyphicon glyphicon-chevron-down"></i><i
+                                class="arrow2 glyphicon glyphicon-chevron-up"></i></a>
+
+                        <ul class="left-menu-ul  thr-ul">
+                            <li class="one"><a data-attr="devicemanage/equipmentOrder/inboundOrder.html"
+                                               href="#inboundOrder"><i class="fa fa-caret-right"></i>设备领用单</a>
+                            </li>
+                            <li class="one"><a
+                                    data-attr="devicemanage/equipmentOrder/outboundOrder.html"
+                                    href="#outboundOrder"><i class="fa fa-caret-right"></i>设备报废单</a>
+                            </li>
+                        </ul>
+                    </li> -->
+
+                </ul>
+
+
+            </li>
+            <li class="nav-header"><a><i class="fa fa-fw fa-book"></i>设备巡检<i
+                    class="arrow1 glyphicon glyphicon-chevron-down"></i><i
+                    class="arrow2 glyphicon glyphicon-chevron-up"></i></a>
+                <ul class="left-menu-ul  sec-ul">
+                    <li class="one">
+                        <a data-attr="devicemanage/patrol/patrolPlan.html" href="#patrolPlan"><i
+                                class="fa fa-caret-right"></i> 巡检计划管理</a>
+                    </li>
+                    <li class="one">
+                        <a data-attr="devicemanage/patrol/patrolGroup.html" href="#patrolGroup"><i
+                                class="fa fa-caret-right"></i> 巡检小组管理</a>
+                    </li>
+                    <li class="one">
+                        <a data-attr="devicemanage/patrol/patrolRoute.html" href="#patrolRoute"><i
+                                class="fa fa-caret-right"></i> 巡检路线管理</a>
+                    </li>
+                    <li class="one">
+                        <a data-attr="devicemanage/patrol/patrolTask.html" href="#patrolTask"><i
+                                class="fa fa-caret-right"></i> 巡检任务管理</a>
+                    </li>
+                </ul>
+            </li>
+      <li class="nav-header"><a><i class="fa fa-fw fa-briefcase"></i>档案管理<i
+                    class="arrow1 glyphicon glyphicon-chevron-down"></i><i
+                    class="arrow2 glyphicon glyphicon-chevron-up"></i></a>
+                <ul class="left-menu-ul  sec-ul">
+                     <li class="one"><a data-attr="devicemanage/accessoriesManage/deviceAccessories.html"
+                                       href="#deviceAccessories"><i class="fa fa-caret-right"></i>型号管理</a></li>
+                     <li class="one"><a data-attr="devicemanage/equipmentLocation/equipmentLocation.html"
+                                       href="#equipmentLocation"><i class="fa fa-caret-right"></i>区域管理</a></li>
+                     <li class="one"><a data-attr="devicemanage/warehousemanage/warehouseManage.html"
+                                       href="#equipmentLocation"><i class="fa fa-caret-right"></i>仓库管理</a></li>
+                </ul>
+            </li>
+            <li class="nav-header"><a><i class="fa fa-fw fa-briefcase"></i>日常运维<i
+                    class="arrow1 glyphicon glyphicon-chevron-down"></i><i
+                    class="arrow2 glyphicon glyphicon-chevron-up"></i></a>
+                <ul class="left-menu-ul  sec-ul">
+                    <li class="one"><a data-attr="404.html"><i class="fa fa-caret-right"></i>故障管理</a></li>
+                    <li class="one"><a data-attr="404.html"><i class="fa fa-caret-right"></i>工单管理</a></li> 
+                </ul>
+            </li>
+           
+            <li class="nav-header"><a><i class="fa fa-fw fa-book"></i>知识库管理<i
+                    class="arrow1 glyphicon glyphicon-chevron-down"></i><i
+                    class="arrow2 glyphicon glyphicon-chevron-up"></i></a>
+                <ul class="left-menu-ul  sec-ul">
+                    <li class="one"><a data-attr="404.html"><i class="fa fa-caret-right"></i>操作步骤管理</a></li>
+                    <li class="one"><a data-attr="404.html"><i class="fa fa-caret-right"></i>故障代码管理</a></li>
+                    <li class="one"><a data-attr="404.html"><i class="fa fa-caret-right"></i>说明书管理</a></li>
+                </ul>
+            </li>
+            <li class="nav-header"><a><i class="fa fa-fw fa-folder"></i>库存管理<i
+                    class="arrow1 glyphicon glyphicon-chevron-down"></i><i
+                    class="arrow2 glyphicon glyphicon-chevron-up"></i></a>
+                <ul class="left-menu-ul  sec-ul">
+                    <li class="one"><a data-attr="devicemanage/warehousemanage/warehouseSelect.html"
+                                       href="#equipmentLocation"><i class="fa fa-caret-right"></i>库存盘点</a></li>
+                    <li class="one"><a data-attr="devicemanage/warehousemanage/addInbound.html"
+                                       href="#equipmentLocation"><i class="fa fa-caret-right"></i>入库单</a></li>
+                    <li class="one"><a data-attr="devicemanage/warehousemanage/addOutbound.html"
+                                       href="#equipmentLocation"><i class="fa fa-caret-right"></i>出库单</a></li>
+                </ul>
+            </li>
+            <li class="nav-header one "><a data-attr="devicemanage/customerManager/customerManager.html"><i class="fa fa-fw fa-group"></i>供应商管理<i
+                    class="arrow1 glyphicon glyphicon-chevron-down"></i><i
+                    class="arrow2 glyphicon glyphicon-chevron-up"></i></a></li>
+                     <li class="nav-header"><a><i class="fa fa-fw fa-desktop"></i>FMSC报警推送<i
+                    class="arrow1 glyphicon glyphicon-chevron-down"></i><i
+                    class="arrow2 glyphicon glyphicon-chevron-up"></i></a>
+                <ul class="left-menu-ul  sec-ul">
+                    <li class="one"><a data-attr="404.html"><i class="fa fa-caret-right"></i>运行日志管理</a></li>
+                    <li class="one"><a data-attr="404.html"><i class="fa fa-caret-right"></i>交接班管理</a></li> 
+                </ul>
+            </li>
+            <li class="nav-header one"><a data-attr="404.html"><i class="fa fa-fw fa-bolt"></i>能耗管理<i
+                    class="arrow1 glyphicon glyphicon-chevron-down"></i><i
+                    class="arrow2 glyphicon glyphicon-chevron-up"></i></a></li>
+                    
+            <li class="nav-header one "><a data-attr="404.html"><i class="fa fa-fw fa-bar-chart-o"></i>综合统计分析<i
+                    class="arrow1 glyphicon glyphicon-chevron-down"></i><i
+                    class="arrow2 glyphicon glyphicon-chevron-up"></i></a></li>
+
+            <li class="nav-header"><a><i class="fa fa-ship"></i>资源管理<i
+                    class="arrow1 glyphicon glyphicon-chevron-down"></i><i
+                    class="arrow2 glyphicon glyphicon-chevron-up"></i></a>
+                <ul class="left-menu-ul  sec-ul">
+                    <li class="one"><a data-attr="rbac/resourcesmanage/systemManage.html" data-attr="404.html"><i
+                            class="fa fa-caret-right"></i>系统管理</a></li>
+                    <li class="one"><a data-attr="rbac/resourcesmanage/menuManage.html" data-attr="404.html"><i
+                            class="fa fa-caret-right"></i> 菜单管理</a></li>
+                </ul>
+            </li>
+            <li class="nav-header"><a><i class="fa fa-lock"></i>权限管理<i
+                    class="arrow1 glyphicon glyphicon-chevron-down"></i><i
+                    class="arrow2 glyphicon glyphicon-chevron-up"></i></a>
+                <ul class="left-menu-ul  sec-ul">
+                    <li class="one"><a data-attr="rbac/authoritymanage/roleManage.html" href="#roleManage"><i
+                            class="fa fa-caret-right"></i>角色管理</a></li>
+                    <li class="one"><a data-attr="rbac/authoritymanage/menuAuthority.html" href="#menuAuthority "><i
+                            class="fa fa-caret-right"></i> 权限管理</a></li>
+                </ul>
+            </li>
+            <li class="nav-header"><a><i class="fa fa-users"></i>用户管理<i
+                    class="arrow1 glyphicon glyphicon-chevron-down"></i><i
+                    class="arrow2 glyphicon glyphicon-chevron-up"></i></a>
+                <ul class="left-menu-ul  sec-ul">
+                    <li class="one"><a data-attr="rbac/usermanage/departManage.html" href="#departManage"><i
+                            class="fa fa-caret-right"></i>部门管理</a>
+                    </li>
+                    <li class="one"><a data-attr="rbac/usermanage/postManage.html" href="#postManage"><i
+                            class="fa fa-caret-right"></i> 岗位管理</a>
+                    </li>
+                    <li class="one"><a data-attr="rbac/usermanage/userManage.html" href="#userManage"><i
+                            class="fa fa-caret-right"></i>用户管理</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div id="content"   >
+
+        <iframe  id="welcome" width='100%' height='100%' src="welcome.html"></iframe>
+
+
+    </div>
+</div>
+
+<script src="src/js/quote/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="src/js/utils/utils.js"></script>
+<script src="src/js/tween/tween.js"></script>
+<script src="src/js/leftmenu/leftmenu.js"></script>
+<script src="src/js/tab/tab.js"></script>
+<script src="src/js/resize/resize.js"></script>
+
+<!--<script type="text/javascript">-->
+<!--loadLeftMenu("./menuController/findMenuTreeByRole");-->
+<!--function loadLeftMenu(url) {-->
+<!--$.getJSON(url, function(data) {-->
+<!--appendData(data.data,0);-->
+<!--// 				console.log(str);-->
+<!--$("#leftMenu").append(str);-->
+<!--//加载单击事件-->
+<!--fn();-->
+<!--});-->
+<!--}-->
+<!--var str ="";-->
+
+<!--function appendData(items,left) {-->
+<!--str += '<ul class="left-menu-ul">';-->
+<!--$.each(items, function(i, item) {-->
+<!--if(item.children.length>0){-->
+<!--str += '<li class="nav-header"><a  style="padding-left:'+left+'px;"> <i class="fa fa-fw '+item.iconStyle+'"></i>'+ item.text + '<i class="arrow1 glyphicon glyphicon-chevron-down"></i><i class="arrow2 glyphicon glyphicon-chevron-up"></i></a>';-->
+
+<!--appendData(item.children,left+30);-->
+<!--}else{-->
+<!--var ss=item.URL.split("/");-->
+<!--var s=ss[ss.length-1].split(".")[0];-->
+<!--str += '<li class="one"><a style="padding-left:'+left+'px;" data-attr="'+item.URL+'" href="#'+s+'"><i class="fa fa-caret-right"></i>'+item.text+'</a>';-->
+<!--}-->
+<!--str += '</li>';-->
+<!--});-->
+<!--str += '</ul>';-->
+<!--//left+=30;-->
+<!--}-->
+
+<!--</script>-->
+
+</body>
+</html>

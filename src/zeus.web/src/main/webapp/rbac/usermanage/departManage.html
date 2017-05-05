@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet"
+          href="../../src/css/quote/themes/default/style.min.css"/>
+    <link rel="stylesheet"
+          href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet"
+          href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link href="../../src/css/quote/lib/jquery.bootgrid.min.css"
+          rel="stylesheet"/>
+    <!-- alert -->
+    <link rel="stylesheet" type="text/css" href="../../src/alert/sweetalert2.min.css">
+    <link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+    <!--<script type="text/javascript" src="dist/js/jquery.i18n.properties-1.0.9.js"></script>-->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript"
+            src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript"
+            src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="row departM">
+    <div class="col-sm-4 col-md-3 col-lg-3">
+        <div class="row-tree-menu">
+            <ol class="breadcrumb">
+                <li><a href="#">部门管理</a></li>
+            </ol>
+            <ol class="breadcrumb path-navigation">
+                <li><a href="#">当前组织</a></li>
+                <li class="active" id="currentDepart"></li>
+            </ol>
+            <div class="search-tree">
+                <input type="text" class="form-control" id="search-tree"
+                       placeholder="搜索">
+            </div>
+
+            <div id="ajax" class="demo"></div>
+        </div>
+    </div>
+    <div class="col-sm-8 col-md-9 col-lg-9">
+        <div class="tit">
+            <ol class="breadcrumb">
+                <li><a><i></i>部门</a></li>
+            </ol>
+
+        </div>
+        <button class="addBtn btn btn-primary btn-sm"  type="button"> <i class="fa fa-plus"></i>增加
+        </button>
+          <div class="table-rp">
+        <table id="grid-data"
+               class="table table-condensed table-hover table-striped">
+            <thead>
+            <tr>
+                <!--<th data-column-id="id" data-identifier="true" data-type="numeric">Article ID</th>-->
+                <!--                 <th data-column-id="postid" data-identifier="true" -->
+                <!--                     data-type="numeric">ID -->
+                <!--                 </th> -->
+                <th data-column-id="postname">岗位名称</th>
+                <th data-column-id="standardnumber" data-order="desc">标准人数</th>
+                <th data-column-id="availability">有效性</th>
+                <th data-column-id="description">描述</th>
+                <th data-column-id="commands" data-formatter="commands"
+                    data-sortable="false">操作
+                </th>
+            </tr>
+            </thead>
+        </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div  class="dialog modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">编辑</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formTree" class="form-horizontal">
+                    <div class="form-group ">
+                        <label for="organname" class="col-sm-2 control-label">名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="organname"
+                                   placeholder="名称" name="organname">
+                            <input type="hidden" id="organid" name="organid"/>
+                            <input type="hidden" id="parentorganid" name="parentorganid"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="shortname" class="col-sm-2 control-label">简称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="shortname"
+                                   placeholder="简称" name="shortname">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="coding" class="col-sm-2 control-label">编号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="coding"
+                                   placeholder="编号" name="coding">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sequence" class="col-sm-2 control-label">序列</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="sequence"
+                                   placeholder="序列" name="sequence">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="category" class="col-sm-2 control-label">组织类别</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="category"
+                                   placeholder="组织类别" name="category">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="governor" class="col-sm-2 control-label">主管人员</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="governor"
+                                   placeholder="主管人员" name="governor">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="availability" class="col-sm-2 control-label">有效性</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="availability" name="availability">
+                                <option value="1">有</option>
+                                <option value="0">无</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-sm-2 control-label">描述</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="description"
+                                   placeholder="描述" name="description">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="save" data-dismiss="modal"
+                        class="btn btn-primary">保存
+                </button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- cd-popup-container-start -->
+<div class="cd-popup" role="alert">
+    <div class="dialog cd-popup-container">
+        <a class="cd-popup-close icon-close fa fa-times"></a>
+        <div class="tabbar"></div>
+        <div class="mnk">
+            <form id="formDepart" class="form-horizontal form-block">
+                <div class="form-group" hidden="hidden">
+                    <label for="postid" class="col-sm-2 control-label">ID</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" id="postid" placeholder="postid" name="postid">
+                    </div>
+                </div>
+                <div class="form-group" hidden="hidden">
+                    <label for="organid2" class="col-sm-2 control-label">组织id</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="organid2" placeholder="organid" name="organid">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="postname" class="col-sm-2 control-label">岗位名称</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="postname" placeholder="postname" name="postname">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="standardnumber" class="col-sm-2 control-label">标准人数</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="standardnumber" placeholder="standardNumber" name="standardnumber">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="availability2" class="col-sm-2 control-label">有效性</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="availability2" name="availability">
+                            <option value="1">有</option>
+                            <option value="0">无</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description2" class="col-sm-2 control-label">描述</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="description2" placeholder="description" name="description">
+                    </div>
+                </div>
+            </form>
+
+            <div class="cd-buttons">
+                <button type="button"
+                        class="btn btn-primary cd-popup-close cd-btn cd-btn-save">保存
+                </button>
+                <button type="button"
+                        class="btn btn-danger cd-popup-close cd-btn cd-btn-deal">取消
+                </button>
+            </div>
+        </div>
+        <!-- cd-popup-container-end -->
+    </div>
+    </div>
+    <script src="../../src/js/rowtree/rowtree.js"></script>
+    <script src="../../src/alert/sweetalert2.min.js"></script>
+    <!-- for IE support -->
+    <script src="../../src/alert/es6-promise.auto.min.js"></script>
+    <script src="../../src/js/quote/jquery.ui.min.js"></script>
+    <script src="../../src/js/quote/jquery.bootgrid.js"></script>
+    <script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+    <script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+    <script src="../../src/js/quote/jstree.js"></script>
+    <script src="../../src/js/packtreegrid/pack2.js"></script>
+    <script src="../../src/js/dialog/dialog.js"></script>
+    <script type="text/javascript" src="../../src/js/draggable/draggable.js"></script>
+    <script>
+
+        function ff(){
+            var organid="";
+            $.ajax({
+                async:false,
+                url:"../../organ/getOrganListTree",
+                type:"get",
+                success:function(data){
+                    var  jsonData=JSON.parse(data);
+                    callBack(jsonData.data);
+                }
+            });
+        }
+        ff();
+        function callBack(data){
+            var treeid = "ajax";
+            var tree=$("#"+treeid);
+            var inst, clickedNode;
+            var $save = $("#save");
+            var reg = /^j1_(\d+)/;
+            tree.jstree(false);
+            pack.showCheckboxTree(
+                    data,
+                    treeid,
+                    "blue  fa fa-sitemap",
+                    "search-tree",
+                    ["dnd", "search", "state", "types", "wholerow", "contextmenu", "checkbox"
+                    ],false,
+                    false,
+                    {
+                        "items": {
+                            "create": {
+                                "label": "增加",
+                                "icon": "fa fa-plus",
+                                "_disabled": false,
+                                "action": function (obj) {//obj:右击菜单对象
+                                    inst = jQuery.jstree.reference(obj.reference);
+                                    clickedNode = inst.get_node(obj.reference);
+                                    $('#myModal').modal().find("input").removeAttr("readonly", "readonly");
+                                    $("#myModalLabel").html("增加");
+                                    $(".modal-footer").show();
+                                    $save.off("click");
+                                    $("#formTree")[0].reset();
+                                    $save.on("click", function () {
+                                        $("#parentorganid").val(clickedNode.id.replace(reg, "$1"));
+                                        var param = $("#formTree").serialize();
+                                        var organname = $("#organname").val();
+                                        $.post("../../organ/add", param, function (data) {
+                                            ff();
+                                            var ref = $('#ajax').jstree(true), sel = ref.get_selected();
+                                            if (!sel.length) {
+                                                return false;
+                                            }
+                                            sel = sel[0];
+                                            console.log(clickedNode, sel, data, clickedNode.children[0]);
+                                            sel = ref.create_node(sel, {
+                                                "type": "file", "text": organname
+                                            });
+                                            if (sel) {
+                                                ref.edit(sel);
+                                            }
+                                        })
+                                    })
+                                }
+                            },
+                            "remove": {
+                                "label": "删除",
+                                "icon": "fa fa-times",
+                                "action": function (obj) {
+                                    var ref = $('#ajax').jstree(true), sel = ref.get_selected();
+                                    sel = sel[0];
+                                    if (confirm("确定要删除此菜单？删除后不可恢复。")) {
+                                        if(ref.get_children_dom(sel).length){
+                                            swal({text:"有子节点不可删除"});
+                                        }else{
+                                            $.post("../../organ/delete", {
+                                                        organID: sel.replace(reg, "$1")
+                                                    },
+                                                    function (data) {
+                                                        if (!sel.length) {
+                                                            return false;
+                                                        }
+                                                        ref.delete_node(sel);
+                                                        swal({text:"删除菜单成功！"});
+                                                        $('#jstree').jstree("refresh");
+                                                    });
+                                        }
+
+                                    }
+                                }
+                            },
+                            "rename": {
+                                "label": "编辑",
+                                "icon": "fa fa-pencil",
+                                "_disabled": false,
+                                "action": function (obj) {
+                                    inst = $.jstree.reference(obj.reference);
+                                    clickedNode = inst.get_node(obj.reference);
+                                    $('#myModal').modal().find("input").removeAttr("readonly", "readonly");
+                                    $("#myModalLabel").html("编辑");
+                                    $(".modal-footer").show();
+                                    $("#formTree")[0]	.reset();
+                                    $.get("../../organ/findById", {organID: clickedNode.id.replace(reg, "$1")}, function (data) {
+                                        var d = JSON.parse(data).data;
+                                        for(var key in d){
+                                            $("#" + key).val(d[key])
+                                        }
+//                                 	  $("#organname").val(JSON.parse(data).data["organname"]);
+//                                 	  $("#organid").val(JSON.parse(data).data["organid"]);
+                                    });
+                                    $save.off("click");
+                                    $save .on( "click",  function () {
+                                        var arr = $("#formTree").serialize();
+                                        $.post("../../organ/update",arr,
+                                                function (data) {
+                                                    var ref = $( '#ajax') .jstree(true), sel = ref.get_selected();
+                                                    if (!sel.length) {
+                                                        return false;
+                                                    }
+                                                    sel = sel[0];
+                                                    sel = ref.set_text( sel, $("#organname").val());
+                                                    if (sel) {
+                                                        ref.edit(sel);
+                                                    }
+                                                })
+
+                                    })
+                                }
+
+                            },
+                            "refresh": {
+                                "label": "刷新",
+                                "icon": "fa fa-refresh",
+                                "action": function (data) {
+                                    jQuery('#ajax').jstree("refresh");
+                                }
+                            }
+                        }
+                    }).bind("activate_node.jstree", function (e, data) {
+                        var cur = data.node;
+                        $("#currentDepart").html(cur.text);
+
+                        organid = cur.id.replace(reg, "$1");
+                        planningFilter("../../post/findAllPostByOrganID?organID="+organid);
+                    })
+
+        }
+    </script>
+    <script>
+        var planningFilter = function (url) {
+            var $cdBtnSave = $(".cd-btn-save");
+            $(".addBtn").on("click", function (e) {
+                $().dia(e);
+                $cdBtnSave.off("click");
+                $(".tabbar").html("增加");
+                $("#formDepart")[0].reset();
+                $("#organid2").val(organid);
+                $cdBtnSave.on("click", function (e) {
+                    var arr = $("#formDepart").serialize();
+                    $.post('../../post/add', arr, function (data) {
+                        if (data.state == "Success") {
+                            $("#grid-data").bootgrid("reload");
+                            swal({text:data.message});
+                        } else {
+                            swal({text:data.message});
+                        }
+                    }, 'json')
+
+                });
+            });
+            $("#grid-data").bootgrid("destroy");
+            var idname="postid";
+            var formatters={
+                "commands": function (column, row) {
+                    return "<a abs=\"查看\" class=\"btn-color btn btn-xs btn-default command-view\"  data-row-id=\"" + row[idname] + "\"><span class=\"fa  fa-eye\"></span></a>"
+                            + "<a  abs=\"编辑\" class=\"btn-color btn btn-xs btn-default command-edit\"  data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-pencil\"></span></a> " +
+                            "<a  abs=\"删除\" class=\"btn-color btn btn-xs btn-default command-delete\"  data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                }
+            }
+            var grid=pack.gridInit(url, "grid-data",formatters).on( "loaded.rs.jquery.bootgrid",
+                    function () {
+                        /* Executes after data is loaded and rendered */
+                        $().tip();
+                        grid.find(".command-delete").on( "click",function (e) {
+                            var _this = this;
+                            swal({text:"删除第"+$(this).attr("data-row-id")+"行"});
+                            $.get("../../post/delete", {
+                                id: $(this).attr("data-row-id")
+                            }, function (data) {
+                                $(_this).parents('tr').remove();
+                            }, 'json');
+                        }).end().find(".command-edit").on("click",function (e) {
+
+                            $().dia(e);
+                            $(".tabbar").html("编辑");
+                            $("#formDepart")[0].reset();
+                            $.get('../../post/findById', {
+                                id: $(this).attr("data-row-id")
+                            }, function (data) {
+                                var d = data.data;
+                                $("#organid2").val(d.organid);
+                                $("#description2").val(d.description);
+                                $("#availability2").val(d.availability);
+                                for (key in d) {
+                                    $("#" + key).val(d[key])
+                                }
+                            }, 'json');
+                            $cdBtnSave.off("click");
+                            $cdBtnSave.on("click", function (e) {
+                                var arr = $("#formDepart").serialize();
+                                $.post('../../post/update',arr, function (data) {
+                                    if (data.state == "Success") {
+                                        $("#grid-data").bootgrid("reload");
+                                        swal({text:data.message});
+                                    } else {
+                                        swal({text:data.message});
+                                    }
+                                }, 'json')
+                            });
+                        }).end().find(".command-view").on("click",
+                                function (e) {
+                                    $().dia2(e);
+                                    $(".tabbar").html("查看");
+                                    $("#formDepart")[0].reset();
+                                    $.post('../../post/findById', {
+                                        id: $(this).attr("data-row-id")
+                                    }, function (data) {
+                                        var d = data.data;
+                                        $("#organid2").val(d.organid);
+                                        $("#description2").val(d.description);
+                                        $("#availability2").val(d.availability);
+                                        for (key in d) {
+                                            $("#" + key).val(d[key])
+                                        }
+                                    }, 'json');
+                                })
+                    });
+
+        };
+    </script>
+</body>
+</html>

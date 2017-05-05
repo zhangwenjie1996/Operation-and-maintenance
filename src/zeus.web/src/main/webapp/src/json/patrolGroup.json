@@ -1,0 +1,39 @@
+{
+
+  "state": "Success",
+  "message": "请求成功！",
+  "data": [
+    {
+      "patrolGroupID": 1,
+      "patrolGroupName": "小组一",
+      "number": 2,
+      "functionary": "xzcx",
+      "description": "cdsc",
+      "availability": 1
+    },
+    {
+      "patrolGroupID": 2,
+      "patrolGroupName": "小组二",
+      "number": 2,
+      "functionary": "xzcx",
+      "description": "cdsc",
+      "availability": 1
+    },
+    {
+      "patrolGroupID": 3,
+      "patrolGroupName": "小组三",
+      "number": 2,
+      "functionary": "xzcx",
+      "description": "cdsc",
+      "availability": 1
+    },
+    {
+      "patrolGroupID": 4,
+      "patrolGroupName": "小组四",
+      "number": 2,
+      "functionary": "xzcx",
+      "description": "cdsc",
+      "availability": 1
+    }
+  ]
+}

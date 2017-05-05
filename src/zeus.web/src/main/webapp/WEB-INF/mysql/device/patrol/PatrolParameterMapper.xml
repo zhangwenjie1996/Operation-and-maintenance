@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.patrol.IPatrolParameterMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.model.patrol.PatrolParameter" >
+    <constructor >
+      <idArg column="patrolParameterID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="materialModelID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="patrolParameterName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="referenceValue" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="priority" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="unitsID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    patrolParameterID ID, materialModelID, patrolParameterName, referenceValue, priority, 
+    unitsID, availability, description
+  </sql>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from patrolParameter
+    where patrolParameterID = #{ID,jdbcType=INTEGER}
+  </select>
+  <select id="findByMaterialID" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from patrolParameter
+    where materialModelID = #{materialModelID,jdbcType=INTEGER}
+  </select>
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from patrolParameter
+    where patrolParameterID = #{ID,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="ig.device.domain.model.patrol.PatrolParameter" >
+    insert into patrolParameter (patrolParameterID, materialModelID, 
+      patrolParameterName, referenceValue, priority, 
+      unitsID, availability, description
+      )
+    values (#{patrolParameterID,jdbcType=INTEGER}, #{materialModelID,jdbcType=INTEGER}, 
+      #{patrolParameterName,jdbcType=VARCHAR}, #{referenceValue,jdbcType=DECIMAL}, #{priority,jdbcType=INTEGER}, 
+      #{unitsID,jdbcType=INTEGER}, #{availability,jdbcType=TINYINT}, #{description,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="ig.device.domain.model.patrol.PatrolParameter" >
+    insert into patrolParameter
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="patrolParameterID != null" >
+        patrolParameterID,
+      </if>
+      <if test="materialModelID != null" >
+        materialModelID,
+      </if>
+      <if test="patrolParameterName != null" >
+        patrolParameterName,
+      </if>
+      <if test="referenceValue != null" >
+        referenceValue,
+      </if>
+      <if test="priority != null" >
+        priority,
+      </if>
+      <if test="unitsID != null" >
+        unitsID,
+      </if>
+      <if test="availability != null" >
+        availability,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="patrolParameterID != null" >
+        #{patrolParameterID,jdbcType=INTEGER},
+      </if>
+      <if test="materialModelID != null" >
+        #{materialModelID,jdbcType=INTEGER},
+      </if>
+      <if test="patrolParameterName != null" >
+        #{patrolParameterName,jdbcType=VARCHAR},
+      </if>
+      <if test="referenceValue != null" >
+        #{referenceValue,jdbcType=DECIMAL},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="unitsID != null" >
+        #{unitsID,jdbcType=INTEGER},
+      </if>
+      <if test="availability != null" >
+        #{availability,jdbcType=TINYINT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ig.device.domain.model.patrol.PatrolParameter" >
+    update patrolParameter
+    <set >
+      <if test="materialModelID != null" >
+        materialModelID = #{materialModelID,jdbcType=INTEGER},
+      </if>
+      <if test="patrolParameterName != null" >
+        patrolParameterName = #{patrolParameterName,jdbcType=VARCHAR},
+      </if>
+      <if test="referenceValue != null" >
+        referenceValue = #{referenceValue,jdbcType=DECIMAL},
+      </if>
+      <if test="priority != null" >
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="unitsID != null" >
+        unitsID = #{unitsID,jdbcType=INTEGER},
+      </if>
+      <if test="availability != null" >
+        availability = #{availability,jdbcType=TINYINT},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where patrolParameterID = #{ID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ig.device.domain.model.patrol.PatrolParameter" >
+    update patrolParameter
+    set materialModelID = #{materialModelID,jdbcType=INTEGER},
+      patrolParameterName = #{patrolParameterName,jdbcType=VARCHAR},
+      referenceValue = #{referenceValue,jdbcType=DECIMAL},
+      priority = #{priority,jdbcType=INTEGER},
+      unitsID = #{unitsID,jdbcType=INTEGER},
+      availability = #{availability,jdbcType=TINYINT},
+      description = #{description,jdbcType=VARCHAR}
+    where patrolParameterID = #{ID,jdbcType=INTEGER}
+  </update>
+  <update id="remove" parameterType="java.lang.Integer" >
+    update patrolParameter
+    set  availability = 0
+    where patrolParameterID = #{ID,jdbcType=INTEGER}
+  </update>
+   <update id="removeByMaterialID" parameterType="java.lang.Integer" >
+    update patrolParameter
+    set  availability = 0
+    where materialModelID = #{materialModelID,jdbcType=INTEGER}
+  </update>
+</mapper>

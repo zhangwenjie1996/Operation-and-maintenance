@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.fault.query.IRepaireInvoiceQueryMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.viewmodel.fault.RepaireInvoiceViewModel" >
+    <constructor >
+      <idArg column="repairedID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="repairedCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="itemCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="faultID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="faultReason" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="faultPhenomena" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="repairedState" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="createDate" jdbcType="DATE" javaType="java.util.Date" />
+      <arg column="operationDate" jdbcType="DATE" javaType="java.util.Date" />
+      <arg column="repairedStep" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="availability1" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="faultType" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    repairedID,repairedCode, itemCode, faultID, faultReason, faultPhenomena, repairedState,
+     createDate, operationDate, repairedStep, availability1 ,faultType
+  </sql>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from repaired
+    where repairedID = #{repairedID,jdbcType=INTEGER}
+  </select>
+  
+  <select id="findAll" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from repaired
+  </select>
+  
+  <select id="findFaultID" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from repaired
+    where faultID = #{faultID,jdbcType=INTEGER} 
+  </select>
+  
+  <select id="findRepaireCondition" resultMap="BaseResultMap" parameterType="ig.archer.infrastructure.data.PagingData">
+  		select 
+  		<include refid="Base_Column_List" />
+  		from repaired 
+  		where 1=1
+ 		<if test='rows.faultID != null and rows.faultID != ""'> 
+  			<![CDATA[
+   			AND faultID = #{rows.faultID} 
+   			]]> 
+  		</if>
+  		<if test='rows.repairedState != null and rows.repairedState != ""'> 
+  			<![CDATA[
+   			AND repairedState = #{rows.repairedState} 
+   			]]> 
+  		</if>
+  		<if test='rows.availability1 != null and rows.availability1 != ""'>
+  			<![CDATA[
+  			AND availability1 = #{rows.availability1}
+  			]]>
+  		</if>
+  		limit #{pageStart}, #{rowCount}
+  	</select>
+  	
+  	<select id="findRepaireConditionCount" resultType="java.lang.Integer" parameterType="ig.archer.infrastructure.data.PagingData">
+  		select 
+  		count(1)
+  		from repaired 
+  		where 1=1 
+ 		<if test='rows.faultID != null and rows.faultID != ""'> 
+  			<![CDATA[
+   			AND faultID = #{rows.faultID} 
+   			]]> 
+  		</if>
+  		<if test='rows.repairedState != null and rows.repairedState != ""'> 
+  			<![CDATA[
+   			AND repairedState = #{rows.repairedState} 
+   			]]> 
+  		</if>
+  		<if test="rows.availability1 != null">
+  			<![CDATA[
+  			AND availability1 = #{rows.availability1}
+  			]]>
+  		</if>
+  	</select>
+  
+</mapper>

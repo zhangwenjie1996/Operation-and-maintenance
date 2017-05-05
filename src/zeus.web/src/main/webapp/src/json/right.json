@@ -1,0 +1,18 @@
+[
+  {
+    "roleID": 1,
+    "roleName": "数据架构"
+  },
+  {
+    "roleID": 2,
+    "roleName": "管理员"
+  },
+  {
+    "roleID": 3,
+    "roleName": "超级管理员"
+  },
+  {
+    "roleID": 4,
+    "roleName": "用户"
+  }
+]

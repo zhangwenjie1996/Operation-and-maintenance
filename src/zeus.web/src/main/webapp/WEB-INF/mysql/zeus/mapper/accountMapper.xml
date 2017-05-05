@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.command.IAccountRepository">
+    <resultMap id="BaseResultMap" type="ig.zeus.domain.model.Account">
+        <id column="accountID" property="ID" jdbcType="INTEGER"/>
+        <result column="accountName" property="accountname" jdbcType="VARCHAR"/>
+        <result column="accountPass" property="accountpass" jdbcType="CHAR"/>
+        <result column="availability" property="availability" jdbcType="BIT"/>
+    </resultMap>
+    <delete id="remove" parameterType="java.lang.Integer">
+    delete from account
+    where accountID = #{ID,jdbcType=INTEGER}
+  </delete>
+    <insert id="add" parameterType="ig.zeus.domain.model.Account">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="ID">
+            SELECT LAST_INSERT_ID() AS ID
+        </selectKey>
+        insert into account (accountName, accountPass,
+        availability)
+        values (#{accountname,jdbcType=VARCHAR}, MD5(#{accountpass,jdbcType=CHAR}),
+        #{availability,jdbcType=BIT})
+    </insert>
+    <update id="update" parameterType="ig.zeus.domain.model.Account">
+        update account
+        set accountName = #{accountname,jdbcType=VARCHAR},
+        <if test="accountpass!=null and accountpass!=''">
+            accountPass = MD5(#{accountpass,jdbcType=CHAR}),
+        </if>
+        availability = #{availability,jdbcType=BIT}
+        where accountID = #{ID,jdbcType=INTEGER}
+    </update>
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select accountID, accountName, accountPass, availability
+    from account
+    where accountID = #{ID,jdbcType=INTEGER}
+  </select>
+    <select id="findAll" resultMap="BaseResultMap">
+    select accountID, accountName, accountPass, availability
+    from account
+  </select>
+    <insert id="addRole" parameterType="java.lang.Integer">
+    insert into accountRole (accountID, roleID)
+    values (#{0},#{1})
+  </insert>
+    <delete id="removeRole" parameterType="java.lang.Integer">
+    delete from accountRole
+    where accountID = #{0} and roleID= #{1}
+  </delete>
+    <select id="findByName" resultMap="BaseResultMap" parameterType="ig.zeus.domain.model.Account">
+    select accountID, accountName, accountPass, availability
+    from account
+    where accountName = #{accountName,jdbcType=VARCHAR}
+  </select>
+    <!-- 账户角色关系 -->
+    <insert id="addRoleAccount" parameterType="java.lang.Integer">
+  insert into accountRole (accountID,roleID) values(#{0},#{1})
+  </insert>
+    <update id="updateRoleAccount" parameterType="java.lang.Integer">
+  	update accountRole set roleID=#{1} where accountID=#{0}
+  </update>
+    <delete id="removeRoleAccount" parameterType="java.lang.Integer">
+  	delete from accountRole where accountID=#{ID,jdbcType=INTEGER}
+  
+  </delete>
+</mapper>

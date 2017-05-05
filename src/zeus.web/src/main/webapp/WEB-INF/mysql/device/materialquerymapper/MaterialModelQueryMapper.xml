@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.material.querymapper.IMaterialModelQueryMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.viewmodel.material.MaterialModelViewModel" >
+    <constructor >
+      <idArg column="materialModelID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="materialCategoryID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="supMaterialModelID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="materialModelName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="materialModelCode" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="maxInventory" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="minInventory" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="providerID" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="providerName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="materialPrice" jdbcType="DOUBLE" javaType="java.lang.Double" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    materialModelID, materialCategoryID, supMaterialModelID, materialModelName, materialModelCode, 
+    maxInventory, minInventory, providerID, providerName, availability, description, materialPrice
+  </sql>
+  <select id="findByIdPage" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from materialModel
+    where availability=1 and materialModelID = #{2} limit #{0},#{1}
+  </select>
+  
+  <select id="findByIdRelation" resultType="ig.device.domain.viewmodel.material.MaterialModelViewModel" parameterType="java.lang.Integer" >
+    select 
+    l.*
+    from materialModel l,materialRelation n
+    where l.materialModelID=n.materialModelID and n.availability=1 and n.materialModelID = #{0}
+     and n.supMaterialModelID = #{1}
+  </select>
+  
+  <select id="findById" resultType="ig.device.domain.viewmodel.material.MaterialModelViewModel" parameterType="java.lang.Integer" >
+    select 
+    *
+    from materialModel
+    where availability=1 and materialModelID = #{materialModelID,jdbcType=INTEGER} 
+  </select>
+  
+  <select id="findById2" resultType="ig.device.domain.viewmodel.material.MaterialModelViewModel" parameterType="java.lang.Integer" >
+    select 
+    *
+    from materialModel
+    where availability=0 and materialModelID = #{materialModelID,jdbcType=INTEGER} 
+  </select>
+  
+  <select id="findByIdCategory" resultType="ig.device.domain.viewmodel.material.MaterialModelViewModel" parameterType="java.lang.Integer" >
+    select 
+    l.*,m.materialCategoryName materialCategoryName
+    from materialModel l,materialCategory m
+    where l.availability=1 and l.materialModelID = #{materialModelID,jdbcType=INTEGER} and m.materialCategoryID=l.materialCategoryID 
+  </select>
+  
+  <select id="findByIdPageCount" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    select 
+    count(1)
+    from materialModel
+    where availability=1 and materialModelID = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="findAll" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from  materialModel
+    where availability=1
+  </select>
+  
+  <select id="findSupMaterialModelID" resultType="ig.device.domain.viewmodel.material.MaterialModelViewModel" parameterType="java.lang.Integer" >
+    select 
+    l.*,n.id materialRelationID
+    from materialModel l,materialRelation n
+    where l.materialModelID=n.materialModelID and n.availability=1 and n.supMaterialModelID = #{2} limit #{0}, #{1}
+  </select>
+  
+  <select id="findSMIDCount" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    select 
+    count(1)
+    from materialModel l,materialRelation n
+    where l.materialModelID=n.materialModelID and l.availability=1 and n.supMaterialModelID = #{supMaterialModelID,jdbcType=INTEGER}
+  </select>
+  
+  	<select id="findMultiCondition" resultType="ig.device.domain.viewmodel.material.MaterialModelViewModel" parameterType="ig.archer.infrastructure.data.PagingData">
+  		select * from materialModel 
+  		where 1=1 
+ 		<if test='rows.materialModelName != null and rows.materialModelName != ""'> 
+  			<![CDATA[
+   			AND materialModelName = #{rows.materialModelName} 
+   			]]> 
+  		</if>
+  		<if test='rows.materialModelCode != null and rows.materialModelCode != ""'>
+  			<![CDATA[
+  			AND materialModelCode = #{rows.materialModelCode}
+  			]]>
+  		</if>
+  		<if test='rows.providerName != null and rows.providerName != ""'>
+  			<![CDATA[
+  			AND providerName = #{rows.providerName}
+  			]]>
+  		</if>
+  		<if test='rows.materialCategoryID != null and rows.materialCategoryID != ""'>
+  			<![CDATA[
+  			AND materialCategoryID = #{rows.materialCategoryID}
+  			]]>
+  		</if> 
+  		<if test="rows.availability != null ">
+  			<![CDATA[
+  			AND availability = #{rows.availability}
+  			]]>
+  		</if> 
+  		limit #{pageStart}, #{rowCount}
+  	</select>
+  
+   <select id="findMultiConditionCount" parameterType="ig.archer.infrastructure.data.PagingData" resultType="java.lang.Integer">
+  		select COUNT(1) from materialModel
+  		where 1=1 
+  		<if test='rows.materialModelName != null and rows.materialModelName != ""'> 
+  			<![CDATA[
+   			AND materialModelName = #{rows.materialModelName} 
+   			]]> 
+  		</if>
+  		<if test='rows.materialModelCode != null and rows.materialModelCode != ""'>
+  			<![CDATA[
+  			AND materialModelCode = #{rows.materialModelCode}
+  			]]>
+  		</if>
+  		<if test='rows.providerName != null and rows.providerName != ""'>
+  			<![CDATA[
+  			AND providerName = #{rows.providerName}
+  			]]>
+  		</if>
+  		<if test='rows.materialCategoryID != null and rows.materialCategoryID != ""'>
+  			<![CDATA[
+  			AND materialCategoryID = #{rows.materialCategoryID}
+  			]]>
+  		</if>
+  		<if test="rows.availability != null ">
+  			<![CDATA[
+  			AND availability = #{rows.availability}
+  			]]>
+  		</if>  
+  	</select> 
+  
+  
+  
+</mapper>

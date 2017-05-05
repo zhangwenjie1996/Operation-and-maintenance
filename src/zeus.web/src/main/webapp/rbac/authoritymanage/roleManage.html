@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../src/css/quote/themes/default/style.min.css"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link href="../../src/css/quote/lib/jquery.bootgrid.min.css" rel="stylesheet"/>
+    <!-- alert -->
+	<link rel="stylesheet" type="text/css" href="../../src/alert/sweetalert2.min.css">
+    <link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+    <link href="http://getbootstrap.com/assets/css/docs.min.css" rel="stylesheet">
+    <!--<script type="text/javascript" src="dist/js/jquery.i18n.properties-1.0.9.js"></script>-->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript" src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript" src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+    <style>
+        #ajax.jstree-default .jstree-node {
+            border-bottom: 1px solid #ECECEC;
+        }
+
+        #ajax.jstree-default ul .jstree-node:last-child {
+            border-bottom: none;
+        }
+
+        #ajax.jstree-default .jstree-wholerow-clicked {
+            background: #EAEAEA;
+        }
+    </style>
+</head>
+<body>
+<div class="row roleM">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="tit">
+            <ol class="breadcrumb">
+                <li><a><i></i>角色权限</a></li>
+            </ol>
+           
+        </div>
+        <button class="addBtn btn btn-primary btn-sm"  type="button"> <i class="fa fa-plus"></i>增加
+            </button>
+              <div class="table-rp">
+        <table id="grid-data" class="table table-condensed table-hover table-striped">
+            <thead>
+            <tr>
+<!--                 <th data-column-id="roleid" data-identifier="true" data-type="numeric">序号</th> -->
+                <th data-column-id="rolename" data-identifier="true" data-type="numeric">角色名称</th>
+                <th data-column-id="roletype">角色类型</th>
+                <th data-column-id="quota">人数限制</th>
+                <th data-column-id="availability">有效性</th>
+                <th data-column-id="menuPermissions" data-formatter="menuPermissions">菜单权限</th>
+<!--                 <th data-column-id="ele" data-formatter="ele" data-order="desc">元素权限</th> -->
+                <th data-column-id="commands" data-formatter="commands" data-sortable="false">操作</th>
+            </tr>
+            </thead>
+        </table>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-sm-4 col-xs-12">
+        <!-- cd-popup-container-start -->
+        <div class="cd-popup" role="alert">
+            <div class="cd-popup-container cd-popup-w">
+                <!--<h1>菜单权限</h1>-->
+                <!--<a class="cd-popup-close icon-close fa fa-times"></a>-->
+                <!--<div id="ajax2" class="access-part"></div>-->
+                <!--<div class="cd-buttons">-->
+                <!--<button type="button" class="btn btn-primary cd-popup-close cd-btn cd-btn-save">保存</button>-->
+                <!--<button type="button" class="btn btn-danger cd-popup-close cd-btn cd-btn-deal">取消</button>-->
+                <!--</div>-->
+            </div>
+            <!-- cd-popup-container-end -->
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div id="dialog" class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">编辑</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="roleForm" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="rolename" class="col-sm-2 control-label">角色名称</label>
+
+                            <div class="col-sm-10">
+                            <input type="hidden" id="roleid" name="roleid" />
+                                <input type="text" class="form-control" id="rolename" name="rolename"
+                                       placeholder="rolename">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="roletype" class="col-sm-2 control-label">角色类型</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="roletype" name="roletype"
+                                       placeholder="角色类型">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="quota" class="col-sm-2 control-label">限制人数</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="quota" name="quota"
+                                       placeholder="限制人数">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="availability" class="col-sm-2 control-label">有效性</label>
+
+                            <div class="col-sm-10">
+                               	<select class="form-control" id="availability" name="availability">
+								<option value="1">有</option>
+								<option value="0">无</option>
+							</select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="save" data-dismiss="modal" class="btn btn-primary">保存</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <!--角色授权model -->
+    <div class="modal fade" id="authorzation" tabindex="-1" role="dialog" aria-labelledby="authorzation" >
+        <div class="modal-dialog" role="document" >
+            <div class="modal-content" style="height: 600px;width: 1000px;overflow: auto;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalRole"></h4>
+                </div>
+            	<div class="row menuM">
+					<div class="col-sm-3 col-md-3 col-lg-3">
+						<div class="row-tree-menu">
+							<ol class="breadcrumb">
+								<li><a href="#">系统选择</a></li>
+							</ol>
+							<div class="treeList">
+								<div class="col-sm-8 col-md-8 col-lg-8">
+								</div>
+								<div class="col-sm-4 col-md-4 col-lg-4">
+									<div class="text-right">
+										<button type="button" class="btn btn-danger" id="saveSystem">保存</button>
+									</div>
+								</div>
+								<div id="systemList" class="col-sm-12 col-md-12 col-lg-12">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4 col-md-4 col-lg-4">
+						<div class="row-tree-menu">
+							<ol class="breadcrumb">
+								<li><a href="#">菜单选择</a></li>
+							</ol>
+							<div class="treeList">
+								<div class="col-sm-8 col-md-8 col-lg-8">
+								</div>
+								<div class="col-sm-4 col-md-4 col-lg-4">
+									<div class="text-right">
+										<button type="button" class="btn btn-danger" id="saveMenu">保存</button>
+									</div>
+								</div>
+								<div id="menuList" class="menu-load"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-5 col-md-5 col-lg-5">
+						<div class="row-tree-menu">
+							<ol class="breadcrumb">
+								<li><a href="#">操作选择</a></li>
+							</ol>
+							<div class="treeList">
+								<div class="col-sm-8 col-md-8 col-lg-8"> </div>
+								<div class="col-sm-4 col-md-4 col-lg-4">
+									<div class="text-right">
+										<button type="button" class="btn btn-danger" id="saveElement">保存</button>
+									</div>
+								</div>
+								<div id="elementList" class="menu-load">
+								 <table id="grid-data2" class="table table-condensed table-hover table-striped">
+						            <thead>
+						            <tr>
+						                <th data-column-id="elementid" data-identifier="true" data-type="numeric">序号</th>
+						                <th data-column-id="elementname" data-order="desc">名称</th>
+						                <th data-column-id="signature">标识</th>
+						                <th data-column-id="availability">有效性</th>
+						                <th data-column-id="commands" data-formatter="commands" data-sortable="false">操作</th>
+						            </tr>
+						            </thead>
+		       					 </table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../src/alert/sweetalert2.min.js"></script> 
+	<!-- for IE support -->
+	<script src="../../src/alert/es6-promise.auto.min.js"></script>
+<script src="../../src/js/quote/jquery.ui.min.js"></script>
+<script src="../../src/js/quote/jstree.min.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+<script src="../../src/js/quote/bootstrapValidator.js"></script>
+<script type="text/javascript" src="../../src/js/packtreegrid/pack2.js"></script>
+<script type="text/javascript" src="../../src/js/dialog/dialog.js"></script>
+<script type="text/javascript" src="../../src/js/draggable/draggable.js"></script> 
+ 
+<script>
+//角色id
+var roleId="";
+var currentSystemId;
+var currentMenuId;
+var haveSystemIds=[];
+var haveMenuIds=[];
+var elementIds = [];
+//加载授权模态框
+	//加载菜单树
+	function loadMenu(id) {
+		currentSystemId = id;
+		$.ajax({
+			async : true,
+			url : "../../menu/findMenuTree?systemId=" + id,
+			type : "get",
+			success : function(data) {
+				var jsonData = JSON.parse(data);
+				var newData = jsonData.data;
+				callBack(newData, "menuList", planning,"../../permission/findMenuByRoleId");
+			}
+		});
+	}
+	//加载系统树
+	function loadSystem() {
+		$.ajax({
+			async : true,
+			url : "../../system/findSystemTree",
+			type : "get",
+			success : function(data) {
+				var jsonData = JSON.parse(data);
+				var newData = jsonData.data;
+				callBack(newData, "systemList", loadMenu,"../../permission/findSystemByRoleId");
+			}
+		});
+	}
+	function callBack(data, treeid, fun,url) {
+		var tree = $("#" + treeid);
+		var inst, clickedNode;
+		var $save = $("#save");
+		var reg = /^j1_(\d+)/;
+		pack.showCheckboxTree(data, treeid, "blue  fa fa-sitemap",
+				"search-tree",
+				[ "dnd", "search", "state", "types", "wholerow", "checkbox" ],
+				true, true, null).bind("activate_node.jstree",
+				function(e, data) {
+					var cur = data.node;
+					$("#currentDepart").html(cur.text);
+					var id = cur.id.replace(reg, "$1");
+					var flag = tree.jstree().is_parent(id);
+					if(!flag){
+						fun(id);
+					}
+				}).bind("loaded.jstree",function(e,data){
+					tree.jstree().clear_state();
+					 var inst = data.instance; 
+					$.get(url,{roleId:roleId},function(data){
+						if("Success"==data.state){
+				        	 	if("systemList"==treeid){
+									haveSystemIds.length=0;
+									$.each(data.data, function(i, item){
+						        	 	inst.check_node(item.resource);
+										haveSystemIds.push(item.resource);
+									})
+				        	 	}else if("menuList"==treeid){
+									haveMenuIds.length=0;
+									$.each(data.data, function(i, item){
+						        	 	inst.check_node(item.resource);
+					        	 		haveMenuIds.push(item.resource);
+									})
+				        	 	}
+						}
+					});
+				});
+	}
+	//增加按钮
+	$("#saveSystem,#saveMenu,#saveElement").on("click", function() {
+		var url = "";
+		var qdata={};
+			qdata.roleId=roleId;
+		if("saveSystem"==this.id){
+			//保存角色系统关系
+			url = "../../permission/addRoleSystem";
+			var systemIds = $("#systemList").jstree().get_checked();
+			if(systemIds.length==0){
+				systemIds.push(-1);
+			}
+			qdata.systemIds=systemIds;
+			$.post(url,qdata,function(data){
+	 			swal({text:data.message})
+	 			if("Success"==data.state){
+		 			haveSystemIds.length=0;
+		 			haveSystemIds.push.apply(haveSystemIds,systemIds);
+	 			}
+	 		});
+		} else if("saveMenu"==this.id){
+			//保存角色菜单关系
+			url = "../../permission/addRoleMenu";
+			if(haveSystemIds.toString().indexOf(currentSystemId)==-1){
+				swal({text:"请先授予系统权限"})
+				return;
+			}
+			var arr=[];
+			var ss = $("#menuList").jstree().get_checked();
+ 			for(var i=0;i<ss.length;i++){
+ 				var b = $("#menuList").jstree().get_parent(ss[i]);
+ 				while(b!="#"){
+	 				arr.push(b);
+ 					b = $("#menuList").jstree().get_parent(b);
+ 				}
+ 			}
+ 			arr.push.apply(arr,ss);
+ 			var dd ={};
+ 			for(var i=0;i<arr.length;i++){
+ 				var temp = arr[i];
+ 				dd[temp]=arr[i];
+ 			}
+ 			var nss = [];
+ 			for(var key in dd){
+ 				nss.push(key);
+ 			}
+ 			if(nss.length==0){
+ 				nss.push(-1);
+			}
+ 			qdata.menuIds=nss;
+ 			$.post(url,qdata,function(data){
+	 			swal({text:data.message})
+	 			if(data.state=="Success"){
+	 				haveMenuIds.length=0;
+	 				haveMenuIds.push.apply(haveMenuIds,ss);
+	 			}
+	 		});
+		}else if("saveElement"==this.id){
+			//保存角色元素关系
+			url = "../../permission/addRoleElement";
+			if(haveMenuIds.toString().indexOf(currentMenuId)==-1){
+			swal({text:"请先授予其菜单权限"})
+				return;
+			}
+			var permissions=[];
+			for(var i=0;i<elementIds.length;i++){
+				var p = $("#permission"+elementIds[i]).val();
+				if(""==p||p==undefined){
+					p=1;
+				}
+				permissions.push(p);
+			}
+			if(elementIds.length==0){
+				elementIds.push(-1);
+				permissions.push(-1);
+			}
+			qdata.permissions=permissions;
+			qdata.elementIds=elementIds;
+			$.post(url,qdata,function(data){
+				swal({text:data.message})
+	 		});
+		}
+	});	
+	//加载元素grid
+  var planning = function (menuId) {
+	  currentMenuId=menuId;
+    $("#grid-data2").bootgrid("destroy");
+    var idname = "elementid";
+    var formatters={
+           "commands": function (column, row) {
+               return '<select id="permission'+row[idname]+'" class="command-select" >  <option value="0">显示</option> <option value="2">隐藏</option>  <option value="3">禁用</option> </select>';
+           }
+       }
+   var grid= pack.gridInit("../../element/findAllByMenuId?menuId="+menuId, "grid-data2",formatters).on("loaded.rs.jquery.bootgrid", function () {
+	       $().tip();
+	       
+	       grid.find(".command-select").on("change", function (e) {
+	         // alert("hello");
+	       });
+	       grid.find(".select-box").on("change",function(){
+	    	   var elementId = this.value;
+	    	   if(elementIds.toString().indexOf(elementId)>-1){
+	    		   //包含该id 删除
+	    		   var index = $.inArray(elementId,elementIds);
+    				elementIds.splice(index,1);
+	    	   }else{
+	    		   //不包含 添加
+	    		   elementIds.push(elementId);
+	    	   }
+	       });
+			$("#grid-data2-header").empty();
+			 $.get("../../permission/findElementByRoleId",{roleId:roleId},function(data){
+					elementIds.length=0;
+					$.each(data.data,function(i,item){
+						elementIds.push(item.resource);
+						grid.find(".select-box[value="+item.resource+"]").attr("checked","checked");
+						grid.find(".command-select[id=permission"+item.resource+"]").val(item.permission);
+					});
+				});
+        });
+    };
+
+
+
+    var $cdBtnSave = $(".cd-btn-save");
+    var planningFilter = function (url) {
+        var params = {};
+        $(".addBtn").on("click", function (e) {
+            $('#myModal').modal();
+            $("#save").off("click");
+            $("#roleForm")[0].reset();
+            $("#save").on("click", function (e) {
+                var arr = $("#roleForm").serialize();
+                $.post('../../role/add', arr, function (data) {
+                    if (data.state == "Success") {
+                    	swal({text:data.message})
+                    } else {
+                    	swal({text:data.message})
+                    }
+                }, 'json')
+            });
+        });
+        // NOTE: I have multiple types of basic filters.
+        // eg: Planning, Approved, Completed
+        $("#grid-data").bootgrid("destroy");
+        var idname = "roleid";
+       var  formatters={
+            "commands": function (column, row) {
+                return "<a  abs=\"编辑\"  class=\"btn-color btn btn-xs btn-default command-edit\" data-row-id=\"" + row[idname]+ "\"><span class=\"glyphicon glyphicon-pencil\"></span></a> " +
+                        "<a  abs=\"删除\" class=\"btn-color btn btn-xs btn-default command-delete\" data-row-id=\"" +row[idname] + "\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+            },
+            "menuPermissions": function (column, row) {
+                return "<a id="+row["rolename"]+"  class='menuPermissions btn btn-primary' data-row-id=\"" +row[idname]+ "\"> <span class=\"fa fa-check\"></span>菜单权限 </a>";
+            }
+        }
+        var grid=pack.gridInit(url, "grid-data",formatters).on("loaded.rs.jquery.bootgrid", function () {
+            $().tip();
+            /* Executes after data is loaded and rendered */
+            grid.find(".command-delete").on("click", function (e){
+                    var _this = this;
+        	swal({text:"删除第"+$(this).attr("data-row-id")+"行"});
+            $.post("../../role/delete", {
+            	id: $(this).attr("data-row-id")
+            }, function (data) {
+                $(_this).parents('tr').remove();
+            }, 'json');
+        }).end().find(".command-edit").on("click", function (e) {
+        	$("#roleForm")[0].reset();
+                $.get('../../role/findById', {roleid: $(this).attr("data-row-id")}, function (data) {
+                    $('#myModal').modal();
+                    var d =data.data;
+                    for (key in d) {
+                        $("#" + key).val(d[key])
+                    }
+                }, 'json');
+                $("#save").off("click");
+                $("#save").on("click", function (e) {
+                    var arr = $("#roleForm").serialize();
+                    $.post('../../role/update', arr, function (data) {
+                        if (data.state == "Success") {
+                        	 $("#grid-data").bootgrid("reload");
+                        	swal({text:data.message})
+                        } else {
+                        	swal({text:data.message})
+                        }
+                    }, 'json')
+                });
+            }).end().find(".menuPermissions").on("click", function (e) {
+				roleId = $(this).attr("data-row-id");
+				var roleName = $(this).attr("id");
+				$("#myModalRole").html("为"+roleName+"授权");
+				 $('#authorzation').modal();
+				 loadSystem();
+				//var returnVal = window.showModalDialog("authorzation.html",obj);
+            })
+            $(".text-left").remove("class").attr("class","text-center");
+        });
+    };
+    planningFilter("../../role/findAll");
+    function cb() {
+        var treeid = "ajax2";
+        var reg = /^j1_(\d+)/;
+        $('#' + treeid).jstree(false);
+        $.ajaxSetup({cache: false});
+        pack.showCheckboxTree("../../menuQuery/findAll", treeid, "blue  fa fa-sitemap", "search-tree", ["dnd", "search",
+                    "state", "types", "wholerow", "checkbox"], true, false, null
+        ).bind("check_node.jstree", function (e, data) {
+                    var nodes = $("#" + treeid).jstree().get_checked("true");
+                    var ary = [];
+                    $.each(nodes, function (index, item) {
+                        ary.push({menuName: item.text, menuId: item.id.replace(reg, "$1")});
+                    });
+                    $cdBtnSave.off("click");
+                    $cdBtnSave.on("click", function (e) {
+                        $.post('../../src/json/data.json', {key: ary}, function (data) {
+                        	swal({text:data.message})
+                        }, 'json');
+                    });
+                });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="ig.device.domain.mapper.patrol.querymapper.IPatrolPlanQueryMapper">
+	<sql id="Base_Column_List">
+		patrolPlanID, patrolPlanName, patrolGroupID, patrolRouteID,DATE_FORMAT(start,'%Y-%m-%d') start,
+		DATE_FORMAT(end,'%Y-%m-%d') end,
+		period, availability,
+		description,,taskStartTime,taskEndTime
+	</sql>
+	<select id="findById" resultType="ig.device.domain.viewmodel.patrol.PatrolPlanViewModel" parameterType="java.lang.Integer">
+		SELECT a.patrolPlanID,a.patrolPlanName, a.patrolGroupID,a.patrolRouteID,c.patrolGroupName, b.patrolRouteName,DATE_FORMAT(a.start,'%Y-%m-%d') start,DATE_FORMAT(a.end,'%Y-%m-%d') end,
+		a.period, a.availability,
+		a.description ,taskStartTime,taskEndTime 
+		FROM patrolPlan a LEFT JOIN patrolGroup c
+		 ON a.patrolGroupID=c.patrolGroupID LEFT JOIN patrolRoute b
+		ON a.patrolRouteID=b.patrolRouteID
+		where patrolPlanID = #{patrolPlanID,jdbcType=INTEGER}
+	</select>
+	<select id="findAll" resultType="ig.device.domain.viewmodel.patrol.PatrolPlanViewModel">
+		SELECT a.patrolPlanID,a.patrolPlanName, a.patrolGroupID,a.patrolRouteID,c.patrolGroupName, b.patrolRouteName,DATE_FORMAT(a.start,'%Y-%m-%d') a.start,DATE_FORMAT(a.end,'%Y-%m-%d') a.end,
+		a.period, a.availability,
+		a.description ,taskStartTime,taskEndTime
+		 FROM patrolPlan a LEFT JOIN patrolGroup c
+		 ON a.patrolGroupID=c.patrolGroupID LEFT JOIN patrolRoute b
+		ON a.patrolRouteID=b.patrolRouteID
+	</select>
+	<select id="count" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM patrolPlan where availability=1
+	</select>
+
+	<select id="findPageData" parameterType="ig.archer.infrastructure.data.PagingData"
+		resultType="ig.device.domain.viewmodel.patrol.PatrolPlanViewModel">
+		SELECT a.patrolPlanID,a.patrolPlanName, a.patrolGroupID,a.patrolRouteID,c.patrolGroupName, b.patrolRouteName,DATE_FORMAT(a.start,'%Y-%m-%d') start,DATE_FORMAT(a.end,'%Y-%m-%d') end,
+		a.period, a.availability,
+		a.description ,taskStartTime,taskEndTime
+		 FROM patrolPlan a LEFT JOIN patrolGroup c
+		 ON a.patrolGroupID=c.patrolGroupID LEFT JOIN patrolRoute b
+		ON a.patrolRouteID=b.patrolRouteID where   a.availability=1
+		limit #{pageStart}, #{rowCount}
+	</select>
+
+	<select id="findPageDataByPlan" parameterType="ig.archer.infrastructure.data.PagingData"
+		resultType="ig.device.domain.viewmodel.patrol.PatrolPlanViewModel">
+		SELECT a.patrolPlanID, a.patrolPlanName,a.patrolGroupID,a.patrolRouteID,c.patrolGroupName, b.patrolRouteName,DATE_FORMAT(a.start,'%Y-%m-%d') start,DATE_FORMAT(a.end,'%Y-%m-%d') end,
+		a.period, a.availability,
+		a.description ,taskStartTime,taskEndTime 
+		FROM patrolPlan a LEFT JOIN patrolGroup c
+		 ON a.patrolGroupID=c.patrolGroupID LEFT JOIN patrolRoute b
+		ON a.patrolRouteID=b.patrolRouteID where   a.availability=1
+		
+			<if test="rows.patrolGroupID != null and rows.patrolGroupID!=0">
+				and a.patrolGroupID= #{rows.patrolGroupID,jdbcType=INTEGER}
+			</if>
+			<if test="rows.patrolRouteID != null and rows.patrolRouteID!=0">
+				and a.patrolRouteID= #{rows.patrolRouteID,jdbcType=INTEGER}
+			</if>
+			<if test="rows.start != null and rows.start!='' ">
+				and a.start &gt; #{rows.start,jdbcType=TIMESTAMP}
+			</if>
+			<if test="rows.end != null and rows.end!='' ">
+				and a.end &lt; #{rows.end,jdbcType=TIMESTAMP}
+			</if>
+			<if test="rows.period != null">
+				and a.period=#{rows.period,jdbcType=INTEGER}
+			</if>
+	
+		limit #{pageStart}, #{rowCount}
+	</select>
+
+	<select id="countByPage"
+		parameterType="ig.device.domain.viewmodel.patrol.PatrolPlanViewModel"
+		resultType="java.lang.Integer">
+		select count(patrolPlanID) from patrolPlan where   availability=1
+		
+			<if test="patrolGroupID != null and patrolGroupID!=0">
+				and patrolGroupID= #{patrolGroupID,jdbcType=INTEGER}
+			</if>
+			<if test="patrolRouteID != null and patrolRouteID!=0">
+				and patrolRouteID= #{patrolRouteID,jdbcType=INTEGER}
+			</if>
+			<if test="start != null and start!=''">
+				and start &gt; #{start,jdbcType=TIMESTAMP}
+			</if>
+			<if test="end != null and end!=''">
+				and end &lt; #{end,jdbcType=TIMESTAMP}
+			</if>
+			<if test="period != null">
+				and period=#{period,jdbcType=INTEGER}
+			</if>
+	</select>
+</mapper>

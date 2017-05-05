@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.command.ISystemRespository">
+    <resultMap id="BaseResultMap" type="ig.zeus.domain.model.resource.System">
+        <id column="systemID" property="ID" jdbcType="INTEGER"/>
+        <result column="systemName" property="name" jdbcType="VARCHAR"/>
+        <result column="signature" property="signature" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="availability" property="availability" jdbcType="BIT"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+    </resultMap>
+    <delete id="remove" parameterType="java.lang.Integer">
+    delete from system
+    where systemID = #{ID,jdbcType=INTEGER}
+  </delete>
+    <insert id="add" parameterType="ig.zeus.domain.model.resource.System">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="ID">
+            SELECT LAST_INSERT_ID() AS ID
+        </selectKey>
+        insert into system (systemName, signature,
+        url, availability, description
+        )
+        values (#{name,jdbcType=VARCHAR}, #{signature,jdbcType=VARCHAR},
+        #{url,jdbcType=VARCHAR}, #{availability,jdbcType=BIT}, #{description,jdbcType=VARCHAR}
+        )
+    </insert>
+    <update id="update" parameterType="ig.zeus.domain.model.resource.System">
+    update system
+    set systemName = #{name,jdbcType=VARCHAR},
+      signature = #{signature,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      availability = #{availability,jdbcType=BIT},
+      description = #{description,jdbcType=VARCHAR}
+    where systemID = #{ID,jdbcType=INTEGER}
+  </update>
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select systemID, systemName, signature, url, availability, description
+    from system
+    where systemID = #{ID,jdbcType=INTEGER}
+  </select>
+    <select id="findAll" resultMap="BaseResultMap">
+    select systemID, systemName, signature, url, availability, description
+    from system
+  </select>
+</mapper>

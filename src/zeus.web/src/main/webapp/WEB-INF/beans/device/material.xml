@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+	<!-- ============== Repository ============== -->
+	<!-- Command -->
+	<bean id="iMaterialCategoryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.material.IMaterialCategoryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMaterialRelationMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.material.IMaterialRelationMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMaterialModelMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.material.IMaterialModelMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iParameterMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.material.IParameterMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iSpecificationMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.material.ISpecificationMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iUnitMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.material.IUnitMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iCheckParametersMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.material.ICheckParametersMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMaintainApproachMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.material.IMaintainApproachMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+	<!-- Query -->
+	<bean id="iMaterialCategoryQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.material.querymapper.IMaterialCategoryQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMaterialModelQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.material.querymapper.IMaterialModelQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iModelParameterQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.material.querymapper.IModelParameterQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iSpecificationsQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.material.querymapper.ISpecificationsQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iUnitsQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.material.querymapper.IUnitsQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iCheckParametersQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.material.querymapper.ICheckParametersQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMaintainApproachQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.material.querymapper.IMaintainApproachQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	
+	
+     <!-- ============== Repository ============== -->
+     <!-- Command -->
+     <bean id="iMaterialCategoryRepository" name="IMaterialCategoryRepository"
+		class="ig.device.domain.repository.material.MaterialCategoryRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iMaterialRelationRepository" name="IMaterialRelationRepository"
+		class="ig.device.domain.repository.material.MaterialRelationRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iMaterialModelRepository" name="IMaterialModelRepository"
+		class="ig.device.domain.repository.material.MaterialModelRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iModelParameterRepository" name="IModelParameterRepository"
+		class="ig.device.domain.repository.material.ParameterRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iSpecificationsRepository" name="ISpecificationsRepository"
+		class="ig.device.domain.repository.material.SpecificationRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iUnitRepository" name="IUnitRepository"
+		class="ig.device.domain.repository.material.UnitRepository"
+		autowire="byName">
+	</bean>
+	<bean id="icheckParametersRepository" name="IcheckParametersRepository"
+		class="ig.device.domain.repository.material.CheckParametersRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iMaintainApproachRepository" name="IMaintainApproachRepository"
+		class="ig.device.domain.repository.material.MaintainApproachRepository"
+		autowire="byName">
+	</bean>
+	
+	<!-- ============== Service ============== -->
+	<!-- Command -->
+	<bean id="iMaterialCategoryService" name="IMaterialCategoryService"
+		class="ig.device.domain.service.commandhandler.material.basis.MaterialCategoryService"
+		autowire="byName">
+	</bean>
+	<bean id="iMaterialRelationService" name="IMaterialRelationService"
+		class="ig.device.domain.service.commandhandler.material.basis.MaterialRelationService"
+		autowire="byName">
+	</bean>
+	<bean id="iMaterialModelService" name="IMaterialModelService"
+		class="ig.device.domain.service.commandhandler.material.basis.MaterialModelService"
+		autowire="byName">
+	</bean>
+	<bean id="iModelParameterService" name="IModelParameterService"
+		class="ig.device.domain.service.commandhandler.material.basis.ModelParameterService"
+		autowire="byName">
+	</bean>
+	<bean id="iSpecificationsService" name="ISpecificationsService"
+		class="ig.device.domain.service.commandhandler.material.basis.SpecificationsService"
+		autowire="byName">
+	</bean>
+	<bean id="IUnitsService" name="IUnitsService"
+		class="ig.device.domain.service.commandhandler.material.basis.UnitsService"
+		autowire="byName">
+	</bean>
+	<bean id="iCheckParametersService" name="ICheckParametersService"
+		class="ig.device.domain.service.commandhandler.material.basis.CheckParametersService"
+		autowire="byName">
+	</bean>
+	<bean id="iMaintainApproachService" name="IMaintainApproachService"
+		class="ig.device.domain.service.commandhandler.material.basis.MaintainApproachService"
+		autowire="byName">
+	</bean>
+	
+
+	<!-- ============== Application ============== -->
+	<!-- Command -->
+	<bean id="iMaterialCategoryApp" name="IMaterialCategoryApp"
+		class="ig.device.application.commandhandler.material.basis.MaterialCategoryApp"
+		autowire="byName">
+	</bean>
+	<bean id="iMaterialRelationApp" name="IMaterialRelationApp"
+		class="ig.device.application.commandhandler.material.basis.MaterialRelationApp"
+		autowire="byName">
+	</bean>
+	<bean id="iMaterialModelApp" name="IMaterialModelApp"
+		class="ig.device.application.commandhandler.material.basis.MaterialModelApp"
+		autowire="byName">
+	</bean>
+	<bean id="iModelParameterApp" name="IModelParameterApp"
+		class="ig.device.application.commandhandler.material.basis.ModelParameterApp"
+		autowire="byName">
+	</bean>
+	<bean id="iSpecificationApp" name="ISpecificationApp"
+		class="ig.device.application.commandhandler.material.basis.SpecificationApp"
+		autowire="byName">
+	</bean>
+	<bean id="iUnitsApp" name="IUnitsApp"
+		class="ig.device.application.commandhandler.material.basis.UnitsApp"
+		autowire="byName">
+	</bean>
+	<bean id="iCheckParametersApp" name="ICheckParametersApp"
+		class="ig.device.application.commandhandler.material.basis.CheckParametersApp"
+		autowire="byName">
+	</bean>
+	<bean id="iMaintainApproachApp" name="IMaintainApproachApp"
+		class="ig.device.application.commandhandler.material.basis.MaintainApproachApp"
+		autowire="byName">
+	</bean>
+	
+	
+
+	<!-- Query -->
+	<bean id="iMaterialCategoryQueryApp" name="IMaterialCategoryQueryApp"
+		class="ig.device.application.query.material.basis.MaterialCategoryQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="iMaterialModelQueryApp" name="IMaterialModelQueryApp"
+		class="ig.device.application.query.material.basis.MaterialModelQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="iModelParameterQueryApp" name="IModelParameterQueryApp"
+		class="ig.device.application.query.material.basis.ModelParameterQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="iSpecificationQueryApp" name="ISpecificationQueryApp"
+		class="ig.device.application.query.material.basis.SpecificationQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="iUnitsQueryApp" name="IUnitsQueryApp"
+		class="ig.device.application.query.material.basis.UnitsQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="iCheckParametersQueryApp" name="ICheckParametersQueryApp"
+		class="ig.device.application.query.material.basis.CheckParametersQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="iMaintainApproachQueryApp" name="IMaintainApproachQueryApp"
+		class="ig.device.application.query.material.basis.MaintainApproachQueryApp"
+		autowire="byName">
+	</bean>
+
+</beans>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.query.IMenuQueryRepository">
+	<resultMap id="BaseResultMap"
+		type="ig.zeus.domain.repository.viewmodel.MenuViewModel">
+		<id column="menuID" property="menuid" jdbcType="INTEGER" />
+		<result column="systemID" property="systemid" jdbcType="INTEGER" />
+		<result column="parentMenuID" property="parentmenuid" jdbcType="INTEGER" />
+		<result column="menuName" property="menuname" jdbcType="VARCHAR" />
+		<result column="sequence" property="sequence" jdbcType="INTEGER" />
+		<result column="iconStyle" property="iconstyle" jdbcType="VARCHAR" />
+		<result column="URLAddress" property="urladdress" jdbcType="VARCHAR" />
+		<result column="signature" property="signature" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="count" resultType="java.lang.Integer">
+		SELECT COUNT(1)FROM menu
+	</select>
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select menuID, systemID, parentMenuID, menuName, sequence, iconStyle,
+		URLAddress,
+		signature, description
+		from menu
+		where menuID =
+		#{menuid,jdbcType=INTEGER}
+	</select>
+	<select id="findAll" resultMap="BaseResultMap">
+		select menuID, systemID,
+		parentMenuID, menuName, sequence, iconStyle,
+		URLAddress,
+		signature,
+		description
+		from menu
+	</select>
+	<select id="findPageData" parameterType="ig.archer.infrastructure.data.PagingData"
+		resultType="ig.zeus.domain.repository.viewmodel.MenuViewModel">
+		select * from menu
+		limit #{pageStart}, #{rowCount}
+	</select>
+	<select id="findMenuTree" parameterType="java.lang.Integer"
+		resultType="ig.zeus.domain.repository.viewmodel.TreeListViewModel">
+		SELECT menuID id, parentMenuID parent, menuName
+		text,URLAddress URL FROM menu where systemID=#{systemID}
+	</select>
+	<!-- 账号为superadmin 查询出全部的菜单 -->
+	<select id="findMenuAllTree" parameterType="java.lang.Integer"
+		resultType="ig.zeus.domain.repository.viewmodel.TreeViewModel">
+		SELECT m.menuID id, m.iconStyle,m.parentMenuID parent, m.menuName
+		TEXT,m.URLAddress URL FROM menu m WHERE m.systemID=#{0}  
+		 order by m.sequence ,m.menuID  
+	</select>
+	<select id="findMenuTreeByRole" parameterType="java.lang.Integer"
+		resultType="ig.zeus.domain.repository.viewmodel.TreeViewModel">
+		SELECT m.menuID id, m.iconStyle,m.parentMenuID parent, m.menuName
+		TEXT,m.URLAddress URL FROM menu m LEFT JOIN roleMenu rm
+		ON m.menuID=rm.menuID LEFT JOIN role r ON r.roleID=rm.roleID LEFT JOIN
+		accountRole ar ON r.roleID=ar.roleID WHERE m.systemID=#{0} and ar.accountID=#{1} 
+		 order by m.sequence ,m.menuID 
+	</select>
+
+</mapper>

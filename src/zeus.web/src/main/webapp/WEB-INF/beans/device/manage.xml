@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+	<!-- ============== Mapping ============== -->
+	<!-- Command -->
+	<bean id="iDeviceAreaMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.manage.IDeviceAreaMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iDeviceInfoMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.manage.IDeviceInfoMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iDeviceMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="ig.device.domain.mapper.manage.IDeviceMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+	<!-- Query -->
+	<bean id="iDeviceAreaQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.manage.query.IDeviceAreaQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iDeviceQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.manage.query.IDeviceQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iDeviceInfoQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.manage.query.IDeviceInfoQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+
+	<!-- ============== Repository ============== -->
+	<!-- Command -->
+	<bean id="iDeviceAreaRepository" name="IDeviceAreaRepository"
+		class="ig.device.domain.repository.manage.DeviceAreaRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iDeviceRepository" name="IDeviceRepository"
+		class="ig.device.domain.repository.manage.DeviceRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iDeviceInfoRepository" name="IDeviceInfoRepository"
+		class="ig.device.domain.repository.manage.DeviceInfoRepository"
+		autowire="byName">
+	</bean>
+
+	<!-- ============== Service ============== -->
+	<!-- Command -->
+	<bean id="iDeviceAreaService" name="IDeviceAreaService"
+		class="ig.device.domain.service.commandhandler.manage.basis.DeviceAreaService"
+		autowire="byName">
+	</bean>
+	<bean id="iDeviceService" name="IDeviceService"
+		class="ig.device.domain.service.commandhandler.manage.basis.DeviceService"
+		autowire="byName">
+	</bean>
+	<bean id="iDeviceInfoService" name="IDeviceInfoService"
+		class="ig.device.domain.service.commandhandler.manage.basis.DeviceInfoService"
+		autowire="byName">
+	</bean>
+
+
+	<!-- ============== Application ============== -->
+	<!-- Command -->
+	<bean id="DeviceAreaApp" name="IDeviceAreaApp"
+		class="ig.device.application.commandhandler.manage.basis.DeviceAreaApp"
+		autowire="byName">
+	</bean>
+	<bean id="DeviceInfoApp" name="IDeviceInfoApp"
+		class="ig.device.application.commandhandler.manage.basis.DeviceInfoApp"
+		autowire="byName">
+	</bean>
+
+	<!-- Query -->
+	<bean id="DeviceAreaQueryApp" name="IDeviceAreaQueryApp"
+		class="ig.device.application.query.manage.basis.DeviceAreaQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="DeviceQueryApp" name="IDeviceQueryApp"
+		class="ig.device.application.query.manage.basis.DeviceQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="DeviceInfoQueryApp" name="IDeviceInfoQueryApp"
+		class="ig.device.application.query.manage.basis.DeviceInfoQueryApp"
+		autowire="byName">
+	</bean>
+
+</beans>

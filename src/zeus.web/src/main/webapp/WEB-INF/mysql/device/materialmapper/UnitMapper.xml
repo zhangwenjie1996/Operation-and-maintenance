@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.material.IUnitMapper" >
+  <delete id="remove" parameterType="java.lang.Integer" >
+    delete from unit
+    where unitID = #{unitID,jdbcType=INTEGER}
+  </delete>
+  <insert id="add" parameterType="ig.device.domain.model.material.category.Unit" >
+    insert into unit
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="unitID != null" >
+        unitID,
+      </if>
+      <if test="unitnName != null" >
+        unitnName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="unitID != null" >
+        #{unitID,jdbcType=INTEGER},
+      </if>
+      <if test="unitnName != null" >
+        #{unitnName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="ig.device.domain.model.material.category.Unit" >
+    update unit
+    <set >
+      <if test="unitnName != null" >
+        unitnName = #{unitnName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where unitID = #{unitID,jdbcType=INTEGER}
+  </update>
+</mapper>

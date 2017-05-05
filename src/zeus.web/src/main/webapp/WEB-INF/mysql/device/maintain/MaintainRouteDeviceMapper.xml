@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.maintain.IMaintainRouteDeviceMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.model.maintain.MaintainRouteDevice" >
+    <constructor >
+      <idArg column="maintainRouteDeviceID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="maintainRouteID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="maintainRouteDeviceName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sequence" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="itemID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="deviceAddress" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="maintainApproachID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    maintainRouteDeviceID ID, maintainRouteID, maintainRouteDeviceName, sequence, itemID, 
+    deviceAddress, maintainApproachID, availability, description
+  </sql>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from maintainRouteDevice
+    where maintainRouteDeviceID = #{maintainRouteDeviceID,jdbcType=INTEGER}
+  </select>
+   <select id="findByRouteID" resultType="ig.device.domain.model.maintain.MaintainRouteDevice" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from maintainRouteDevice
+    where maintainRouteID = #{maintainRouteID,jdbcType=INTEGER}
+  </select>
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from maintainRouteDevice
+    where maintainRouteDeviceID = #{maintainRouteDeviceID,jdbcType=INTEGER}
+  </delete>
+   <delete id="deleteByRouteID" parameterType="java.lang.Integer" >
+    delete from maintainRouteDevice
+    where maintainRouteID = #{maintainRouteID,jdbcType=INTEGER}
+  </delete>
+  <update id="removeByRouteID" parameterType="java.lang.Integer">
+		update
+		maintainRouteDevice
+		set availability = 0
+		where maintainRouteID =
+		#{maintainRouteID,jdbcType=INTEGER}
+	</update>
+  <update id="updateByPrimaryKeySelective" parameterType="ig.device.domain.model.maintain.MaintainRouteDevice" >
+    update maintainRouteDevice
+    <set >
+      <if test="maintainRouteID != null" >
+        maintainRouteID = #{maintainRouteID,jdbcType=INTEGER},
+      </if>
+      <if test="maintainRouteDeviceName != null" >
+        maintainRouteDeviceName = #{maintainRouteDeviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="sequence != null" >
+        sequence = #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="itemID != null" >
+        itemID = #{itemID,jdbcType=INTEGER},
+      </if>
+      <if test="deviceAddress != null" >
+        deviceAddress = #{deviceAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="maintainApproachID != null" >
+        maintainApproachID = #{maintainApproachID,jdbcType=INTEGER},
+      </if>
+      <if test="availability != null" >
+        availability = #{availability,jdbcType=TINYINT},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where maintainRouteDeviceID = #{maintainRouteDeviceID,jdbcType=INTEGER}
+  </update>
+  <update id="update" parameterType="ig.device.domain.model.maintain.MaintainRouteDevice" >
+    update maintainRouteDevice
+    set maintainRouteID = #{maintainRouteID,jdbcType=INTEGER},
+      maintainRouteDeviceName = #{maintainRouteDeviceName,jdbcType=VARCHAR},
+      sequence = #{sequence,jdbcType=INTEGER},
+      itemID = #{itemID,jdbcType=INTEGER},
+      deviceAddress = #{deviceAddress,jdbcType=VARCHAR},
+      maintainApproachID = #{maintainApproachID,jdbcType=INTEGER},
+      availability = #{availability,jdbcType=TINYINT},
+      description = #{description,jdbcType=VARCHAR}
+    where maintainRouteDeviceID = #{maintainRouteDeviceID,jdbcType=INTEGER}
+  </update>
+  <insert id="addAllDevice" parameterType="List">
+    <![CDATA[
+    insert into maintainRouteDevice (  maintainRouteID, maintainRouteDeviceName, itemID, sequence, 
+    deviceAddress, maintainApproachID, availability)
+    values
+    ]]>
+		<foreach collection="list" item="obj" index="index" separator=",">
+			(
+			#{obj.maintainRouteID,jdbcType=INTEGER},
+			#{obj.maintainRouteDeviceName,jdbcType=VARCHAR},
+			#{obj.itemID,jdbcType=INTEGER},
+			#{obj.sequence,jdbcType=INTEGER},
+			#{obj.deviceAddress,jdbcType=VARCHAR},
+			#{obj.maintainApproachID,jdbcType=INTEGER},
+			1)
+		</foreach>
+
+	</insert>
+	<update id="updateSequence" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			update maintainRouteDevice
+			<set>
+				sequence=${item.sequence}
+			</set>
+			where
+			maintainRouteID =
+			#{item.maintainRouteID}
+			and itemID = #{item.itemID}
+		</foreach>
+	</update>
+	<select id="findByRouteIdAndItemId" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select
+		count(1)
+		from maintainRouteDevice
+		where
+		maintainRouteID =
+		#{0}
+		and itemID = #{1}
+
+	</select>
+</mapper>

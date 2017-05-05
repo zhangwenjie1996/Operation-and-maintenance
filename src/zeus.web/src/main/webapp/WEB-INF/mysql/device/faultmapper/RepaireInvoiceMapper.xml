@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.fault.IRepaireInvoiceMapper">
+
+  <delete id="remove" parameterType="java.lang.Integer" >
+    update repaired set availability1 = 0
+    where repairedID = #{repairedID,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="add" parameterType="ig.device.domain.model.fault.RepaireInvoice" >
+    insert into repaired
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="repairedID != null" >
+        repairedID,
+      </if>
+      <if test="repairedCode != null" >
+        repairedCode,
+      </if>
+      <if test="itemCode != null" >
+        itemCode,
+      </if>
+      <if test="faultID != null" >
+        faultID,
+      </if>
+      <if test="faultReason != null" >
+        faultReason,
+      </if>
+      <if test="faultPhenomena != null" >
+        faultPhenomena,
+      </if>
+      <if test="repairedState != null" >
+        repairedState,
+      </if>
+      <if test="createDate != null" >
+        createDate,
+      </if>
+      <if test="operationDate != null" >
+        operationDate,
+      </if>
+      <if test="repairedStep != null" >
+        repairedStep,
+      </if>
+      <if test="availability1 != null" >
+        availability1,
+      </if>
+      <if test="faultType != null" >
+        faultType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="repairedID != null" >
+        #{repairedID,jdbcType=INTEGER},
+      </if>
+      <if test="repairedCode != null" >
+        #{repairedCode,jdbcType=INTEGER},
+      </if>
+      <if test="itemCode != null" >
+        #{itemCode,jdbcType=INTEGER},
+      </if>
+      <if test="faultID != null" >
+        #{faultID,jdbcType=INTEGER},
+      </if>
+      <if test="faultReason != null" >
+        #{faultReason,jdbcType=VARCHAR},
+      </if>
+      <if test="faultPhenomena != null" >
+        #{faultPhenomena,jdbcType=VARCHAR},
+      </if>
+      <if test="repairedState != null" >
+        #{repairedState,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="operationDate != null" >
+        #{operationDate,jdbcType=DATE},
+      </if>
+      <if test="repairedStep != null" >
+        #{repairedStep,jdbcType=DATE},
+      </if>
+      <if test="availability1 != null" >
+        #{availability1,jdbcType=TINYINT},
+      </if>
+      <if test="faultType != null" >
+        #{faultType,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="ig.device.domain.model.fault.RepaireInvoice" >
+    update repaired
+    <set >
+      <if test="faultReason != null" >
+        faultReason = #{faultReason,jdbcType=VARCHAR},
+      </if>
+      <if test="faultPhenomena != null" >
+        faultPhenomena = #{faultPhenomena,jdbcType=VARCHAR},
+      </if>
+      <if test="repairedState != null" >
+        repairedState = #{repairedState,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        createDate = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="operationDate != null" >
+        operationDate = #{operationDate,jdbcType=DATE},
+      </if>
+      <if test="faultType != null" >
+        faultType = #{faultType,jdbcType=TINYINT},
+      </if>
+    </set>
+    where repairedID = #{repairedID,jdbcType=INTEGER}
+  </update>
+ 
+</mapper>

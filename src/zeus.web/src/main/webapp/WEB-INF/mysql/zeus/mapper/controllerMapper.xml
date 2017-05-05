@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.command.IControllerRepository" >
+  <resultMap id="BaseResultMap" type="ig.zeus.domain.model.resource.server.Controller" >
+    <id column="controllerID" property="ID" jdbcType="INTEGER" />
+    <result column="moduleID" property="moduleid" jdbcType="INTEGER" />
+    <result column="controllerName" property="controllername" jdbcType="VARCHAR" />
+     <result column="signature" property="signature" jdbcType="VARCHAR" />
+    <result column="sequence" property="index" jdbcType="INTEGER" />
+     <result column="availability" property="availability" jdbcType="BIT" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="remove" parameterType="java.lang.Integer" >
+    delete from controller
+    where controllerID = #{ID,jdbcType=INTEGER}
+  </delete>
+  <insert id="add" parameterType="ig.zeus.domain.model.resource.server.Controller" >
+    insert into controller (controllerName,
+		signature, sequence, description,
+		availability)
+		values (
+		#{controllername,jdbcType=VARCHAR},
+		#{signature,jdbcType=VARCHAR}, #{index,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},
+		#{availability,jdbcType=BIT})
+  </insert>
+  <update id="update" parameterType="ig.zeus.domain.model.resource.server.Controller" >
+    update controller
+		set
+		moduleID = #{id,jdbcType=INTEGER},
+		controllerName = #{controllername,jdbcType=VARCHAR},
+		signature = #{signature,jdbcType=VARCHAR},
+		sequence = #{index,jdbcType=INTEGER},
+		description = #{description,jdbcType=VARCHAR},
+	    availability = #{availability,jdbcType=BIT},
+		where controllerID = #{ID,jdbcType=INTEGER}
+  </update>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select controllerID, moduleID, controllerName, signature, sequence,
+		description, availability
+		from controller
+		where controllerID = #{ID,jdbcType=INTEGER}
+	</select>
+	<select id="findAll" resultMap="BaseResultMap">
+		selectcontrollerID, moduleID, controllerName, signature, sequence,
+		description, availability
+		from controller
+	</select>
+</mapper>

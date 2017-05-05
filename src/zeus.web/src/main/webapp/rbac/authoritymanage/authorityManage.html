@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../src/css/quote/themes/default/style.min.css"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link href="../../src/css/quote/lib/jquery.bootgrid.min.css" rel="stylesheet"/>
+    <link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+    <!--<script type="text/javascript" src="dist/js/jquery.i18n.properties-1.0.9.js"></script>-->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript" src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript" src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="row qx">
+
+    <div class="col-sm-8 col-md-8 col-lg-8">
+        <a  class="addBtn btn btn-primary " data-toggle="modal" data-target="#myModal">添加权限组</a>
+        <table id="grid-data" class="table table-condensed table-hover table-striped ">
+            <thead>
+            <tr>
+                <th data-column-id="permissionGroup" data-identifier="true" data-type="numeric">权限组</th>
+                <th data-column-id="commands" data-formatter="commands" data-sortable="false">操作</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="http://cdn.gbtags.com/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+<script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+<script src="../../src/js/quote/jstree.min.js"></script>
+<script>
+    $(function () {
+        // Planning Filter
+
+            // NOTE: I have multiple types of basic filters.
+            // eg: Planning, Approved, Completed
+            $("#grid-data").bootgrid("destroy");
+            var grid = $("#grid-data").bootgrid({
+                ajax: true,
+                ajaxSettings: {
+                    method: "post",
+                    cache: false
+                },
+
+                url: "../../src/json/qx.json",
+                pagination: 3,
+                selection: true,
+                multiSelect: true,
+                formatters: {
+                    "commands": function (column, row) {
+                        return "<a  data-toggle=\"modal\" data-target=\"#myModal\"   class=\"command-qx\" data-row-id=\"" + row.id + "\" >[权限]</a>"
+                                + "<a  class=\"command-groups\" data-row-id=\"" + row.id + "\">[成员]</a> " +
+                                "<a class=\"command-rename\" data-row-id=\"" + row.id + "\">[重命名]</a>"+
+                                "<a class=\" command-delete\" data-row-id=\"" + row.id + "\">[删除]</a>";
+                    }
+                }
+            }).on("loaded.rs.jquery.bootgrid", function () {
+                /* Executes after data is loaded and rendered */
+                grid.find(".command-delete").on("click", function (e) {
+                    console.log($(this));
+                    var _this=this;
+                    alert("You pressed delete on row: " + $(this).attr("data-row-id"));
+                    $.get('../../src/json/qx.json', {id: $(this).attr("data-row-id")}, function (data) {
+                        $(_this).parents('tr').remove();
+                    }, 'json');
+                });
+
+//                $('a').attr({"data-toggle": "modal", "data-target": "#myModal"});
+//                $("a").on("click", function () {
+//                    alert("aaa");
+//                })
+//                grid.find(".command-edit").on("click", function (e) {
+//                    var _this=this;
+//                    alert("You pressed delete on row: " + $(this).attr("data-row-id"));
+//                    $.get('data.json', {id: $(this).attr("data-row-id")}, function (data) {
+//
+//                        window.location.href = "3.html";
+//                    }, 'json');
+//                });
+            });
+
+    });
+
+</script>
+<script>
+    $("#myModal").draggable({
+        handle: ".modal-header"
+    });
+</script>
+</body>
+</html>

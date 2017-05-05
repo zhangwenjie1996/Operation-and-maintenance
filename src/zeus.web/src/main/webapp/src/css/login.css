@@ -1,0 +1,86 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei", "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif;
+    overflow-x: hidden;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei", "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+ul, li, ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+header {
+    background: url("../../src/img/logoBj.png") no-repeat center;
+    background-size: cover;
+    /* height: 255px; */
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+header .logo, header p, header h1 {
+    text-align: center;
+    /* margin-top: 35px; */
+}
+
+header .logo img {
+    width: 120px;
+    height: 120px;
+    display: inline-block;
+}
+
+header p {
+    color: #427db2;
+    background: #245580;
+    -webkit-box-shadow: 0 0 2px #0b0306;
+    -moz-box-shadow: 0 0 2px #0b0306;
+    box-shadow: 0 0 2px #0b0306;
+    line-height: 24px;
+    width: 180px;
+    margin: 36px auto;
+    font-size: 16px;
+}
+
+header h1 {
+    color: #ffffff;
+    /* border: 2px solid #0159a7; */
+    font-size: 32px;
+}
+article{
+    padding-top: 40px;
+}
+footer {
+    text-align: center;
+    height: 80px;
+    line-height: 80px;
+/*     position: fixed; */
+/*     bottom: 0; */
+    color: #555555;
+    font-size: 14px;
+    width: 100%;
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="ig.device.domain.mapper.patrol.querymapper.IPatrolGroupQueryMapper">
+	<resultMap id="BaseResultMap"
+		type="ig.device.domain.viewmodel.patrol.PatrolGroupViewModel">
+		<constructor>
+			<idArg column="patrolGroupID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="patrolGroupName" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+		</constructor>
+	</resultMap>
+	<sql id="Base_Column_List">
+		patrolGroupID, patrolGroupName, description, availability
+	</sql>
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from patrolGroup
+		where patrolGroupID = #{patrolGroupID,jdbcType=INTEGER}
+	</select>
+
+
+	<select id="findAll" resultType="ig.device.domain.viewmodel.util.TreeViewModel">
+		select
+		patrolGroupID id,'0' parent, patrolGroupName title
+		from patrolGroup where availability=1
+	</select>
+</mapper>

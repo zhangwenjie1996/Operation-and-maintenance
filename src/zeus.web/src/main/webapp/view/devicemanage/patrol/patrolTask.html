@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../src/css/quote/themes/default/style.min.css"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="../../src/css/quote/lib/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link href="../../src/css/quote/lib/jquery.bootgrid.min.css" rel="stylesheet"/>
+    <!-- alert -->
+	<link rel="stylesheet" type="text/css" href="../../src/alert/sweetalert2.min.css">
+    <link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+    <!--<script type="text/javascript" src="dist/js/jquery.i18n.properties-1.0.9.js"></script>-->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript" src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript" src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="row  userM">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <div class="user-search-row">
+            <ol class="breadcrumb">
+                <li><a><i class="fa fa-search"></i>搜索</a></li>
+            </ol>
+
+            <form class="form-inline" id="searchForm">
+                <div class="form-group">
+                    <label for="patrolGroupID">巡检小组</label>
+                    <select class="form-control" id="p_patrolGroupID" class="form-control" name="patrolGroupID">
+                        <option value="">-请选择-</option> 
+                    </select>   
+                </div>
+                <div class="form-group">
+                    <label for="patrolRouteID">巡检路线</label>
+                      <select class="form-control"  id="p_patrolRouteID"class="form-control" name="patrolRouteID">
+                       <option value="">-请选择-</option> 
+                    </select>    
+                </div>
+                <div class="form-group">
+                    <label for="start">巡检开始时间</label>
+                    <input size="16" type="text" class="form-control form_datetime" id="p_start" placeholder="" name="start">
+                </div>
+                <div class="form-group">
+                    <label for="end">巡检结束时间</label>
+                    <input size="16" type="text" class="form-control form_datetime" id="p_end" placeholder="" name="end">
+                </div>
+                <div class="form-group">
+                    <label for="state">状态</label>
+                    <input type="text" class="form-control" id="p_state" placeholder="" name="state">
+                </div>
+                <button type="button" class="searchBtn btn btn-primary"><i class="fa fa-search"></i>查询</button>
+            </form>
+        </div>
+        <div class="user-list-row">
+            <div class="tit">
+                <ol class="breadcrumb">
+                    <li><a><i class="fa  fa-tasks"></i>任务列表</a></li>
+                </ol>
+                
+            </div>
+           
+            <table id="grid-data" class="table table-condensed table-hover table-striped ">
+                <thead>
+                <tr>
+                    <!--data-identifier="true"id-->
+                    <th data-column-id="patrolTaskID" data-identifier="true" data-type="numeric" data-visible="false">巡检任务序号</th>
+                    <th data-column-id="patrolRouteName">巡检路线</th>
+                    <th data-column-id="patrolGroupName">巡检小组</th>
+                    <th data-column-id="start">任务开始时间</th>
+                     <th data-column-id="end">任务结束时间</th>
+                    <th data-column-id="patrolTime">巡检时间</th>
+                    <th data-column-id="state">状态</th>
+                    <th data-column-id="functionary">负责人</th>
+                    <th data-column-id="availability">是否有效</th>
+                    <th data-column-id="description">描述</th>
+                     <th data-column-id="groups" data-formatter="groups" data-align="center">巡检小组成员
+                    </th>
+                    <th data-column-id="report" data-formatter="report" data-align="center">巡检报告
+                    </th>
+                    <!--  
+                    <th data-column-id="commands" data-formatter="commands" data-sortable="false">操作</th>
+                </tr>
+                -->
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="cd-popup" role="alert">
+    <div class="cd-popup-container">
+        <a class="cd-popup-close icon-close fa fa-times"></a>
+<div class="tabbar"></div>
+<div class="mnk">
+        <form id="formTask" class="form-horizontal form-block" role="form">
+          
+            <input  type="hidden"  id="patrolTaskID" name="patrolTaskID" /> 
+            <input  type="hidden"  id="patrolPlanID" name="patrolPlanID" /> 
+            <div class="form-group col-sm-6">
+                <label for="patrolGroupID" class="col-sm-4 control-label">巡检小组</label>
+
+                <div class="col-sm-8">
+                    <select class="form-control" id="patrolGroupID" name="patrolGroupID">
+<!--                         <option>-请选择-</option> -->
+                    </select>
+
+                </div>
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="patrolRouteID" class="col-sm-4 control-label">巡检路线</label>
+
+                <div class="col-sm-8">
+                    <select class="form-control" id="patrolRouteID" name="patrolRouteID">
+<!--                         <option>-请选择-</option> -->
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="start" class="col-sm-4 control-label">任务开始时间</label>
+                <div class="col-sm-8">
+                    <input size="16" type="text" class="form-control form_datetime" id="start" placeholder=" " name="start">
+                </div>
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="end" class="col-sm-4 control-label">任务结束时间</label>
+                <div class="col-sm-8">
+                    <input size="16" type="text" class="form-control form_datetime" id="end" placeholder="" name="end">
+                </div>
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="state" class="col-sm-4 control-label">状态</label>
+
+                <div class="col-sm-8">
+                    <input class="form-control" id="state" placeholder="状态" name="state">
+                </div>
+            </div>
+           
+            <div class="form-group col-sm-6">
+                <label for="functionary" class="col-sm-4 control-label">负责人</label>
+
+                <div class="col-sm-8">
+                    <input class="form-control" id="functionary" placeholder="负责人" name="functionary">
+                </div>
+            </div>
+             <div class="form-group col-sm-6">
+                <label for="patrolTime" class="col-sm-4 control-label">巡检时间</label>
+
+                <div class="col-sm-8">
+                    <input class="form-control" id="patrolTime" placeholder="巡检时间" name="patrolTime">
+                </div>
+            </div>
+             <div class="form-group col-sm-6">
+                 <label for="availability" class="col-sm-4 control-label">有效性</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="availability" name="availability">
+								<option value="1">有</option>
+								<option value="0">无</option>
+							</select>
+                        </div>
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="description" class="col-sm-4 control-label">描述</label>
+
+                <div class="col-sm-8">
+                    <textarea class="form-control" id="description" placeholder="描述" name="description"></textarea>
+                </div>
+            </div>
+        </form>
+        <div class="cd-buttons">
+            <button type="button" class="btn btn-primary cd-popup-close cd-btn cd-btn-save">保存</button>
+            <button type="button" class="btn btn-danger cd-popup-close cd-btn cd-btn-deal">取消</button>
+        </div>
+    </div></div>
+  </div>
+    <!-- cd-popup-container-end -->
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">编辑</h4>
+            </div>
+            <div class="modal-body">
+                <table id="grid-group" class="table table-condensed table-hover table-striped ">
+                <thead>
+                <tr>
+                    <!--data-identifier="true"id-->
+                    <th data-column-id="patrolTaskNumberName">小组成员名称</th>
+                    <th data-column-id="description">描述</th>
+                    <th data-column-id="availability">是否有效</th>
+                   
+                </tr>
+                </thead>
+            </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../src/alert/sweetalert2.min.js"></script> 
+<!-- for IE support -->
+<script src="../../src/alert/es6-promise.auto.min.js"></script>
+<script src="../../src/css/quote/lib/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+<script src="../../src/css/quote/lib/bootstrap-datetimepicker-master/locals/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+<script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+<script src="../../src/js/quote/jstree.min.js"></script>
+<script src="../../src/js/packtreegrid/pack2.js"></script>
+<script src="../../src/js/dialog/dialog.js"></script>
+<script src="../../src/js/curd/curd2.js"></script>
+<script>
+$(".searchBtn").on("click", function (e) {
+	  var arr = $("#searchForm").serialize() ;
+planningFilter("../../PatrolTaskController/findPageDataByTask?"+arr,"grid-data");
+});
+    var planningFilter = function (url,container) {
+        // NOTE: I have multiple types of basic filters.
+        // eg: Planning, Approved, Completed
+        $("#"+container).bootgrid("destroy");
+        var idname="patrolTaskID";
+        var formatters= {
+                "commands": function (column, row) {
+                    return "<a  abs=\"编辑\" class=\"btn-color btn btn-xs btn-default command-edit\"  data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-pencil\"></span></a> " +
+                            "<a  abs=\"删除\" class=\"btn-color btn btn-xs btn-default command-delete\"  data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                },
+                "groups": function (column, row) {
+                    return "<a abs=\"查看详情\" class=\"btn-color btn btn-xs btn-default command-group-view\" data-row-id=\"" + row[idname] + "\"><span class=\"fa fa-eye\"></span></a>"
+                },
+                "report": function (column, row) {
+                    return "<a abs=\"查看详情\" class=\"btn-color btn btn-xs btn-default command-view\" data-row-id=\"" + row[idname] + "\"><span class=\"fa fa-eye\"></span></a>"
+                }
+            };
+
+       var grid=  pack.gridInit(url,container,formatters).on("loaded.rs.jquery.bootgrid", function () {
+            $().tip();
+            /* Executes after data is loaded and rendered */
+            grid.find(".command-delete").on("click", function (e) {
+//            	 curd.delBtn("../../PatrolTaskController/deleteTask", this);
+            	 curd.delBtn("../../src/json/patrolTask.json", this);
+            }).end().find(".command-edit").on("click", function (e) {
+            	  $(".tabbar").html("编辑");
+                $().dia(e);
+           	 curd.showInfo("../../PatrolTaskController/findTaskById", this);
+           	 curd.cdBtnSave("../../PatrolTaskController/updateTask", container,"#formTask");
+            }).end().find(".command-view").on("click", function (e) {
+            	 var currentID=$(this).attr("data-row-id");
+					localStorage.setItem("patrolTaskID",currentID);
+					window.location.href="patrolReport.html";
+   }).end().find(".command-group-view").on("click", function (e) {
+	   $('#myModal').modal().find("input").attr("readonly", "readonly");
+       $("#myModalLabel").html("查看小组成员");
+       var id=$(this).attr("data-row-id");
+       pack.gridInit("../../PatrolTaskController/findNumberByTaskId?patrolTaskID=" + id,"grid-group")
+    
+})
+        });
+    };
+
+//      planningFilter("../../src/json/patrolTask.json","grid-data");
+  planningFilter("../../PatrolTaskController/findTaskPageData","grid-data");
+</script>
+<script>
+//select 绑定
+   function sel(container,url,patrolID,patrolName){
+ 		$.getJSON(url, function (data) {
+             $.each(data.data, function (index, item) { 
+                 $("#"+container).append("<option value='"+item[patrolID]+"'>"+item[patrolName]+"</option>");
+             });
+ 	}) 	
+   }	
+   sel("patrolGroupID","../../PatrolGroupController/findAllGroup","id","text") ;
+   sel("patrolRouteID","../../PatrolRouteController/findRouteTree","id","text") ;
+   sel("p_patrolGroupID","../../PatrolGroupController/findAllGroup","id","text") ;
+   sel("p_patrolRouteID","../../PatrolRouteController/findRouteTree","id","text") ;
+</script>
+<script type="text/javascript">
+//时间控件
+ $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii',  language:  'zh-CN',autoclose:'true',todayHighlight:'true',showMeridian:'true'});
+</script>
+</body>
+</html>

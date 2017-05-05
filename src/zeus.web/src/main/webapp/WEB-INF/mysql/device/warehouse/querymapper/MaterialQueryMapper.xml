@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.warehouse.query.IMaterialQueryMapper">
+
+	<sql id="Base_Column_List">
+		groupID, storageID, categoryID, categoryName, modelID,
+		modelName, amount,
+		unitName,
+		unitPrice, totalPrice, availability,
+		description, providerID, providerName,
+		producer,
+		operateTime, itemCode,
+		totalAmount, alarmState
+	</sql>
+	
+	<select id="findAllPage"
+		resultType="ig.device.domain.viewmodel.warehouse.MaterialViewModel"
+		parameterType="ig.archer.infrastructure.data.PagingData">
+		select
+		<include refid="Base_Column_List" />
+		from material
+		where totalAmount > 0
+		<if test="rows.itemCode != null">
+			AND itemCode LIKE concat(concat('%',#{rows.itemCode}),'%')
+		</if>
+		<if test="rows.providerID != null">
+			AND providerID = #{rows.providerID}
+		</if>
+		<if test="rows.storageID != null">
+			AND storageID = #{rows.storageID}
+		</if>
+		<if test="rows.minAmount != null">
+			<![CDATA[
+			AND totalAmount >= #{rows.minAmount}
+        	]]>
+		</if>
+		<if test="rows.maxAmount != null">
+			<![CDATA[
+			AND totalAmount <= #{rows.maxAmount}
+        	]]>
+		</if>
+		<if test="rows.minUnitPrice != null">
+			<![CDATA[
+			AND unitPrice >= #{rows.minUnitPrice}
+        	]]>
+		</if>
+		<if test="rows.maxUnitPrice != null">
+			<![CDATA[
+			AND unitPrice <= #{rows.maxUnitPrice}
+        	]]>
+		</if>
+		<if test="rows.minTotalPrice != null">
+			<![CDATA[
+			AND totalPrice >= #{rows.minTotalPrice}
+        	]]>
+		</if>
+		<if test="rows.maxTotalPrice != null">
+		  <![CDATA[
+              AND totalPrice <= #{rows.maxTotalPrice}
+          ]]>
+		</if>
+		<if test="rows.categoryID != null">
+			AND categoryID in
+			<foreach collection="rows.categoryID" item="id" open="("
+				close=")" separator=",">
+				#{id}
+			</foreach>
+		</if>
+		limit #{pageStart}, #{rowCount}
+	</select>
+
+	<select id="findAllTotal" resultType="java.lang.Integer"
+		parameterType="ig.archer.infrastructure.data.PagingData">
+		select count(1)
+		from material
+		where totalAmount > 0
+		<if test="rows.itemCode != null">
+			AND itemCode LIKE concat(concat('%',#{rows.itemCode}),'%')
+		</if>
+		<if test="rows.providerID != null">
+			AND providerID = #{rows.providerID}
+		</if>
+		<if test="rows.storageID != null">
+			AND storageID = #{rows.storageID}
+		</if>
+		<if test="rows.minAmount != null">
+			<![CDATA[
+			AND totalAmount >= #{rows.minAmount}
+        	]]>
+		</if>
+		<if test="rows.maxAmount != null">
+			<![CDATA[
+			AND totalAmount <= #{rows.maxAmount}
+        	]]>
+		</if>
+		<if test="rows.minUnitPrice != null">
+			<![CDATA[
+			AND unitPrice >= #{rows.minUnitPrice}
+        	]]>
+		</if>
+		<if test="rows.maxUnitPrice != null">
+			<![CDATA[
+			AND unitPrice <= #{rows.maxUnitPrice}
+        	]]>
+		</if>
+		<if test="rows.minTotalPrice != null">
+			<![CDATA[
+			AND totalPrice >= #{rows.minTotalPrice}
+        	]]>
+		</if>
+		<if test="rows.maxTotalPrice != null">
+		  <![CDATA[
+              AND totalPrice <= #{rows.maxTotalPrice}
+          ]]>
+		</if>
+		<if test="rows.categoryID != null">
+			AND categoryID in
+			<foreach collection="rows.categoryID" item="id" open="("
+				close=")" separator=",">
+				#{id}
+			</foreach>
+		</if>
+	</select>
+	
+	<select id="findAllMaterialPage"
+		resultType="ig.device.domain.viewmodel.warehouse.MaterialViewModel"
+		parameterType="ig.archer.infrastructure.data.PagingData">
+		select
+		<include refid="Base_Column_List" />
+		from material
+		where amount > 0
+		<if test="rows.itemCode != null">
+			AND itemCode LIKE concat(concat('%',#{rows.itemCode}),'%')
+		</if>
+		<if test="rows.providerID != null">
+			AND providerID = #{rows.providerID}
+		</if>
+		<if test="rows.storageID != null">
+			AND storageID = #{rows.storageID}
+		</if>
+		<if test="rows.minAmount != null">
+			<![CDATA[
+			AND amount >= #{rows.minAmount}
+        	]]>
+		</if>
+		<if test="rows.maxAmount != null">
+			<![CDATA[
+			AND amount <= #{rows.maxAmount}
+        	]]>
+		</if>
+		<if test="rows.minUnitPrice != null">
+			<![CDATA[
+			AND unitPrice >= #{rows.minUnitPrice}
+        	]]>
+		</if>
+		<if test="rows.maxUnitPrice != null">
+			<![CDATA[
+			AND unitPrice <= #{rows.maxUnitPrice}
+        	]]>
+		</if>
+		<if test="rows.minTotalPrice != null">
+			<![CDATA[
+			AND totalPrice >= #{rows.minTotalPrice}
+        	]]>
+		</if>
+		<if test="rows.maxTotalPrice != null">
+		  <![CDATA[
+              AND totalPrice <= #{rows.maxTotalPrice}
+          ]]>
+		</if>
+		<if test="rows.categoryID != null">
+			AND categoryID in
+			<foreach collection="rows.categoryID" item="id" open="("
+				close=")" separator=",">
+				#{id}
+			</foreach>
+		</if>
+		limit #{pageStart}, #{rowCount}
+	</select>
+
+	<select id="findAllMaterialTotal" resultType="java.lang.Integer"
+		parameterType="ig.archer.infrastructure.data.PagingData">
+		select count(1)
+		from material
+		where amount > 0
+		<if test="rows.itemCode != null">
+			AND itemCode LIKE concat(concat('%',#{rows.itemCode}),'%')
+		</if>
+		<if test="rows.providerID != null">
+			AND providerID = #{rows.providerID}
+		</if>
+		<if test="rows.storageID != null">
+			AND storageID = #{rows.storageID}
+		</if>
+		<if test="rows.minAmount != null">
+			<![CDATA[
+			AND amount >= #{rows.minAmount}
+        	]]>
+		</if>
+		<if test="rows.maxAmount != null">
+			<![CDATA[
+			AND amount <= #{rows.maxAmount}
+        	]]>
+		</if>
+		<if test="rows.minUnitPrice != null">
+			<![CDATA[
+			AND unitPrice >= #{rows.minUnitPrice}
+        	]]>
+		</if>
+		<if test="rows.maxUnitPrice != null">
+			<![CDATA[
+			AND unitPrice <= #{rows.maxUnitPrice}
+        	]]>
+		</if>
+		<if test="rows.minTotalPrice != null">
+			<![CDATA[
+			AND totalPrice >= #{rows.minTotalPrice}
+        	]]>
+		</if>
+		<if test="rows.maxTotalPrice != null">
+		  <![CDATA[
+              AND totalPrice <= #{rows.maxTotalPrice}
+          ]]>
+		</if>
+		<if test="rows.categoryID != null">
+			AND categoryID in
+			<foreach collection="rows.categoryID" item="id" open="("
+				close=")" separator=",">
+				#{id}
+			</foreach>
+		</if>
+	</select>
+
+
+
+</mapper>

@@ -1,0 +1,57 @@
+{
+  "state": "Success",
+  "message": "请求成功！",
+  "current": 2,
+  "rowCount": 5,
+  "rows": [
+    {
+      "employeeID": 1,
+      "employeeName": "小组一",
+      "sex": 2,
+      "birthday": "xzcx",
+      "address": "cdsc",
+      "phone": 1,
+      "createDate":1,
+      "availability":0,
+      "description":1,
+      "addAccount":0
+    },
+    {
+      "employeeID": 2,
+      "employeeName": "小组二",
+      "sex": 2,
+      "birthday": "xzcx",
+      "address": "cdsc",
+      "phone": 1,
+      "createDate":1,
+      "availability":0,
+      "description":1,
+      "addAccount":0
+    },
+    {
+      "employeeID": 3,
+      "employeeName": "小组三",
+      "sex": 2,
+      "birthday": "xzcx",
+      "address": "cdsc",
+      "phone": 1,
+      "createDate":1,
+      "availability":0,
+      "description":1,
+      "addAccount":0
+    },
+    {
+      "employeeID": 4,
+      "employeeName": "小组四",
+      "sex": 2,
+      "birthday": "xzcx",
+      "address": "cdsc",
+      "phone": 1,
+      "createDate":1,
+      "availability":0,
+      "description":1,
+      "addAccount":0
+    }
+  ] ,
+  "total":100
+}

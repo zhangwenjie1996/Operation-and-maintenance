@@ -1,0 +1,30 @@
+{
+  "state": "Success",
+  "message": "请求成功！",
+  "data": {
+    "rows": [
+      {
+        "patrolDeviceDetailsID": 5,
+        "patrolDeviceID": 5,
+        "parameterName": 1,
+        "normalValue": 1,
+        "patrolValue": 1,
+        "priority": 8,
+        "state": "222123",
+        "availability": 1,
+        "description": 10
+      },
+      {
+        "patrolDeviceDetailsID": 6,
+        "patrolDeviceID": 6,
+        "parameterName": 2,
+        "normalValue": 2,
+        "patrolValue": 2,
+        "priority": 10,
+        "state": "222123",
+        "availability": 1,
+        "description": 10
+      }
+    ]
+  }
+}

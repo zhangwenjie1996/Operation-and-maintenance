@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet"
+          href="../../src/css/quote/themes/default/style.min.css"/>
+    <link rel="stylesheet"
+          href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet"
+          href="../../src/css/quote/lib/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css"/>
+    <link rel="stylesheet"
+          href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link href="../../src/css/quote/lib/jquery.bootgrid.min.css"
+          rel="stylesheet"/>
+    <!-- alert -->
+    <link rel="stylesheet" type="text/css" href="../../src/alert/sweetalert2.min.css">
+    <link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+    <!--<script type="text/javascript" src="dist/js/jquery.i18n.properties-1.0.9.js"></script>-->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript"
+            src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript"
+            src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="row  userM">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <div class="device-filter-row common-filter">
+            <ol class="breadcrumb">
+                <li><a><i class="fa fa-search"></i>客户搜索</a></li>
+            </ol>
+            <form class="form-horizontal  form-common" role="form" id="searchForm">
+                <div class="form-group col-xs-11 col-sm-6 col-md-3 col-lg-3">
+                    <label for="unit" class="col-sm-4 control-label">客户名称</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="unit" placeholder="客户名称" name="customerName">
+                    </div>
+                </div>
+                <div class="form-group col-xs-11 col-sm-6 col-md-3 col-lg-3">
+                    <label class="col-sm-4 control-label" for="addressId">客户区域</label>
+                    <div class="col-sm-8">
+                        <input type="text"  class="form-control" id="addressId" placeholder="客户区域" name="address"></div>
+                </div>
+                <div class="form-group col-xs-11 col-sm-6 col-md-3 col-lg-3">
+                    <label class="col-sm-4 control-label" for="customerTypeId">客户类型</label>
+                    <div class="col-sm-8">
+                        <select id="customerTypeId" name="customerType" class="form-control">
+                            <option value="">请选择</option>
+                            <option value="0">供货商</option>
+                            <option value="1">销售商</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-xs-11 col-sm-6 col-md-3 col-lg-3">
+                <button type="button" class="btn btn-primary serarchEmployee">查询</button>
+                <button class="btn btn-primary addBtn2" type="button">增加  </button>
+                </div>
+            </form>
+        </div>
+        <div class="user-list-row">
+            <div class="tit">
+                <ol class="breadcrumb">
+                    <li><a><i class="fa  fa-tasks"></i>客户列表</a></li>
+                </ol>
+            </div>
+            <div class="table-rp">
+                <table id="grid-data"
+                       class="table table-condensed table-hover table-striped ">
+                    <thead>
+                    <tr>
+                        <th data-column-id="customerName">客户名称</th>
+                        <th data-column-id="customerLeader">法人</th>
+                        <th data-column-id="customerType">客户类型</th>
+                        <th data-column-id="phone">联系电话</th>
+                        <th data-column-id="fax">传真</th>
+                        <th data-column-id="address">客户地址</th>
+                        <th data-column-id="depositBack">开户银行</th>
+                        <th data-column-id="depositAccount">银行账户</th>
+                        <th data-column-id="depositName">开户名称</th>
+                        <th data-column-id="availability">有效性</th>
+                        <th data-column-id="contact" data-formatter="contactView" >联系人
+                        </th>
+                        <th data-column-id="commands" data-formatter="commands"
+                            data-sortable="false">操作
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="cd-popup" role="alert">
+        <div class="dialog cd-popup-container">
+            <a class="cd-popup-close icon-close fa fa-times"></a>
+            <div class="tabbar"></div>
+            <div  style="padding: 30px;overflow: auto">
+                <form id="form2" class="form-horizontal form-block" role="form">
+                    <input type="hidden" id="customerId" name="customerId" value="0"/>
+                    <div class="form-group col-sm-6">
+                        <label for="customerName" class="col-sm-4 control-label">客户名称</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id ="customerName"
+                                   name="customerName">
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="customerLeader" class="col-sm-4 control-label">法人</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="customerLeader" name="customerLeader" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="phone" class="col-sm-4 control-label">客户电话</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="phone" name="phone" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="fax" class="col-sm-4 control-label">客户传真</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="fax" name="fax" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="customerType" class="col-sm-4 control-label">客户类型</label>
+                        <div class="col-sm-8">
+                            <select id="customerType" name="customerType" class="form-control">
+                                <option value="0" >供货商</option>
+                                <option value="1" >销售商</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="depositBack" class="col-sm-4 control-label">开户银行</label>
+                        <div class="col-sm-8">
+                            <input id="depositBack" name="depositBack" class="form-control"  />
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="depositAccount" class="col-sm-4 control-label">银行账户</label>
+                        <div class="col-sm-8">
+                            <input size="16" class="form-control" id="depositAccount"
+                                   name="depositAccount">
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="depositName" class="col-sm-4 control-label">开户名称</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="depositName" name="depositName">
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="address" class="col-sm-4 control-label">客户住址</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="address"
+                                   name="address">
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6 showDiv">
+                        <label for="registrantName" class="col-sm-4 control-label">登记人员</label>
+                        <div class="col-sm-8">
+                            <input type="hidden" name="registrantID" id="registrantID">
+                            <input class="form-control" id="registrantName"
+                                   name="registrantName">
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6 showDiv">
+                        <label for="registrantDate" class="col-sm-4 control-label">登记时间</label>
+                        <div class="col-sm-8">
+                            <input size="16" class="form-control" id="registrantDate"
+                                   name="registrantDate">
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="availability" class="col-sm-4 control-label">有效性</label>
+
+                        <div class="col-sm-8">
+                            <select class="form-control" id="availability" name="availability">
+                                <option value="1">有</option>
+                                <option value="0">无</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <label for="remark" class="col-sm-2 control-label">备注</label>
+                        <div class="col-sm-10">
+								<textarea class="form-control" id="remark"
+                                          name="remark"></textarea>
+                        </div>
+                    </div>
+                </form>
+                <div class="cd-buttons">
+                    <button type="button"
+                            class="btn btn-primary cd-popup-close cd-btn cd-btn-save">保存
+                    </button>
+                    <button type="button"
+                            class="btn btn-danger cd-popup-close cd-btn cd-btn-deal">取消
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- cd-popup-container-end -->
+    </div>
+
+    <div class="cd-popup2" role="alert">
+        <div class="dialog cd-popup-container" style="max-width:900px;">
+            <a class="cd-popup-close icon-close fa fa-times"></a>
+            <div class="tabbar" ></div>
+            <div class="row">
+                <div  style="padding: 30px;overflow: auto;height: 500px;border-right: solid 2px #5FA2DD;" class="col-sm-3">
+                    <div class="row text-right">
+                        <button type="button"  class="btn btn-primary" onclick="add()">增加
+                        </button>
+                    </div>
+                    <div id="ajax" class="demo"></div>
+                </div>
+                <div  style="padding: 30px;overflow: auto;" class="col-sm-9">
+                    <form id="form3" class="form-horizontal form-block" role="form">
+                        <input type="hidden" id="customerId2" name="customerId"/>
+                        <div class="form-group col-sm-6">
+                            <label for="contactName" class="col-sm-4 control-label">联系人名称</label>
+                            <div class="col-sm-8">
+                                <input id="contactId" name="contactId" type="hidden"/>
+                                <input type="text" class="form-control" id ="contactName"  name="contactName">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="telePhone" class="col-sm-4 control-label">联系人电话</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id ="telePhone"  name="telePhone">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="postName" class="col-sm-4 control-label">联系人岗位</label>
+                            <div class="col-sm-8">
+                                <input type="hidden" id="postID" name="postID" >
+                                <input type="text" class="form-control" id ="postName"  name="postName">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="contactAddress" class="col-sm-4 control-label">联系人地址</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id ="contactAddress"
+                                        name="contactAddress">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="availability2" class="col-sm-4 control-label">有效性</label>
+
+                            <div class="col-sm-8">
+                                <select class="form-control" id="availability2" name="availability">
+                                    <option value="1">有</option>
+                                    <option value="0">无</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label for="contactRemark" class="col-sm-2 control-label">备注</label>
+                            <div class="col-sm-10">
+								<textarea class="form-control" id="contactRemark"
+                                          name="contactRemark"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="cd-buttons">
+                        <button type="button"
+                                class="btn btn-primary cd-btn-save">保存
+                        </button>
+                        <button type="button"
+                                class="btn btn-danger cd-popup-close cd-btn cd-btn-deal ">关闭
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- cd-popup-container-end -->
+    </div>
+</div>
+<script src="../../src/alert/sweetalert2.min.js"></script>
+<!-- for IE support -->
+<script src="../../src/alert/es6-promise.auto.min.js"></script>
+<script src="../../src/js/quote/jquery.ui.min.js"></script>
+<script src="../../src/css/quote/lib/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+<script src="../../src/css/quote/lib/bootstrap-datetimepicker-master/locals/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+<script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+<script src="../../src/js/quote/jstree.min.js"></script>
+<script src="../../src/js/packtreegrid/pack2.js"></script>
+<script src="../../src/js/dialog/dialog2.js"></script>
+<script type="text/javascript" src="../../src/js/draggable/draggable.js"></script>
+<script>
+    var url="../../customer/addContact";
+    $(".cd-btn-save").on("click",function(){
+        if($("#contactName").val()==""){
+            swal({text: "联系人名称不能为空"});
+            return;
+        }
+        $.post(url,$("#form3").serialize(),function(data){
+            var data = JSON.parse(data);
+            swal({text: data.message});
+            ff($("#customerId2").val());
+            $("#form3")[0].reset();
+        })
+    });
+    function add(){
+        $(".showDiv2").show();
+        $("#form3")[0].reset();
+    }
+    function ff(customerId){
+        $.ajax({
+            async:false,
+            url:"../../customer/getContactTreeByCustomerId?customerId="+customerId,
+            type:"get",
+            success:function(data){
+                var  jsonData=JSON.parse(data);
+                callBack(jsonData.data);
+            }
+        });
+    }
+    function callBack(data){
+        var treeid = "ajax";
+        var tree=$("#"+treeid);
+        var inst, clickedNode;
+        var $save = $("#save");
+        var reg = /^j1_(\d+)/;
+        tree.jstree(false);
+        pack.showCheckboxTree(
+                data,
+                treeid,
+                "blue  fa fa-sitemap",
+                "search-tree",
+                ["dnd", "search", "state", "types", "wholerow", "contextmenu"
+                ],false,
+                false,
+                { "items": {
+                        "remove": {
+                            "label": "删除",
+                            "icon": "fa fa-times",
+                            "action": function (obj) {
+                                var ref = $('#ajax').jstree(true), sel = ref.get_selected();
+                                sel = sel[0];
+                                $.get("../../customer/deleteContact",{contactId:sel},function(data){
+                                    var data = JSON.parse(data);
+                                    swal({text: data.message});
+                                    ff($("#customerId2").val());
+                                });
+                            }
+                        },
+                        "rename": {
+                            "label": "编辑",
+                            "icon": "fa fa-pencil",
+                            "_disabled": false,
+                            "action": function (obj) {
+                                inst = $.jstree.reference(obj.reference);
+                                clickedNode = inst.get_node(obj.reference);
+                                $(".showDiv2").show();
+                                url = "../../customer/updateContact";
+                            }
+                        }
+                    }
+                }).bind("activate_node.jstree", function (e, data) {
+                    $(".showDiv2").hide();
+                    var cur = data.node;
+                    $("#form3")[0].reset();
+                    $.get("../../customer/findContactByContactId",{contactId:cur.id}, function (data) {
+                        var data = JSON.parse(data);
+                        var d = data.data;
+                        for (key in d) {
+                            $("#" + key).val(d[key])
+                        }
+                        $("#availability2").val(d["availability"]);
+                    });
+                })
+
+    }
+</script>
+<script>
+    var planningFilter = function (url) {
+        $(".addBtn2").on("click", function (e) {
+            $("#form2 input").val("");
+            $().dia('cd-popup');
+            $(".tabbar").html("增加");
+            $(".cd-btn-save").off("click");
+            $("#form2")[0].reset();
+            $(".showDiv").hide();
+            //获取登录人信息
+            $.get("../../session/getSession","", function (data){
+                $("#registrantName").val(data.data.employeename);
+                $("#registrantID").val(data.data.employeeid);
+                $(".cd-btn-save").on("click", function (e) {
+                    var arr = $("#form2").serialize();
+                    $.post('../../customer/add', arr, function (data) {
+                        if (data.state == "Success") {
+                            $("#grid-data").bootgrid("reload");
+                            swal({text: data.message});
+                        } else {
+                            swal({text: data.message});
+                        }
+                    }, 'json')$(".cd-btn-save").on("click", function (e) {
+                        var arr = $("#form2").serialize();
+                        $.post('../../customer/add', arr, function (data) {
+                            if (data.state == "Success") {
+                                $("#grid-data").bootgrid("reload");
+                                swal({text: data.message});
+                            } else {
+                                swal({text: data.message});
+                            }
+                        }, 'json')
+                    });
+                });
+            })
+        });
+        $("#grid-data").bootgrid("destroy");
+        var idname = "customerId";
+        var formatters = {
+            "commands": function (column, row) {
+                return "<a abs=\"查看\" class=\"btn-color btn btn-xs btn-default command-view\"  data-row-id=\"" + row[idname] + "\"><span class=\"fa  fa-eye\"></span></a>"
+                        + "<a  abs=\"编辑\" class=\"btn-color btn btn-xs btn-default command-edit\"  data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-pencil\"></span></a> " +
+                        "<a  abs=\"删除\" class=\"btn-color btn btn-xs btn-default command-delete\"  data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+            },
+            "contactView": function (column, row) {
+                return "<a abs=\"联系人\" class=\"btn-color btn btn-xs btn-default command-contact\" data-row-id=\"" + row[idname] + "\"><span class=\"fa fa-plus\"></span></a>"
+            }
+        };
+
+        var grid = pack.gridInit(url, "grid-data", formatters).on("loaded.rs.jquery.bootgrid", function (rows) {
+            //$().tip();
+            /* Executes after data is loaded and rendered */
+            grid.find(".command-delete").on("click", function (e) {
+                var _this = this;
+                swal({text: "删除第" + $(this).attr("data-row-id") + "行"});
+                $.get("../../customer/delete", {
+                    customerId: $(this).attr("data-row-id")
+                }, function (data) {
+                    $(_this).parents('tr').remove();
+                }, 'json');
+            }).end().find(".command-edit").on("click", function (e) {
+                $(".tabbar").html("编辑");
+                $().dia('cd-popup');
+                $("#form2")[0].reset();
+                $(".cd-buttons").show();
+                $(".showDiv").hide();
+                $.get('../../customer/findById', {customerId: $(this).attr("data-row-id")}, function (data) {
+                    var d = data.data;
+                    for (key in d) {
+                        $("#" + key).val(d[key]);
+                    }
+                }, 'json');
+                $(".cd-btn-save").off("click");
+                $(".cd-btn-save").on("click", function (e) {
+                    var arr = $("#form2").serialize();
+                    $.post('../../customer/update', arr, function (data) {
+                        if (data.state == "Success") {
+                            $("#grid-data").bootgrid("reload");
+                            swal({text: data.message});
+                        } else {
+                            swal({text: data.message});
+                        }
+                    }, 'json')
+                });
+            }).end().find(".command-view").on("click", function (e) {
+                $(".tabbar").html("查看");
+                $().dia('cd-popup');
+                $("#form2")[0].reset();
+                $(".showDiv").show();
+                $(".cd-buttons").hide();
+                $.get('../../customer/findById', {customerId: $(this).attr("data-row-id")}, function (data) {
+                    var d = data.data;
+                    for (key in d) {
+                        $("#" + key).val(d[key])
+                    }
+                }, 'json');
+            }).end().find(".command-contact").on("click", function (e) {
+                $("#form3")[0].reset();
+                $().dia('cd-popup2');
+                $(".tabbar").html("客户联系人");
+                $("#customerId2").val($(this).attr("data-row-id"));
+                ff($(this).attr("data-row-id"));
+
+            })
+        });
+    };
+    planningFilter("../../customer/findAll");
+    $(".serarchEmployee").on("click",function(){
+        planningFilter("../../customer/findAll?"+$("#searchForm").serialize());
+    });
+</script>
+</body>
+</html>

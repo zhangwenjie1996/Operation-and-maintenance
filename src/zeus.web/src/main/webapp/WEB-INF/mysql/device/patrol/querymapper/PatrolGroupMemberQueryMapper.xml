@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="ig.device.domain.mapper.patrol.querymapper.IPatrolGroupMemberQueryMapper">
+	<resultMap id="BaseResultMap"
+		type="ig.device.domain.viewmodel.patrol.PatrolGroupMemberViewModel">
+		<constructor>
+			<idArg column="patrolGroupMemberID" jdbcType="INTEGER"
+				javaType="java.lang.Integer" />
+			<arg column="employeeId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="employeeName" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+			<arg column="patrolGroupID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+		</constructor>
+	</resultMap>
+	<sql id="Base_Column_List">
+		patrolGroupMemberID, employeeId, employeeName,
+		availability, patrolGroupID,description
+	</sql>
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from patrolGroupMember
+		where patrolGroupMemberID =
+		#{patrolGroupMemberID,jdbcType=INTEGER}
+	</select>
+	
+	<select id="findAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from patrolGroupMember
+	</select>
+	
+	<select id="findByGroupId" resultType="ig.device.domain.viewmodel.patrol.PatrolGroupMemberViewModel"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from patrolGroupMember
+		where patrolGroupID =
+		#{2} and availability=1 limit #{0}, #{1}
+	</select>
+	<select id="findByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from patrolGroupMember
+		where employeeName LIKE CONCAT(CANCAT('%',#{employeeName}),'%')
+	</select>
+	<select id="countGroupMember" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		SELECT COUNT(1)FROM patrolGroupMember
+		where patrolGroupID =
+		#{patrolGroupID,jdbcType=INTEGER} and availability=1
+	</select>
+	<select id="findPageDataByName" parameterType="ig.archer.infrastructure.data.PagingData"
+		resultType="ig.device.domain.viewmodel.patrol.PatrolGroupMemberViewModel">
+		select 
+		<include refid="Base_Column_List" />
+		from patrolGroupMember
+		where
+		<if test="rows.employeeName!=null and rows.employeeName!=0">
+			and employeeName=#{rows.employeeName}
+		</if>
+		limit #{pageStart}, #{rowCount}
+	</select>
+	<select id="countByGroupMember" resultType="java.lang.Integer" parameterType="java.lang.String">
+		SELECT COUNT(1)FROM patrolGroupMember
+		where employeeName =
+		#{employeeName,jdbcType=INTEGER}
+	</select>
+	<select id="findListByGroupId" resultType="ig.device.domain.viewmodel.patrol.PatrolGroupMemberViewModel"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from patrolGroupMember
+		where patrolGroupID =
+		#{0} and availability=1 
+	</select>
+</mapper>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.warehouse.query.IWarehouseOutInvoiceQueryMapper" >
+
+  <sql id="Base_Column_List" >
+    storageOutInvoiceID, storageOutInvoiceNo, invoiceState, storageID, storageName, creatTime, 
+    createrID, createrName, approverID, approverName, availability, description
+  </sql>
+  <select id="findByID" resultType="ig.device.domain.viewmodel.warehouse.WarehouseOutInvoiceViewModel" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from warehouseOutInvoice
+    where storageOutInvoiceID = #{id}
+  </select>
+
+  <select id="findAllPage" resultType="ig.device.domain.viewmodel.warehouse.WarehouseOutInvoiceViewModel" parameterType="ig.archer.infrastructure.data.PagingData" >
+    select 
+    <include refid="Base_Column_List" />
+    from warehouseOutInvoice
+    where  availability = 1
+		<if test="rows.invoiceState != null">
+			AND invoiceState = #{rows.invoiceState}
+		</if>
+    	<if test="rows.no != null">
+                AND storageOutInvoiceNo LIKE concat(concat('%',#{rows.no}),'%')
+		</if>
+		<if test="rows.ID != null">
+                AND storageOutInvoiceID = #{rows.ID}
+		</if>
+		<if test="rows.creatTime != null">       
+                AND creatTime &gt; #{rows.creatTime}
+		</if>
+		<if test="rows.endTime != null">
+                AND creatTime &lt; #{rows.endTime}
+		</if>
+		<if test="rows.storageIDs != null">
+			AND storageID in
+			<foreach collection="rows.storageIDs" item="id" open="(" close=")"
+				separator=",">
+				#{id}
+			</foreach>
+		</if>
+		limit #{pageStart}, #{rowCount}
+  </select>
+
+
+  <select id="findAllTotal" resultType="java.lang.Integer" parameterType="ig.archer.infrastructure.data.PagingData" >
+    select 
+    count(1)
+    from warehouseOutInvoice
+    where  availability = 1
+		<if test="rows.invoiceState != null">
+			AND invoiceState = #{rows.invoiceState}
+		</if>
+    	<if test="rows.no != null">
+                AND storageOutInvoiceNo LIKE concat(concat('%',#{rows.no}),'%')
+		</if>
+    	<if test="rows.ID != null">
+                AND storageOutInvoiceID = #{rows.ID}
+		</if>
+		<if test="rows.creatTime != null">       
+                AND creatTime &gt; #{rows.creatTime}
+		</if>
+		<if test="rows.endTime != null">
+                AND creatTime &lt; #{rows.endTime}
+		</if>
+		<if test="rows.storageIDs != null">
+			AND storageID in
+			<foreach collection="rows.storageIDs" item="id" open="(" close=")"
+				separator=",">
+				#{id}
+			</foreach>
+		</if>
+  </select>
+
+</mapper>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet"
+          href="../../src/css/quote/themes/default/style.min.css"/>
+    <link rel="stylesheet"
+          href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet"
+          href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link href="../../src/css/quote/lib/jquery.bootgrid.min.css"
+          rel="stylesheet"/>
+    <link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+
+
+
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript"
+            src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript"
+            src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+    
+</head>
+<body>
+<div class="row deviceM">
+    <div class="col-sm-4 col-md-3 col-lg-3">
+        <div class="row-tree-menu">
+            <ol class="breadcrumb">
+                <li><a href="#">区域查询</a></li>
+            </ol>
+              <ol class="breadcrumb path-navigation">
+                <li><a href="#">当前区域</a></li>
+                <li class="active" id="currentDepart"></li>
+            </ol>
+            <div class="search-tree">
+                <input type="text" class="form-control" id="search-tree"
+                       placeholder="搜索">
+            </div>
+          
+            <div id="ajax" class="demo"></div>
+        </div>
+    </div>
+ 
+    <div class="col-sm-8 col-md-9 col-lg-9">
+		<div id="main" style="height:400px;"></div>
+<!-- 		<div id="view1" style="height:400px;"></div> -->
+<!-- 		<div id="view2" style="height:400px;"></div> -->
+ 		<div class="form-group  col-xs-12 col-sm-12 col-md-6  col-lg-6">
+	    	<div class="col-sm-8">
+	           <div id="view1" style="height:400px;"></div>
+	    	</div>       
+	    </div>
+ 		<div class="form-group  col-xs-12 col-sm-12 col-md-6  col-lg-6">
+	        <div class="col-sm-8">
+	           <div id="view2" style="height:400px;"></div>
+	    	</div>
+	    </div>
+<!-- 		<div id="view3" style="height:400px;"></div> -->
+<!-- 		<div id="view4" style="height:400px;"></div> -->
+    </div>
+</div>
+
+
+
+<script src="../../src/js/rowtree/rowtree.js"></script>
+<script src="http://cdn.gbtags.com/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+<script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+<script src="../../src/js/quote/jstree.js"></script>
+<script src="../../src/js/packtreegrid/pack2.js"></script>
+<script src="../../src/js/dialog/dialog.js"></script>
+<script src="../../src/js/ajaxurl/ajax.js"></script>
+<!-- 图 -->	
+<script src="../../js/echarts.min.js"></script>
+
+<script>
+	var myChart = echarts.init(document.getElementById('main'));
+	var view1 = echarts.init(document.getElementById('view1'));
+	var view2 = echarts.init(document.getElementById('view2'));
+// 	var view3 = echarts.init(document.getElementById('view3'));
+// 	var view4 = echarts.init(document.getElementById('view4'));
+	
+	var option = {
+		    color: ['#3398DB'],
+		    tooltip : {
+		        trigger: 'axis',
+		        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+		            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+		        }
+		    },
+		    title: {
+		        text: '设备类型'
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    xAxis : [
+		        {
+		            type : 'category',
+		            data : [],
+		            axisTick: {
+		                alignWithLabel: true
+		            },
+			        axisLabel:{  
+			            interval: 0,//横轴信息全部显示
+			            rotate: 10	//60度角倾斜显示
+			        }
+		        },
+		    ],
+		    yAxis : [
+		        {
+		            type : 'value'
+		        }
+		    ],
+		    series : [
+		        {
+		            name:'设备数量',
+		            type:'bar',
+ 		            barWidth: '20%',
+		            data:[]
+		        }
+		    ]
+		};
+	
+	// 使用刚指定的配置项和数据显示图表。
+	//myChart.setOption(option);
+
+
+
+
+
+
+    var storageID = "", deviceArea = [];
+    $.ajax({
+        async: false,
+        url: "../../DeviceArea/findTreeByDeviceArea",
+        type: "get",
+        success: function (data) {
+            var jsonData = JSON.parse(data);
+            callBack(jsonData.data);
+        }
+    });
+    function callBack(data) {
+        var treeid = "ajax";
+        var tree = $("#" + treeid);
+        var inst, clickedNode;
+        var $save = $("#save");
+        var reg = /^j1_(\d+)/;
+        tree.jstree(false);
+        pack.showCheckboxTree(
+                data,
+                treeid,
+                "blue  fa fa-sitemap",
+                "search-tree",
+                ["dnd", "search", "state", "types", "wholerow"
+                ], false,
+                false,
+                null).bind("activate_node.jstree", function (e, data) {
+                    var cur = data.node, aryParentID = [], aryChildID = [];
+                    aryChildID = cur.children_d;
+                    aryParentID.push(cur.id);
+                    deviceArea = aryParentID.concat(aryChildID);
+                    $("#currentDepart").html(cur.text);
+                    storageID = cur.id;
+                    $("#storageID").val(storageID);
+                    fff(storageID,deviceArea);
+                })
+    }
+
+	
+
+    
+    
+    
+    option1 = {
+    	    title : {
+    	        text: '设备状态',
+//    	        subtext: '纯属虚构',
+    	        x:'center'
+    	    },
+    	    tooltip : {
+    	        trigger: 'item',
+    	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    	    },
+    	    legend: {
+    	        orient: 'vertical',
+    	        left: 'left',
+    	        data: []
+    	    },
+    	    series : [
+    	        {
+    	            name: '状态',
+    	            type: 'pie',
+    	            radius : '55%',
+    	            center: ['50%', '60%'],
+    	            data:[],
+    	            itemStyle: {
+    	                emphasis: {
+    	                    shadowBlur: 10,
+    	                    shadowOffsetX: 0,
+    	                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+    	                }
+    	            }
+    	        }
+    	    ],
+    	    
+    	    color: ['rgb(0,104,139)','rgb(252,157,154)','rgb(205,51,51)','rgb(238,121,66)']
+    	}; 
+
+    option2 = {
+    	    title : {
+    	        text: '设备等级',
+    	        //subtext: '纯属虚构',
+    	        x:'center'
+    	    },
+    	    tooltip : {
+    	        trigger: 'item',
+    	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    	    },
+    	    legend: {
+    	        orient: 'vertical',
+    	        left: 'left',
+    	        data: []
+    	    },
+    	    series : [
+    	        {
+    	            name: '等级',
+    	            type: 'pie',
+    	            radius : '55%',
+    	            center: ['50%', '60%'],
+    	            data:[],
+    	            itemStyle: {
+    	                emphasis: {
+    	                    shadowBlur: 10,
+    	                    shadowOffsetX: 0,
+    	                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+    	                }
+    	            }
+    	        }
+    	    ]
+    	    
+    	};
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    var fff = function (storageID,deviceArea) {	
+		//柱状图:设备型号
+    	$.get("../../DeviceEcharts/findModelKind?storageID=" + storageID, "", function (data) {
+			option.xAxis[0].data = data.data.xAxis;
+			option.series[0].data = data.data.series;
+			myChart.setOption(option);
+	    }, 'json')
+	    //扇形图:设备状态
+		$.get("../../DeviceRelate/findDeviceState?deviceArea=" + deviceArea, "", function (data1) {
+			var name1 = []
+			for (var i = 0; i < data1.data.length; i++) {
+                name1.push(data1.data[i].name)
+            }
+            console.log(name1)
+			option1.legend.data = name1;
+			option1.series[0].data = data1.data;
+		    view1.setOption(option1);
+	    }, 'json')
+	    //扇形图:设备等级
+		$.get("../../DeviceEcharts/findDeviceGrade?deviceArea=" + deviceArea, "", function (data2) {
+			var name2 = []
+			for (var i = 0; i < data2.data.length; i++) {
+                name2.push(data2.data[i].name)
+            }
+                console.log(name2)
+			option2.legend.data = name2;
+			option2.series[0].data = data2.data;
+		    view2.setOption(option2);
+	    }, 'json')
+	    
+	};
+    
+    
+	fff(1,deviceArea);
+    
+    
+    
+
+
+</script>
+
+
+
+</body>
+</html>

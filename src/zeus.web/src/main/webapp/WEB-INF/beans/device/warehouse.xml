@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+	<!-- ============== Mapping ============== -->
+	<!-- Command -->
+	<bean id="iWarehouseMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.warehouse.IWarehouseMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMaterialMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.warehouse.IMaterialMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMaterialInfoMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="ig.device.domain.mapper.warehouse.IMaterialInfoMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iWarehouseInInvoiceMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="ig.device.domain.mapper.warehouse.IWarehouseInInvoiceMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iWarehouseInMaterialMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="ig.device.domain.mapper.warehouse.IWarehouseInMaterialMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iWarehouseOutInvoiceMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="ig.device.domain.mapper.warehouse.IWarehouseOutInvoiceMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iWarehouseOutMaterialMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="ig.device.domain.mapper.warehouse.IWarehouseOutMaterialMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+	<!-- Query -->
+	<bean id="iWarehouseQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.warehouse.query.IWarehouseQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMaterialQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.warehouse.query.IMaterialQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMaterialInfoQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.warehouse.query.IMaterialInfoQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iWarehouseInInvoiceQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.warehouse.query.IWarehouseInInvoiceQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iWarehouseInMaterialQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.warehouse.query.IWarehouseInMaterialQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iWarehouseOutInvoiceQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.warehouse.query.IWarehouseOutInvoiceQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iWarehouseOutMaterialQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.warehouse.query.IWarehouseOutMaterialQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+
+	<!-- ============== Repository ============== -->
+	<!-- Command -->
+	<bean id="iWarehouseRepository" name="IWarehouseRepository"
+		class="ig.device.domain.repository.warehouse.WarehouseRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iMaterialRepository" name="IMaterialRepository"
+		class="ig.device.domain.repository.warehouse.MaterialRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iMaterialInfoRepository" name="IMaterialInfoRepository"
+		class="ig.device.domain.repository.warehouse.MaterialInfoRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iWarehouseInInvoiceRepository" name="IWarehouseInInvoiceRepository"
+		class="ig.device.domain.repository.warehouse.WarehouseInInvoiceRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iWarehouseInMaterialRepository" name="IWarehouseInMaterialRepository"
+		class="ig.device.domain.repository.warehouse.WarehouseInMaterialRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iWarehouseOutInvoiceRepository" name="IWarehouseOutInvoiceRepository"
+		class="ig.device.domain.repository.warehouse.WarehouseOutInvoiceRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iWarehouseOutMaterialRepository" name="IWarehouseOutMaterialRepository"
+		class="ig.device.domain.repository.warehouse.WarehouseOutMaterialRepository"
+		autowire="byName">
+	</bean>
+
+	<!-- ============== Service ============== -->
+	<!-- Command -->
+	<bean id="iWarehouseService" name="IWarehouseService"
+		class="ig.device.domain.service.commandhandler.warehouse.basis.WarehouseService"
+		autowire="byName">
+	</bean>
+	<bean id="iMaterialService" name="IMaterialService"
+		class="ig.device.domain.service.commandhandler.warehouse.basis.MaterialService"
+		autowire="byName">
+	</bean>
+	<bean id="iMaterialInfoService" name="IMaterialInfoService"
+		class="ig.device.domain.service.commandhandler.warehouse.basis.MaterialInfoService"
+		autowire="byName">
+	</bean>
+	<bean id="iWarehouseInOutService" name="IWarehouseInOutService"
+		class="ig.device.domain.service.commandhandler.warehouse.basis.WarehouseInOutService"
+		autowire="byName">
+	</bean>
+
+
+	<!-- ============== Application ============== -->
+	<!-- Command -->
+	<bean id="WarehouseApp" name="IWarehouseApp"
+		class="ig.device.application.commandhandler.warehouse.basis.WarehouseApp"
+		autowire="byName">
+	</bean>
+	<bean id="MaterialInfoApp" name="IMaterialInfoApp"
+		class="ig.device.application.commandhandler.warehouse.basis.MaterialInfoApp"
+		autowire="byName">
+	</bean>
+	<bean id="WarehouseInOutApp" name="IWarehouseInOutApp"
+		class="ig.device.application.commandhandler.warehouse.basis.WarehouseInOutApp"
+		autowire="byName">
+	</bean>
+
+	<!-- Query -->
+	<bean id="WarehouseQueryApp" name="IWarehouseQueryApp"
+		class="ig.device.application.query.warehouse.basis.WarehouseQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="MaterialQueryApp" name="IMaterialQueryApp"
+		class="ig.device.application.query.warehouse.basis.MaterialQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="MaterialInfoQueryApp" name="IMaterialInfoQueryApp"
+		class="ig.device.application.query.warehouse.basis.MaterialInfoQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="WarehouseInOutQueryApp" name="IWarehouseInOutQueryApp"
+		class="ig.device.application.query.warehouse.basis.WarehouseInOutQueryApp"
+		autowire="byName">
+	</bean>
+
+</beans>

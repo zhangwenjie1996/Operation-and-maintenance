@@ -1,0 +1,32 @@
+{
+  "current": 2,
+  "rowCount": 5,
+  "rows": [
+    {
+      "id": "1",
+      "roleName": "管理员",
+      "remarks": "我是管理员"
+    },
+    {
+      "id": "2",
+      "roleName": "超级管理员",
+      "remarks": "我是超级管理员"
+    },
+    {
+      "id": "3",
+      "roleName": "用户",
+      "remarks": "我是用户"
+    },
+    {
+      "id": "4",
+      "roleName": "大数据",
+      "remarks": "超控数据"
+    },
+    {
+      "id": "5",
+      "roleName": "管理员",
+      "remarks": "我是管理员"
+    }
+  ],
+  "total":15
+}

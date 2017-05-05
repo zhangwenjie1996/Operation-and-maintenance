@@ -1,0 +1,23 @@
+{
+  "current": 1,
+  "rowCount": 5,
+  "rows": [
+
+    {
+      "permissionGroup": "高级管理员"
+    },
+    {
+      "permissionGroup": "高级用户"
+    },
+    {
+      "permissionGroup": "普通用户"
+    },
+    {
+      "permissionGroup": "行政人员"
+    },
+    {
+      "permissionGroup": "高级管理员"
+    }
+  ],
+  "total": 200
+}

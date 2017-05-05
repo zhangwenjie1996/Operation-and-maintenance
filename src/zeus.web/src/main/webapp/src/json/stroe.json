@@ -1,0 +1,34 @@
+{
+    "state":"Success",
+    "message":"请求成功！",
+    "data":{
+       
+        "rows":[
+            {
+                "storageOutMaterialID":5,
+                "storageOutInvoiceID":8,
+                "itemCode":"222123",
+                "categoryID":1,
+                "categoryName":"1122",
+                "modelID":1,
+                "modelName":"1122",
+                "amount":1,
+                "unitPrice":10,
+                "providerID":1,
+                "providerName":"11",
+                "producer":"11111",
+                "description":"1111111"
+            }
+        ],
+        "storageOutInvoiceID":8,
+        "invoiceState":0,
+        "storageID":2,
+        "storageName":"123",
+        "creatTime":"2016-10-20 12:52:20",
+        "createrID":1,
+        "createrName":"112",
+        "approverID":0,
+        "availability":false,
+        "description":"123123"
+    }
+}

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd  
+http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd">
+
+
+ <!-- 线程执行器配置，用于任务注册 -->
+	<bean id="executor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="10" />
+		<property name="maxPoolSize" value="100" />
+		<property name="queueCapacity" value="500" />
+	</bean>
+
+	<!-- 任务类型 -->
+	<bean id="creatTask" class="ig.device.controller.patrol.task.CreatTask" />
+	<bean id="cancelledTimeoutTask" class="ig.device.controller.patrol.task.CancelledTimeoutTask" />
+	<bean id="creatMaintainTask" class="ig.device.controller.miantain.task.CreatMaintainTask" />
+	<bean id="cancelledTimeoutMaintainTask" class="ig.device.controller.miantain.task.CancelledTimeoutMaintainTask" />
+	<bean id="materialAmountWarn" class="ig.device.controller.warehouse.task.MaterialAmountWarnTask" />
+	<!--调度业务 : 定义调用对象和调用对象的方法 -->
+	<bean id="cronTask1"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 调用的类 -->
+		<property name="targetObject" ref="creatTask" />
+		<!-- 调用类中的方法 -->
+		<property name="targetMethod" value="creatTask" />
+	</bean>
+	<bean id="cronTask2"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 调用的类 -->
+		<property name="targetObject" ref="cancelledTimeoutTask" />
+		<!-- 调用类中的方法 -->
+		<property name="targetMethod" value="changeTimeoutTask" />
+	</bean>
+	<bean id="cronTask3"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 调用的类 -->
+		<property name="targetObject" ref="creatMaintainTask" />
+		<!-- 调用类中的方法 -->
+		<property name="targetMethod" value="creatMaintainTask" />
+	</bean>
+	<bean id="cronTask4"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 调用的类 -->
+		<property name="targetObject" ref="cancelledTimeoutMaintainTask" />
+		<!-- 调用类中的方法 -->
+		<property name="targetMethod" value="changeTimeoutMaintainTask" />
+	</bean>
+	<bean id="cronTask5"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 调用的类 -->
+		<property name="targetObject" ref="materialAmountWarn" />
+		<!-- 调用类中的方法 -->
+		<property name="targetMethod" value="amountWarnTask" />
+	</bean>
+	<!-- 定义触发时间 -->
+	<bean id="cronTrigger1"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="cronTask1" />
+		<property name="cronExpression" value="0 41 14 ? * * " />
+	</bean>
+	<bean id="cronTrigger2"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="cronTask2" />
+		<property name="cronExpression" value="30 0 0 ? * * " />
+	</bean>
+	<bean id="cronTrigger3"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="cronTask3" />
+		<property name="cronExpression" value="0 0 14 ? * * " />
+	</bean>
+	<bean id="cronTrigger4"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="cronTask4" />
+		<property name="cronExpression" value="0 0 0 ? * * " />
+	</bean>
+	<bean id="cronTrigger5"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="cronTask5" />
+		<property name="cronExpression" value="0 0/15 * ? * * " />
+	</bean>
+	<!-- 调度器 -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="jobDetails">
+			<list>
+				<ref bean="cronTask1" />
+				<ref bean="cronTask2" />
+				<ref bean="cronTask3" />
+				<ref bean="cronTask4" />
+				<ref bean="cronTask5" />
+			</list>
+		</property>
+		<property name="triggers">
+			<list>
+				<ref bean="cronTrigger1" />
+				<ref bean="cronTrigger2" />
+				<ref bean="cronTrigger3" />
+				<ref bean="cronTrigger4" />
+				<ref bean="cronTrigger5" />
+			</list>
+		</property>
+	</bean>
+</beans>

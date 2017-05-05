@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.patrol.IPatrolPlanMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.model.patrol.plan.PatrolPlan" >
+    <constructor >
+      <idArg column="patrolPlanID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="patrolPlanName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="patrolGroupID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="patrolRouteID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="start" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="end" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="period" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="taskStartTime" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="taskEndTime" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+     patrolPlanID ID, patrolPlanName, patrolGroupID, patrolRouteID, start, end, period, availability, description, 
+    taskStartTime, taskEndTime
+  </sql>
+  <select id="findById" resultType="ig.device.domain.model.patrol.plan.PatrolPlan" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from patrolPlan
+    where patrolPlanID = #{ID,jdbcType=INTEGER}
+  </select>
+  <select id="findAvailablePlan" resultType="ig.device.domain.model.patrol.plan.PatrolPlan">
+    select 
+    <include refid="Base_Column_List" />
+    from patrolPlan
+    where availability = 1
+  </select>
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from patrolPlan
+    where patrolPlanID = #{ID,jdbcType=INTEGER}
+  </delete>
+  
+  <update id="remove" parameterType="java.lang.Integer">
+	update patrolPlan
+	set availability = 0
+	where patrolPlanID = #{ID,jdbcType=INTEGER}
+  </update>
+  <insert id="insert" parameterType="ig.device.domain.model.patrol.plan.PatrolPlan" >
+    insert into patrolPlan (patrolPlanName, patrolRouteID, 
+      start, end, period, 
+      availability, description, taskStartTime, 
+      taskEndTime)
+    values ( #{patrolPlanName,jdbcType=VARCHAR},#{patrolRouteID,jdbcType=INTEGER}, 
+      #{start,jdbcType=TIMESTAMP}, #{end,jdbcType=TIMESTAMP}, #{period,jdbcType=INTEGER}, 
+      #{availability,jdbcType=TINYINT}, #{description,jdbcType=VARCHAR}, #{taskStartTime,jdbcType=VARCHAR}, 
+      #{taskEndTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="add" useGeneratedKeys="true" keyProperty="ID" parameterType="ig.device.domain.model.patrol.plan.PatrolPlan" >
+    insert into patrolPlan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ID != null" >
+        patrolPlanID,
+      </if>
+       <if test="patrolPlanName != null" >
+        patrolPlanName,
+      </if>
+      <if test="patrolGroupID != null" >
+        patrolGroupID,
+      </if>
+      <if test="patrolRouteID != null" >
+        patrolRouteID,
+      </if>
+      <if test="start != null" >
+        start,
+      </if>
+      <if test="end != null" >
+        end,
+      </if>
+      <if test="period != null" >
+        period,
+      </if>
+      <if test="availability != null" >
+        availability,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="taskStartTime != null" >
+        taskStartTime,
+      </if>
+      <if test="taskEndTime != null" >
+        taskEndTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ID != null" >
+        #{ID,jdbcType=INTEGER},
+      </if>
+       <if test="patrolPlanName != null" >
+        #{patrolPlanName,jdbcType=VARCHAR},
+      </if>
+      <if test="patrolGroupID != null" >
+        #{patrolGroupID,jdbcType=INTEGER},
+      </if>
+      <if test="patrolRouteID != null" >
+        #{patrolRouteID,jdbcType=INTEGER},
+      </if>
+      <if test="start != null" >
+        #{start,jdbcType=TIMESTAMP},
+      </if>
+      <if test="end != null" >
+        #{end,jdbcType=TIMESTAMP},
+      </if>
+      <if test="period != null" >
+        #{period,jdbcType=INTEGER},
+      </if>
+      <if test="availability != null" >
+        #{availability,jdbcType=TINYINT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="taskStartTime != null" >
+        #{taskStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="taskEndTime != null" >
+        #{taskEndTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ig.device.domain.model.patrol.plan.PatrolPlan" >
+   update patrolPlan
+    <set >
+     <if test="patrolPlanName != null" >
+        patrolPlanName = #{patrolPlanName,jdbcType=VARCHAR},
+      </if>
+      <if test="patrolGroupID != null" >
+        patrolGroupID = #{patrolGroupID,jdbcType=INTEGER},
+      </if>
+      <if test="patrolRouteID != null" >
+        patrolRouteID = #{patrolRouteID,jdbcType=INTEGER},
+      </if>
+      <if test="start != null" >
+        start = #{start,jdbcType=TIMESTAMP},
+      </if>
+      <if test="end != null" >
+        end = #{end,jdbcType=TIMESTAMP},
+      </if>
+      <if test="period != null" >
+        period = #{period,jdbcType=INTEGER},
+      </if>
+      <if test="availability != null" >
+        availability = #{availability,jdbcType=TINYINT},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="taskStartTime != null" >
+        taskStartTime = #{taskStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="taskEndTime != null" >
+        taskEndTime = #{taskEndTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where patrolPlanID = #{ID,jdbcType=INTEGER}
+  </update>
+  <update id="update" parameterType="ig.device.domain.model.patrol.plan.PatrolPlan" >
+    update patrolPlan
+    set patrolPlanName = #{patrolPlanName,jdbcType=VARCHAR},
+    patrolGroupID = #{patrolGroupID,jdbcType=INTEGER},
+      patrolRouteID = #{patrolRouteID,jdbcType=INTEGER},
+      start = #{start,jdbcType=TIMESTAMP},
+      end = #{end,jdbcType=TIMESTAMP},
+      period = #{period,jdbcType=INTEGER},
+      availability = #{availability,jdbcType=TINYINT},
+      description = #{description,jdbcType=VARCHAR},
+      taskStartTime = #{taskStartTime,jdbcType=VARCHAR},
+      taskEndTime = #{taskEndTime,jdbcType=VARCHAR}
+    where patrolPlanID = #{ID,jdbcType=INTEGER}
+  </update>
+  <select id="findByPatrolGroupID" resultType="ig.device.domain.model.patrol.plan.PatrolPlan" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from patrolPlan
+    where patrolGroupID = #{patrolGroupID,jdbcType=INTEGER}
+  </select>
+  <select id="findByPatrolRouteID" resultType="ig.device.domain.model.patrol.plan.PatrolPlan" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from patrolPlan
+    where patrolRouteID = #{patrolRouteID,jdbcType=INTEGER}
+  </select>
+  <update id="updateAvailability" parameterType="ig.device.domain.model.patrol.plan.PatrolPlan" >
+    update patrolPlan
+    set
+      availability = 0
+    where patrolPlanID = #{ID,jdbcType=INTEGER}
+  </update>
+</mapper>

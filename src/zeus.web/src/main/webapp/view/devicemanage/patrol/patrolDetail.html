@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet"
+          href="../../src/css/quote/themes/default/style.min.css"/>
+    <link rel="stylesheet"
+          href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet"
+          href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link href="../../src/css/quote/lib/jquery.bootgrid.min.css"
+          rel="stylesheet"/>
+             <!-- alert -->
+	<link rel="stylesheet" type="text/css" href="../../src/alert/sweetalert2.min.css">  
+    <link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+     
+    <!--<script type="text/javascript" src="dist/js/jquery.i18n.properties-1.0.9.js"></script>-->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript"
+            src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript"
+            src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="row deviceM">
+    <ol class="breadcrumb path-navigation">
+         <li><a href="patrolTask.html">巡检任务</a></li>
+        <li><a href="patrolReport.html">巡检报告</a></li>
+        <li class="active">巡检设备详情</li>
+    </ol>
+    <div class="col-sm-12 col-md-12 col-lg-12">
+ 
+        <div class="device-list-row">
+            <ol class="breadcrumb">
+                <li><a><i></i>巡检设备</a></li>
+            </ol>
+            <!-- 
+     <button class="addBtn btn btn-primary btn-sm">
+                <i class="fa fa-plus">增加 </i>
+            </button>
+             -->
+            <table id="patrol-detail"
+                   class="table table-condensed table-hover table-striped">
+                <thead>
+                <tr>
+                    <!--<th data-column-id="id" data-identifier="true" data-type="numeric">Article ID</th>-->
+                    <th data-column-id="patrolDeviceDetailsID" data-identifier="true" data-type="numeric" data-visible="false">巡检设备详情序号</th>
+                    <th data-column-id="patrolDeviceID" data-identifier="true" data-type="numeric" data-visible="false">巡检设备序号</th>
+                    <th data-column-id="parameterName">参数名称</th>
+                    <th data-column-id="normalValue" >正常值</th>
+                    <th data-column-id="patrolValue" >巡检值</th>
+                    <th data-column-id="priority" >优先级</th>
+                    <th data-column-id="state" >状态</th>
+                  <!--    <th data-column-id="availability" >是否有效</th>-->
+                    <th data-column-id="description" >描述</th>
+                           <!--  
+                    <th data-column-id="commands" data-formatter="commands"
+                        data-sortable="false">操作
+                    </th>
+                    -->
+                </tr>
+                </thead>
+            </table>
+        </div>  
+    </div>
+</div>
+<!-- cd-popup-container-start -->
+<div class="cd-popup" role="alert">
+    <div class="cd-popup-container">
+        <a class="cd-popup-close icon-close fa fa-times"></a>
+        <div class="tabbar"></div>
+        <div class="mnk">
+            <form id="formDetail" class="form-horizontal form-block">
+               <input  type="hidden"  id="patrolDeviceDetailsID" name="patrolDeviceDetailsID" /> 
+                 <div class="form-group">
+                    <label for="patrolDeviceID" class="col-sm-2 control-label">参数名称</label>
+
+                    <div class="col-sm-10">
+                        <input readOnly="readonly" class="form-control" id="patrolDeviceID" placeholder=" "
+                               name="patrolDeviceID">
+                    </div>
+                </div> 
+                <div class="form-group">
+                    <label for="parameterName" class="col-sm-2 control-label">参数名称</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="parameterName" placeholder=" "
+                               name="parameterName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="normalValue" class="col-sm-2 control-label">正常值</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="normalValue" placeholder=" " name="normalValue">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="patrolValue" class="col-sm-2 control-label">巡检值</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="patrolValue" placeholder=" " name="patrolValue">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="priority" class="col-sm-2 control-label">优先级</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="priority" placeholder=" " name="priority">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="state" class="col-sm-2 control-label">状态</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="state" placeholder=" "
+                               name="state">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="availability" class="col-sm-2 control-label">是否有效</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="availability" placeholder=" " name="availability">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description" class="col-sm-2 control-label">描述</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="description" placeholder=""  name="description">
+                    </div>
+                </div>
+                
+            </form>
+            <div class="cd-buttons">
+                <button type="button"
+                        class="btn btn-primary cd-popup-close cd-btn cd-btn-save">保存
+                </button>
+                <button type="button"
+                        class="btn btn-danger cd-popup-close cd-btn cd-btn-deal">取消
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- cd-popup-container-end -->
+</div>
+
+	<script src="../../src/alert/sweetalert2.min.js"></script> 
+	<!-- for IE support -->
+	<script src="../../src/alert/es6-promise.auto.min.js"></script> 
+<script src="http://cdn.gbtags.com/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+<script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+<script src="../../src/js/quote/jstree.js"></script>
+<script src="../../src/js/packtreegrid/pack2.js"></script>
+<script src="../../src/js/dialog/dialog.js"></script>
+<script src="../../src/js/ajaxurl/ajax.js"></script>
+<script src="../../src/js/curd/curd2.js"></script>
+ 
+<script>
+//巡检信息  
+var patrolDeviceID=localStorage.getItem("patrolDeviceID");
+var patrolDetail = function (url,container) {
+	   $(".addBtn" ).on("click", function (e) {
+       	$().dia(e);
+       	var container=container;
+       	$("#patrolDeviceID").val(patrolDeviceID);
+           curd.cdBtnSave("../../PatrolTaskController/addPatrolDeviceDetails",container,"#formDetail");
+   });
+   $("#"+container).bootgrid("destroy");
+    var idname="patrolDeviceDetailsID";
+    var formatters= {
+            "commands": function (column, row) {
+                return "<a  abs=\"编辑\" class=\"btn-color btn btn-xs btn-default command-edit\"  data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-pencil\"></span></a> " +
+                "<a abs=\"查看详情\"   class=\"btn-color btn btn-xs btn-default command-view\" data-row-id=\"" + row[idname] + "\"><span class=\"fa fa-eye\"></span></a>" +
+                "<a abs=\"删除\"   class=\"btn-color btn btn-xs btn-default command-delete\" data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+            } 
+          
+        };
+
+   var grid=  pack.gridInit(url, container,formatters).on("loaded.rs.jquery.bootgrid", function () {
+     $().tip();
+     
+     grid.find(".command-delete").on("click", function (e) {
+    	   curd.delBtn("../../PatrolTaskController/removePatrolDeviceDetails", this)
+            }).end().find(".command-edit").on("click", function (e) {
+            	 $("#formDetail").bootgrid("reload");
+        	  $(".tabbar").html("编辑");
+            $().dia(e);
+            var id=$(this).attr("data-row-id");
+       	 curd.showInfo("../../PatrolTaskController/findDeviceDetailsById", this);
+       	 curd.cdBtnSave("../../PatrolTaskController/updatePatrolDeviceDetails", container,"#formDetail");
+ }).end().find(".command-view").on("click", function (e) {
+       $().dia2(e);
+       	 curd.showInfo("../../PatrolTaskController/findDeviceDetailsById", this);
+  })
+    });
+};
+patrolDetail("../../PatrolTaskController/findByDeviceId?id="+patrolDeviceID,"patrol-detail");
+   
+// $(".cd-popup-close").off("click");
+//    $(".cd-popup-close").on("click",function(){
+// 	   $("#formDetail").bootgrid("reload");
+	   
+//    })
+</script>
+
+
+</body>
+</html>

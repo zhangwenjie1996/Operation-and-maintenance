@@ -1,0 +1,22 @@
+[
+  {
+    "roleID": 1,
+    "roleName": "钳工"
+  },
+  {
+    "roleID": 2,
+    "roleName": "财务"
+  },
+  {
+    "roleID": 3,
+    "roleName": "客服"
+  },
+  {
+    "roleID": 4,
+    "roleName": "配送员"
+  },
+  {
+    "roleID": 5,
+    "roleName": "账单管理员"
+  }
+]

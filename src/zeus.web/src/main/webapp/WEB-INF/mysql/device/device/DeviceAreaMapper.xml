@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.manage.IDeviceAreaMapper">
+	<resultMap id="BaseResultMap" type="ig.device.domain.model.manage.DeviceArea">
+		<constructor>
+			<idArg column="ID" javaType="java.lang.Integer" />
+			<arg column="storageName" javaType="java.lang.String" />
+			<arg column="supStorageID" javaType="java.lang.Integer" />
+			<arg column="hasChildren" javaType="java.lang.Boolean" />
+			<arg column="storagable" javaType="java.lang.Boolean" />
+			<arg column="capacity" javaType="java.lang.Integer" />
+			<arg column="unusedCapacity" javaType="java.lang.Integer" />
+			<arg column="usedCapacity" javaType="java.lang.Integer" />
+			<arg column="availability" javaType="java.lang.Boolean" />
+			<arg column="description" javaType="java.lang.String" />
+			<arg column="address" javaType="java.lang.String" />
+		</constructor>
+	</resultMap>
+	<sql id="Base_Column_List">
+		storageID ID, storageName, supStorageID, hasChildren, storagable, capacity,
+		unusedCapacity,
+		usedCapacity, availability, description, address, organID, organName, employeeID,
+		employeeName
+	</sql>
+
+	<select id="findByID" resultType="ig.device.domain.model.manage.DeviceArea"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from deviceArea
+		where storageID = #{id}
+	</select>
+
+	<update id="delete" parameterType="java.lang.Integer">
+		update deviceArea set availability = 0
+		where storageID = #{id}
+	</update>
+
+	<insert id="insert" parameterType="ig.device.domain.model.manage.DeviceArea"
+		useGeneratedKeys="true" keyProperty="ID">
+		insert into deviceArea
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ID != null">
+				storageID,
+			</if>
+			<if test="storageName != null">
+				storageName,
+			</if>
+			<if test="supStorageID != null">
+				supStorageID,
+			</if>
+			<if test="hasChildren != null">
+				hasChildren,
+			</if>
+			<if test="storagable != null">
+				storagable,
+			</if>
+			<if test="capacity != null">
+				capacity,
+			</if>
+			<if test="unusedCapacity != null">
+				unusedCapacity,
+			</if>
+			<if test="usedCapacity != null">
+				usedCapacity,
+			</if>
+			<if test="availability != null">
+				availability,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="organID != null">
+				organID,
+			</if>
+			<if test="organName != null">
+				organName,
+			</if>
+			<if test="employeeID != null">
+				employeeID,
+			</if>
+			<if test="employeeName != null">
+				employeeName,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ID != null">
+				#{ID},
+			</if>
+			<if test="storageName != null">
+				#{storageName},
+			</if>
+			<if test="supStorageID != null">
+				#{supStorageID},
+			</if>
+			<if test="hasChildren != null">
+				#{hasChildren},
+			</if>
+			<if test="storagable != null">
+				#{storagable},
+			</if>
+			<if test="capacity != null">
+				#{capacity},
+			</if>
+			<if test="unusedCapacity != null">
+				#{unusedCapacity},
+			</if>
+			<if test="usedCapacity != null">
+				#{usedCapacity},
+			</if>
+			<if test="availability != null">
+				#{availability},
+			</if>
+			<if test="description != null">
+				#{description},
+			</if>
+			<if test="address != null">
+				#{address},
+			</if>
+			<if test="organID != null">
+				#{organID},
+			</if>
+			<if test="organName != null">
+				#{organName},
+			</if>
+			<if test="employeeID != null">
+				#{employeeID},
+			</if>
+			<if test="employeeName != null">
+				#{employeeName},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="ig.device.domain.model.manage.DeviceArea">
+		update deviceArea
+		<set>
+			<if test="storageName != null">
+				storageName = #{storageName},
+			</if>
+			<if test="supStorageID != null">
+				supStorageID = #{supStorageID},
+			</if>
+			<if test="hasChildren != null">
+				hasChildren = #{hasChildren},
+			</if>
+			<if test="storagable != null">
+				storagable = #{storagable},
+			</if>
+			<if test="capacity != null">
+				capacity = #{capacity},
+			</if>
+			<if test="unusedCapacity != null">
+				unusedCapacity = #{unusedCapacity},
+			</if>
+			<if test="usedCapacity != null">
+				usedCapacity = #{usedCapacity},
+			</if>
+			<if test="availability != null">
+				availability = #{availability},
+			</if>
+			<if test="description != null">
+				description = #{description},
+			</if>
+			<if test="address != null">
+				address = #{address},
+			</if>
+			<if test="organID != null">
+				organID = #{organID},
+			</if>
+			<if test="organName != null">
+				organName = #{organName},
+			</if>
+			<if test="employeeID != null">
+				employeeID = #{employeeID},
+			</if>
+			<if test="employeeName != null">
+				employeeName = #{employeeName},
+			</if>
+		</set>
+		where storageID = #{ID}
+	</update>
+</mapper>

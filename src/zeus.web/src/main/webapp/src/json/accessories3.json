@@ -1,0 +1,24 @@
+{
+  "current": 2,
+  "rowCount": 5,
+  "rows": [
+    {
+     "specificationName": 1,
+      "specificationValue": "2"
+     
+    },
+    {
+     "specificationName": 2,
+      "specificationValue": "2"
+    },
+    {
+     "specificationName": 3,
+      "specificationValue": "2"
+    },
+    {
+     "specificationName": 4,
+      "specificationValue": "2"
+    }
+  ],
+  "total": 10
+}

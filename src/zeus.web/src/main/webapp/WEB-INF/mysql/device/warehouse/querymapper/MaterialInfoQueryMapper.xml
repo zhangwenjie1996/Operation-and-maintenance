@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.warehouse.query.IMaterialInfoQueryMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.viewmodel.warehouse.MaterialInfoViewModel" >
+    <constructor >
+      <idArg column="itemID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="groupID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="itemCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="unitPrice" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="amount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="providerID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="providerName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="producer" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="operateTime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="availability" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    itemID, groupID, itemCode, unitPrice, amount, providerID, providerName, producer, 
+    operateTime, availability, description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from materialInfo
+    where itemID = #{itemID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from materialInfo
+    where itemID = #{itemID,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="ig.device.domain.viewmodel.warehouse.MaterialInfoViewModel" >
+    insert into materialInfo (itemID, groupID, itemCode, 
+      unitPrice, amount, providerID, 
+      providerName, producer, operateTime, 
+      availability, description)
+    values (#{itemID,jdbcType=INTEGER}, #{groupID,jdbcType=INTEGER}, #{itemCode,jdbcType=VARCHAR}, 
+      #{unitPrice,jdbcType=DECIMAL}, #{amount,jdbcType=INTEGER}, #{providerID,jdbcType=INTEGER}, 
+      #{providerName,jdbcType=VARCHAR}, #{producer,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, 
+      #{availability,jdbcType=BIT}, #{description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="ig.device.domain.viewmodel.warehouse.MaterialInfoViewModel" >
+    insert into materialInfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="itemID != null" >
+        itemID,
+      </if>
+      <if test="groupID != null" >
+        groupID,
+      </if>
+      <if test="itemCode != null" >
+        itemCode,
+      </if>
+      <if test="unitPrice != null" >
+        unitPrice,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="providerID != null" >
+        providerID,
+      </if>
+      <if test="providerName != null" >
+        providerName,
+      </if>
+      <if test="producer != null" >
+        producer,
+      </if>
+      <if test="operateTime != null" >
+        operateTime,
+      </if>
+      <if test="availability != null" >
+        availability,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="itemID != null" >
+        #{itemID,jdbcType=INTEGER},
+      </if>
+      <if test="groupID != null" >
+        #{groupID,jdbcType=INTEGER},
+      </if>
+      <if test="itemCode != null" >
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="providerID != null" >
+        #{providerID,jdbcType=INTEGER},
+      </if>
+      <if test="providerName != null" >
+        #{providerName,jdbcType=VARCHAR},
+      </if>
+      <if test="producer != null" >
+        #{producer,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="availability != null" >
+        #{availability,jdbcType=BIT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ig.device.domain.viewmodel.warehouse.MaterialInfoViewModel" >
+    update materialInfo
+    <set >
+      <if test="groupID != null" >
+        groupID = #{groupID,jdbcType=INTEGER},
+      </if>
+      <if test="itemCode != null" >
+        itemCode = #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        unitPrice = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="providerID != null" >
+        providerID = #{providerID,jdbcType=INTEGER},
+      </if>
+      <if test="providerName != null" >
+        providerName = #{providerName,jdbcType=VARCHAR},
+      </if>
+      <if test="producer != null" >
+        producer = #{producer,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        operateTime = #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="availability != null" >
+        availability = #{availability,jdbcType=BIT},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where itemID = #{itemID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ig.device.domain.viewmodel.warehouse.MaterialInfoViewModel" >
+    update materialInfo
+    set groupID = #{groupID,jdbcType=INTEGER},
+      itemCode = #{itemCode,jdbcType=VARCHAR},
+      unitPrice = #{unitPrice,jdbcType=DECIMAL},
+      amount = #{amount,jdbcType=INTEGER},
+      providerID = #{providerID,jdbcType=INTEGER},
+      providerName = #{providerName,jdbcType=VARCHAR},
+      producer = #{producer,jdbcType=VARCHAR},
+      operateTime = #{operateTime,jdbcType=TIMESTAMP},
+      availability = #{availability,jdbcType=BIT},
+      description = #{description,jdbcType=VARCHAR}
+    where itemID = #{itemID,jdbcType=INTEGER}
+  </update>
+</mapper>

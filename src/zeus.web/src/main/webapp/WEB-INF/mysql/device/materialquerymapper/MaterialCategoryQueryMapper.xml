@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.material.querymapper.IMaterialCategoryQueryMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.viewmodel.material.MaterialCategoryViewModel" >
+    <constructor >
+      <idArg column="materialCategoryID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="materialCategoryName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="unitID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="materialType" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="superiorID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    materialCategoryID, materialCategoryName, unitID, materialType, availability, description, 
+    superiorID
+  </sql>
+  <select id="findById" parameterType="java.lang.Integer" resultType="ig.device.domain.viewmodel.material.MaterialCategoryViewModel">
+    select 
+    materialCategoryID, materialCategoryName, unitID, materialType, availability, description, superiorID
+    from materialCategory
+    where materialCategoryID = #{materialCategoryID,jdbcType=INTEGER} and availability=1
+  </select>
+  
+  <select id="findAll" resultType="ig.device.domain.viewmodel.material.MaterialCategoryViewModel" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from materialCategory 
+    where availability=1
+  </select>
+  
+  <select id="findMaterialType" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from materialCategory
+    where materialType = #{materialType,jdbcType=INTEGER} and availability=1
+  </select>
+  
+  <select id="findSuperiorID" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from materialCategory
+    where superiorID = #{superiorID,jdbcType=INTEGER} and availability=1
+  </select>
+  
+  <select id="findCategoryTree" resultType="ig.device.domain.viewmodel.material.TreeListViewModel" >
+    select materialCategoryID id,superiorID parent,materialCategoryName text from materialCategory  where availability=1
+  </select>
+</mapper>

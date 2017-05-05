@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.query.IPostQueryRepository">
+	<resultMap id="BaseResultMap" type="ig.zeus.domain.repository.viewmodel.PostViewModel">
+		<id column="postID" property="postid" jdbcType="INTEGER" />
+		<result column="organID" property="organid" jdbcType="INTEGER" />
+		<result column="postName" property="postname" jdbcType="VARCHAR" />
+		<result column="standardNumber" property="standardnumber"
+			jdbcType="INTEGER" />
+		<result column="availability" property="availability" jdbcType="BIT" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="count" resultType="java.lang.Integer">
+		SELECT COUNT(1)FROM post
+	</select>
+	<select id="findById" resultType="ig.zeus.domain.repository.viewmodel.PostViewModel" parameterType="java.lang.Integer">
+		select p.postID, p.organID, p.postName, p.standardNumber, p.availability,
+		p.description ,o.organname
+		from post p LEFT JOIN organ o ON o.organID=p.organID
+		where postID = #{postid,jdbcType=INTEGER}
+	</select>
+	<select id="findByOrganId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select postID, organID, postName, standardNumber, availability,
+		description
+		from post
+		where organID = #{organid,jdbcType=INTEGER}
+	</select>
+	<select id="findAll" resultMap="BaseResultMap">
+		select postID, organID, postName, standardNumber, availability, description
+		from post
+	</select>
+	<select id="findPageData" parameterType="ig.archer.infrastructure.data.PagingData"
+		resultType="ig.zeus.domain.repository.viewmodel.PostViewModel">
+		select postID, organID, postName, standardNumber, (select ItemName from sysSetting where SettingName ='availability' and ItemID=availability) availability,
+		description from post
+		limit #{pageStart}, #{rowCount}
+	</select>
+	<select id="getAllPostByOrganID" parameterType="java.lang.Integer" resultType="ig.zeus.domain.repository.viewmodel.PostViewModel">
+	select postID, organID, postName, standardNumber, (select ItemName from sysSetting where SettingName ='availability' and ItemID=availability) availability,
+		description  from post where organID=#{2} limit #{0}, #{1} 
+	</select>
+	<select id="countByOrganID" parameterType="java.lang.Integer"  resultType="java.lang.Integer" >
+	SELECT COUNT(1)FROM post where organID=#{0}
+	</select>
+	<select id="findSelectPostByOrganID" parameterType="java.lang.Integer" resultType="ig.zeus.domain.repository.viewmodel.PostViewModel">
+		select postID, postName  from post where organID=#{0}
+	</select>
+</mapper>

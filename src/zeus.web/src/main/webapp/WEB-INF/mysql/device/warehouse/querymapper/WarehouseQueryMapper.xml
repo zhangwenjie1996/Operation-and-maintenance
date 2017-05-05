@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.warehouse.query.IWarehouseQueryMapper">
+	<resultMap id="BaseResultMap"
+		type="ig.device.domain.viewmodel.warehouse.WarehouseViewModel">
+		<constructor>
+			<idArg column="storageID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="storageName" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="supStorageID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="hasChildren" jdbcType="BIT" javaType="java.lang.Boolean" />
+			<arg column="storagable" jdbcType="BIT" javaType="java.lang.Boolean" />
+			<arg column="capacity" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="unusedCapacity" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="usedCapacity" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="availability" jdbcType="BIT" javaType="java.lang.Boolean" />
+			<arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="address" jdbcType="VARCHAR" javaType="java.lang.String" />
+		</constructor>
+	</resultMap>
+	<sql id="Base_Column_List">
+		storageID, storageName, supStorageID, hasChildren, storagable, capacity,
+		unusedCapacity,
+		usedCapacity, availability, description, address, organID, organName, employeeID, employeeName
+	</sql>
+	<select id="findByID" resultType="ig.device.domain.viewmodel.warehouse.WarehouseViewModel"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from warehouse
+		where storageID = #{id} and availability = 1
+	</select>
+	<select id="findTreeByWarehouse"
+		resultType="ig.device.domain.viewmodel.util.TreeViewModel">
+		select
+		storageID id, storageName title, supStorageID parent
+		from warehouse where availability = 1
+	</select>
+
+</mapper>

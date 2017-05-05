@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.patrol.IPatrolDeviceMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.model.patrol.task.PatrolDevice" >
+     <constructor >
+      <idArg column="patrolDeviceID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="patrolTaskID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="patrolDeviceName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="state" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="modelID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="deviceAddress" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sequence" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    patrolDeviceID ID, patrolTaskID, patrolDeviceName, state, description, availability, 
+    modelID, deviceAddress, sequence
+  </sql>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from patrolDevice
+    where patrolDeviceID = #{ID,jdbcType=INTEGER}
+  </select>
+  <update id="remove"  parameterType="java.lang.Integer">
+      update patrolDevice set availability = 0 
+       where patrolDeviceID = #{ID,jdbcType=INTEGER}
+  </update>
+   <update id="removeByTaskId"  parameterType="java.lang.Integer">
+      update patrolDevice set availability = 0 
+       where patrolTaskID = #{patrolTaskID,jdbcType=INTEGER}
+  </update>
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from patrolDevice
+    where patrolDeviceID = #{ID,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="ig.device.domain.model.patrol.task.PatrolDevice" >
+     insert into patrolDevice ( patrolTaskID, patrolDeviceName, 
+      state, availability, 
+      modelID, deviceAddress, sequence
+      )
+    values ( #{patrolTaskID,jdbcType=INTEGER}, #{patrolDeviceName,jdbcType=VARCHAR}, 
+      #{state,jdbcType=TINYINT}, 1, 
+      #{modelID,jdbcType=INTEGER}, #{deviceAddress,jdbcType=VARCHAR}, #{sequence,jdbcType=INTEGER}
+      )
+  </insert>
+   <insert id="add" useGeneratedKeys="true" keyProperty="ID" parameterType="ig.device.domain.model.patrol.task.PatrolDevice" >
+    insert into patrolDevice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ID != null" >
+        patrolDeviceID,
+      </if>
+      <if test="patrolTaskID != null" >
+        patrolTaskID,
+      </if>
+      <if test="patrolDeviceName != null" >
+        patrolDeviceName,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="availability != null" >
+        availability,
+      </if>
+      <if test="modelID != null" >
+        modelID,
+      </if>
+      <if test="deviceAddress != null" >
+        deviceAddress,
+      </if>
+      <if test="sequence != null" >
+        sequence,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ID != null" >
+        #{ID,jdbcType=INTEGER},
+      </if>
+      <if test="patrolTaskID != null" >
+        #{patrolTaskID,jdbcType=INTEGER},
+      </if>
+      <if test="patrolDeviceName != null" >
+        #{patrolDeviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="availability != null" >
+       1,
+      </if>
+      <if test="modelID != null" >
+        #{modelID,jdbcType=INTEGER},
+      </if>
+      <if test="deviceAddress != null" >
+        #{deviceAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="sequence != null" >
+        #{sequence,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="ig.device.domain.model.patrol.task.PatrolDevice" >
+    update patrolDevice
+    <set >
+      <if test="patrolTaskID != null" >
+        patrolTaskID = #{patrolTaskID,jdbcType=INTEGER},
+      </if>
+      <if test="patrolDeviceName != null" >
+        patrolDeviceName = #{patrolDeviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="availability != null" >
+        availability = #{availability,jdbcType=TINYINT},
+      </if>
+      <if test="modelID != null" >
+        modelID = #{modelID,jdbcType=INTEGER},
+      </if>
+      <if test="deviceAddress != null" >
+        deviceAddress = #{deviceAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="sequence != null" >
+        sequence = #{sequence,jdbcType=INTEGER},
+      </if>
+    </set>
+    where patrolDeviceID = #{ID,jdbcType=INTEGER}
+  </update>
+ <insert id="addAllDevice" parameterType="List">
+    <![CDATA[
+    insert into patrolDevice (patrolTaskID, patrolDeviceName, 
+      state, availability, 
+      modelID, deviceAddress, sequence)
+    values
+    ]]>
+		<foreach collection="list" item="obj" index="index" separator=",">
+			(
+			#{obj.patrolTaskID,jdbcType=INTEGER},
+			#{obj.patrolDeviceName,jdbcType=VARCHAR},
+			 #{obj.state,jdbcType=TINYINT},
+			1,
+			#{obj.modelID,jdbcType=INTEGER},
+			#{obj.deviceAddress,jdbcType=VARCHAR},
+			#{obj.sequence,jdbcType=INTEGER})
+			
+		</foreach>
+
+	</insert>
+</mapper>

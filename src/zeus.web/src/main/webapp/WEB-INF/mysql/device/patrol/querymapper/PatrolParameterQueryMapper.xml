@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.patrol.querymapper.IPatrolParameterQueryMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.viewmodel.patrol.PatrolParameterViewModel" >
+    <constructor >
+      <idArg column="patrolParameterID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="materialModelID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="patrolParameterName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="referenceValue" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="priority" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="unitsID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    patrolParameterID, materialModelID, patrolParameterName, referenceValue, priority, 
+    unitsID, availability, description
+  </sql>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from patrolParameter
+    where patrolParameterID = #{patrolParameterID,jdbcType=INTEGER}
+  </select>
+  <select id="findAllByMaterialID" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from patrolParameter
+    where availability=1
+  </select>
+  <select id="countByMaterialID" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		SELECT COUNT(1) FROM patrolPlan where availability=1 and materialModelID=#{materialModelID,jdbcType=INTEGER}
+	</select>
+  <select id="findPageDataByMaterialID" parameterType="java.lang.Integer"
+		resultType="ig.device.domain.viewmodel.patrol.PatrolParameterViewModel">
+		 select 
+        <include refid="Base_Column_List" />
+        from patrolParameter
+        where availability=1
+		and materialModelID={2}
+		limit #{0}, #{1}
+	</select>
+  
+</mapper>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.manage.IDeviceInfoMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.model.manage.DeviceInfo" >
+    <constructor >
+      <idArg column="itemID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="groupID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="itemCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="unitPrice" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="amount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="providerID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="providerName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="producer" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="operateTime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="availability" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="deviceState" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="deviceGrade" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="organID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="organName" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    itemID ID, groupID, itemCode, unitPrice, amount, providerID, providerName, producer, 
+    operateTime, availability, description, deviceState, deviceGrade, organID, organName, deviceAddress
+  </sql>
+  <select id="findByID" resultType="ig.device.domain.model.manage.DeviceInfo" parameterType="java.lang.Integer" >
+    select 
+    d.itemID ID, d.groupID, d.itemCode, d.unitPrice, d.amount, d.providerID, d.providerName, d.producer, 
+    d.operateTime, d.availability, d.description, d.deviceState, d.deviceGrade, d.organID, d.organName,
+    device.storageID,device.categoryID,device.categoryName,device.modelID,device.modelName,d.deviceAddress
+    from deviceInfo d, device
+    where itemID = #{id,jdbcType=INTEGER} AND d.groupID = device.groupID
+  </select>
+  
+  <update id="delete"  parameterType="java.lang.Integer">
+      update deviceInfo set availability = 0 
+      where itemID = #{id}   
+  </update>
+  
+  <insert id="insert" parameterType="ig.device.domain.model.manage.DeviceInfo" useGeneratedKeys="true" keyProperty="ID">
+    insert into deviceInfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ID != null" >
+        itemID,
+      </if>
+      <if test="groupID != null" >
+        groupID,
+      </if>
+      <if test="itemCode != null" >
+        itemCode,
+      </if>
+      <if test="unitPrice != null" >
+        unitPrice,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="providerID != null" >
+        providerID,
+      </if>
+      <if test="providerName != null" >
+        providerName,
+      </if>
+      <if test="producer != null" >
+        producer,
+      </if>
+      <if test="operateTime != null" >
+        operateTime,
+      </if>
+      <if test="availability != null" >
+        availability,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="deviceState != null" >
+        deviceState,
+      </if>
+      <if test="deviceGrade != null" >
+        deviceGrade,
+      </if>
+      <if test="organID != null" >
+        organID,
+      </if>
+      <if test="organName != null" >
+        organName,
+      </if>
+      <if test="deviceAddress != null" >
+        deviceAddress,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ID != null" >
+        #{ID,jdbcType=INTEGER},
+      </if>
+      <if test="groupID != null" >
+        #{groupID,jdbcType=INTEGER},
+      </if>
+      <if test="itemCode != null" >
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="providerID != null" >
+        #{providerID,jdbcType=INTEGER},
+      </if>
+      <if test="providerName != null" >
+        #{providerName,jdbcType=VARCHAR},
+      </if>
+      <if test="producer != null" >
+        #{producer,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="availability != null" >
+        1,
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceState != null" >
+        #{deviceState,jdbcType=TINYINT},
+      </if>
+      <if test="deviceGrade != null" >
+        #{deviceGrade,jdbcType=TINYINT},
+      </if>
+      <if test="organID != null" >
+        #{organID,jdbcType=INTEGER},
+      </if>
+      <if test="organName != null" >
+        #{organName,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceAddress != null" >
+        #{deviceAddress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="ig.device.domain.model.manage.DeviceInfo" >
+    update deviceInfo
+    <set >
+      <if test="itemCode != null" >
+        itemCode = #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="providerID != null" >
+        providerID = #{providerID,jdbcType=INTEGER},
+      </if>
+      <if test="providerName != null" >
+        providerName = #{providerName,jdbcType=VARCHAR},
+      </if>
+      <if test="producer != null" >
+        producer = #{producer,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceState != null" >
+        deviceState = #{deviceState,jdbcType=TINYINT},
+      </if>
+      <if test="deviceGrade != null" >
+        deviceGrade = #{deviceGrade,jdbcType=TINYINT},
+      </if>
+      <if test="organID != null" >
+        organID = #{organID,jdbcType=INTEGER},
+      </if>
+      <if test="organName != null" >
+        organName = #{organName,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceAddress != null" >
+        deviceAddress = #{deviceAddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where itemID = #{ID,jdbcType=INTEGER}
+  </update>
+</mapper>

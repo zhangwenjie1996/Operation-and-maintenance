@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.command.IPermission" >
+  <resultMap id="RoleElementResultMap" type="ig.zeus.domain.service.command.RoleElementCommand" >
+    <id column="roleID" property="roleid" jdbcType="INTEGER" />
+    <id column="elementID" property="elementid" jdbcType="INTEGER" />
+    <id column="actionId" property="actionid" jdbcType="INTEGER" />
+    <result column="permission" property="permission" jdbcType="TINYINT" />
+  </resultMap>
+  <delete id="deleteRoleElement" parameterType="map" >
+    delete from roleElement
+    where elementID = #{elementid,jdbcType=INTEGER}
+      and roleID = #{roleid,jdbcType=INTEGER}
+      and actionId = #{actionid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertRoleElement" parameterType="ig.zeus.domain.service.command.RoleElementCommand" >
+    insert into roleElement (elementID, roleID, actionId, 
+      permission)
+    values (#{elementid,jdbcType=INTEGER}, #{roleid,jdbcType=INTEGER}, #{actionid,jdbcType=INTEGER}, 
+      #{permission,jdbcType=TINYINT})
+  </insert>
+  <update id="updateRoleElement" parameterType="ig.zeus.domain.service.command.RoleElementCommand" >
+    update roleElement
+    set permission = #{permission,jdbcType=TINYINT}
+    where elementID = #{elementid,jdbcType=INTEGER}
+      and roleID = #{roleid,jdbcType=INTEGER}
+      and actionId = #{actionid,jdbcType=INTEGER}
+  </update>
+  <select id="findByIdRoleElement" resultMap="RoleElementResultMap" parameterType="map" >
+    select elementID, roleID, actionId, permission
+    from roleElement
+    where elementID = #{elementid,jdbcType=INTEGER}
+      and roleID = #{roleid,jdbcType=INTEGER}
+      and actionId = #{actionid,jdbcType=INTEGER}
+  </select>
+  <select id="findAllRoleElement" resultMap="RoleElementResultMap" >
+    select elementID, roleID, actionId, permission
+    from roleElement
+  </select>
+</mapper>

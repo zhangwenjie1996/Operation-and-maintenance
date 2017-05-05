@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+	<!-- ============== Repository ============== -->
+	<!-- Command -->
+	<bean id="iOperatorLogMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.fault.IOperatorLogMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iStoppageInvoiceMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.fault.IStoppageInvoiceMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iRepaireInvoiceMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.fault.IRepaireInvoiceMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iRepairedMaterielMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.fault.IRepairedMaterielMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iRepairPlanMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.fault.IRepairPlanMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	
+
+	<!-- Query -->
+	<bean id="iStoppageInvoiceQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.fault.query.IStoppageInvoiceQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iOperatorLogQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.fault.query.IOperatorLogQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iRepaireInvoiceQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.fault.query.IRepaireInvoiceQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iRepairedMaterielQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.fault.query.IRepairedMaterielQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iRepairPlanQueryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.device.domain.mapper.fault.query.IRepairPlanQueryMapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	
+	
+     <!-- ============== Repository ============== -->
+     <!-- Command -->
+     <bean id="iStoppageInvoiceRepository" name="IStoppageInvoiceRepository"
+		class="ig.device.domain.repository.fault.StoppageInvoiceRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iOperatorLogRepository" name="IOperatorLogRepository"
+		class="ig.device.domain.repository.fault.OperatorLogRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iRepaireInvoiceRepository" name="IRepaireInvoiceRepository"
+		class="ig.device.domain.repository.fault.RepaireInvoiceRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iRepairedMaterielRepository" name="IRepairedMaterielRepository"
+		class="ig.device.domain.repository.fault.RepairedMaterielRepository"
+		autowire="byName">
+	</bean>
+	<bean id="iRepairPlanRepository" name="IRepairPlanRepository"
+		class="ig.device.domain.repository.fault.RepairPlanRepository"
+		autowire="byName">
+	</bean>
+	
+	
+	<!-- ============== Service ============== -->
+	<!-- Command -->
+	<bean id="iStoppageInvoiceService" name="IStoppageInvoiceService"
+		class="ig.device.domain.service.commandhandler.fault.basis.StoppageInvoiceService"
+		autowire="byName">
+	</bean>
+	<bean id="iOperatorLogService" name="IOperatorLogService"
+		class="ig.device.domain.service.commandhandler.fault.basis.OperatorLogService"
+		autowire="byName">
+	</bean>
+	<bean id="iRepaireInvoiceService" name="IRepaireInvoiceService"
+		class="ig.device.domain.service.commandhandler.fault.basis.RepaireInvoiceService"
+		autowire="byName">
+	</bean>
+	<bean id="iRepairedMaterielService" name="IRepairedMaterielService"
+		class="ig.device.domain.service.commandhandler.fault.basis.RepairedMaterielService"
+		autowire="byName">
+	</bean>
+	<bean id="iRepairPlanService" name="IRepairPlanService"
+		class="ig.device.domain.service.commandhandler.fault.basis.RepairPlanService"
+		autowire="byName">
+	</bean>
+	
+	
+
+	<!-- ============== Application ============== -->
+	<!-- Command -->
+	<bean id="iStoppageInvoiceApp" name="IStoppageInvoiceApp"
+		class="ig.device.application.commandhandler.fault.basis.StoppageInvoiceApp"
+		autowire="byName">
+	</bean>
+	<bean id="iOperatorLogApp" name="IOperatorLogApp"
+		class="ig.device.application.commandhandler.fault.basis.OperatorLogApp"
+		autowire="byName">
+	</bean>
+	<bean id="iRepaireInvoiceApp" name="IRepaireInvoiceApp"
+		class="ig.device.application.commandhandler.fault.basis.RepaireInvoiceApp"
+		autowire="byName">
+	</bean>
+	<bean id="iRepairedMaterielApp" name="IRepairedMaterielApp"
+		class="ig.device.application.commandhandler.fault.basis.RepairedMaterielApp"
+		autowire="byName">
+	</bean>
+	<bean id="iRepairPlanApp" name="IRepairPlanApp"
+		class="ig.device.application.commandhandler.fault.basis.RepairPlanApp"
+		autowire="byName">
+	</bean>
+	
+	
+	
+
+	<!-- Query -->
+	<bean id="iStoppageInvoiceQueryApp" name="IStoppageInvoiceQueryApp"
+		class="ig.device.application.query.fault.basis.StoppageInvoiceQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="iOperatorLogQueryApp" name="IOperatorLogQueryApp"
+		class="ig.device.application.query.fault.basis.OperatorLogQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="iRepaireInvoiceQueryApp" name="IRepaireInvoiceQueryApp"
+		class="ig.device.application.query.fault.basis.RepaireInvoiceQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="iRepairedMaterielQueryApp" name="IRepairedMaterielQueryApp"
+		class="ig.device.application.query.fault.basis.RepairedMaterielQueryApp"
+		autowire="byName">
+	</bean>
+	<bean id="iRepairPlanQueryApp" name="IRepairPlanQueryApp"
+		class="ig.device.application.query.fault.basis.RepairPlanQueryApp"
+		autowire="byName">
+	</bean>
+	
+
+</beans>

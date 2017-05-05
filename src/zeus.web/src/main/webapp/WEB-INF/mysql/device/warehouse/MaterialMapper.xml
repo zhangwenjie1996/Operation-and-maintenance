@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.warehouse.IMaterialMapper" >
+
+  <sql id="Base_Column_List" >
+    groupID ID, storageID, categoryID, categoryName, modelID, modelName, amount, unitName, 
+    unitPrice, totalPrice, availability, description, providerID, providerName, producer, 
+    operateTime, itemCode, totalAmount
+  </sql>
+  
+  <select id="findByTopWarehouse" resultType="ig.device.domain.model.warehouse.Material" >
+    SELECT 
+    groupID ID, storageID, categoryID, categoryName, modelID, modelName, amount, unitName, 
+    unitPrice, totalPrice, material.availability, material.description, material.providerID, material.providerName, producer, 
+    operateTime, itemCode, totalAmount, minInventory, maxInventory
+    FROM material 
+    LEFT OUTER JOIN materialModel m
+    ON m.`materialModelID` = material.`modelID`
+    WHERE storageID = 1 AND totalAmount > 0
+  </select>
+  
+  <select id="findByStorageID" resultType="ig.device.domain.model.warehouse.Material" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from material 
+    where storageID = #{0} AND totalAmount > 0
+  </select>
+  
+  <select id="findMaterialBystorageIDAndmodelID" resultType="ig.device.domain.model.warehouse.Material" parameterType="java.lang.Integer" >
+    select 
+    groupID ID, storageID, modelID, amount
+    from material 
+    where storageID = #{0} AND modelID = #{1}
+  </select>
+  
+  <select id="findMaterialBySupWarehouseID" resultType="ig.device.domain.model.warehouse.Material" parameterType="java.lang.Integer" >
+    select 
+    groupID ID, m.storageID, modelID, m.amount
+    from material m,warehouse w
+    where w.storageID = m.storageID AND w.supStorageID = #{0} AND m.modelID = #{1} AND m.totalAmount > 0
+  </select>
+  
+  <select id="findByWarehouseID" resultType="ig.device.domain.model.warehouse.Material" parameterType="java.lang.Integer" >
+    select 
+    groupID ID, storageID, categoryID, categoryName, modelID, modelName, amount, unitName, 
+    unitPrice, totalPrice, availability, description, providerID, providerName, producer, 
+    operateTime, itemCode, totalAmount
+    from material
+    where storageID = #{id}
+  </select>
+  
+  <select id="existMaterialByID" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    select 
+    count(1)
+    from material
+    where storageID = #{id} AND totalAmount > 0
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from material
+    where groupID = #{groupID,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="ig.device.domain.model.warehouse.Material" >
+    insert into material
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ID != null" >
+        groupID,
+      </if>
+      <if test="storageID != null" >
+        storageID,
+      </if>
+      <if test="categoryID != null" >
+        categoryID,
+      </if>
+      <if test="categoryName != null" >
+        categoryName,
+      </if>
+      <if test="modelID != null" >
+        modelID,
+      </if>
+      <if test="modelName != null" >
+        modelName,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="unitName != null" >
+        unitName,
+      </if>
+      <if test="unitPrice != null" >
+        unitPrice,
+      </if>
+      <if test="totalPrice != null" >
+        totalPrice,
+      </if>
+      <if test="availability != null" >
+        availability,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="providerID != null" >
+        providerID,
+      </if>
+      <if test="providerName != null" >
+        providerName,
+      </if>
+      <if test="producer != null" >
+        producer,
+      </if>
+      <if test="operateTime != null" >
+        operateTime,
+      </if>
+      <if test="itemCode != null" >
+        itemCode,
+      </if>
+      <if test="totalAmount != null" >
+        totalAmount,
+      </if>
+      <if test="alarmState != null" >
+        alarmState,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ID != null" >
+        #{ID,jdbcType=INTEGER},
+      </if>
+      <if test="storageID != null" >
+        #{storageID,jdbcType=INTEGER},
+      </if>
+      <if test="categoryID != null" >
+        #{categoryID,jdbcType=INTEGER},
+      </if>
+      <if test="categoryName != null" >
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="modelID != null" >
+        #{modelID,jdbcType=INTEGER},
+      </if>
+      <if test="modelName != null" >
+        #{modelName,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="unitName != null" >
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="availability != null" >
+        1,
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="providerID != null" >
+        #{providerID,jdbcType=INTEGER},
+      </if>
+      <if test="providerName != null" >
+        #{providerName,jdbcType=VARCHAR},
+      </if>
+      <if test="producer != null" >
+        #{producer,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="itemCode != null" >
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="totalAmount != null" >
+        #{totalAmount},
+      </if>
+      <if test="alarmState != null" >
+        #{alarmState},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="ig.device.domain.model.warehouse.Material" >
+    update material
+    <set >
+      <if test="storageID != null" >
+        storageID = #{storageID,jdbcType=INTEGER},
+      </if>
+      <if test="categoryID != null" >
+        categoryID = #{categoryID,jdbcType=INTEGER},
+      </if>
+      <if test="categoryName != null" >
+        categoryName = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="modelID != null" >
+        modelID = #{modelID,jdbcType=INTEGER},
+      </if>
+      <if test="modelName != null" >
+        modelName = #{modelName,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="unitName != null" >
+        unitName = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        unitPrice = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrice != null" >
+        totalPrice = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="availability != null" >
+        availability = #{availability,jdbcType=BIT},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="providerID != null" >
+        providerID = #{providerID,jdbcType=INTEGER},
+      </if>
+      <if test="providerName != null" >
+        providerName = #{providerName,jdbcType=VARCHAR},
+      </if>
+      <if test="producer != null" >
+        producer = #{producer,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        operateTime = #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="itemCode != null" >
+        itemCode = #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="totalAmount != null" >
+        totalAmount = #{totalAmount},
+      </if>
+      <if test="alarmState != null" >
+        alarmState = #{alarmState},
+      </if>
+    </set>
+    where groupID = #{ID}
+  </update>
+
+</mapper>

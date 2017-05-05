@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.customer.query.ICustomerQueryMapper">
+
+    <select id="queryPageData" parameterType="ig.archer.infrastructure.data.PagingData"
+            resultType="ig.device.domain.viewmodel.customer.CustomerViewModel">
+        select customerID customerId ,customerName ,phone,fax,address,customerLeader,
+        depositBack,depositAccount,depositName,case when availability=true then '有' else '无' end as availability,
+        case when customerType =1 then '销售商' else '供货商' end as customerType,registrantName,registrantDate
+        from customer where 1=1
+        <if test="rows.address!=null and rows.address!=''">
+            and address like concat('%',#{rows.address},'%')
+        </if>
+        <if test="rows.customerName!=null and rows.customerName!=''">
+            and  customerName like concat('%',#{rows.customerName},'%')
+        </if>
+        <if test="rows.customerType!=null and rows.customerType!=''">
+            and customerType=#{rows.customerType}
+        </if>
+        limit #{pageStart}, #{rowCount}
+    </select>
+
+    <select id="count" parameterType="ig.device.domain.viewmodel.customer.CustomerViewModel" resultType="java.lang.Integer">
+        SELECT COUNT(0) from customer where 1=1
+        <if test="address!=null and address!=''">
+            and address like concat('%',#{address},'%')
+        </if>
+        <if test="customerName!=null and customerName!=''">
+            and  customerName like concat('%',#{customerName},'%')
+        </if>
+        <if test="customerType!=null and customerType!=''">
+            and customerType=#{customerType}
+        </if>
+
+    </select>
+
+<select id="findById" resultType="ig.device.domain.viewmodel.customer.CustomerViewModel" parameterType="ig.device.domain.viewmodel.customer.CustomerViewModel">
+    SELECT customerID customerId ,customerName ,phone,fax,customerType,address,customerLeader,
+     depositBack,depositAccount,depositName,remark,registrantName,
+     registrantID registrantId,registrantDate, availability
+     from customer WHERE customerID=#{customerId}
+</select>
+    <select id="findContactTree" parameterType="java.lang.Integer" resultType="ig.device.domain.viewmodel.material.TreeListViewModel">
+     SELECT contactID id,'#' parent,contactName text FROM contact WHERE customerID=#{id}
+    </select>
+    <select id="findContactByContactId" parameterType="java.lang.Integer" resultType="ig.device.domain.viewmodel.customer.ContactViewModel">
+        SELECT * from contact where contactID=#{id}
+    </select>
+</mapper>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.patrol.IPatrolGroupMemberMapper">
+	<resultMap id="BaseResultMap"
+		type="ig.device.domain.model.patrol.PatrolGroupMember">
+		<constructor>
+			<idArg column="patrolGroupMemberID" jdbcType="INTEGER"
+				javaType="java.lang.Integer" />
+			<arg column="employeeId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="employeeName" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+			<arg column="patrolGroupID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+		</constructor>
+	</resultMap>
+	<sql id="Base_Column_List">
+		patrolGroupMemberID ID, employeeId, employeeName,
+		availability, patrolGroupID,description
+	</sql>
+	<select id="findById" resultType="ig.device.domain.model.patrol.PatrolGroupMember" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from patrolGroupMember
+		where patrolGroupMemberID =
+		#{ID,jdbcType=INTEGER} 
+	</select>
+	<select id="findByGroupId" resultType="ig.device.domain.model.patrol.PatrolGroupMember"
+		parameterType="java.lang.Integer">
+		select
+		*
+		from patrolGroupMember
+		where patrolGroupID =
+		#{patrolGroupID,jdbcType=INTEGER} and  availability=1
+	</select>
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from patrolGroupMember
+		where patrolGroupMemberID = #{ID,jdbcType=INTEGER}
+	</delete>
+	<update id="removeByGroupID" parameterType="java.lang.Integer">
+		update patrolGroupMember
+		set
+		availability = 0
+		where patrolGroupID = #{patrolGroupID,jdbcType=INTEGER}
+	</update>
+	<delete id="deleteByGroupID" parameterType="java.lang.Integer">
+		delete from patrolGroupMember
+	    where patrolGroupID = #{patrolGroupID,jdbcType=INTEGER}
+	</delete>
+	<update id="remove" parameterType="java.lang.Integer">
+		update patrolGroupMember
+		set
+		availability = 0
+		where patrolGroupMemberID = #{ID,jdbcType=INTEGER}
+	</update>
+	<insert id="add" parameterType="ig.device.domain.model.patrol.PatrolGroupMember">
+		insert into patrolGroupMember
+		( employeeId,
+		employeeName, availability,
+		patrolGroupID
+		)
+		values (
+		#{employeeId,jdbcType=INTEGER},
+		#{employeeName,jdbcType=VARCHAR},
+		#{availability,jdbcType=TINYINT}, #{patrolGroupID,jdbcType=INTEGER}
+		#{description,jdbcType=VARCHAR})
+	</insert>
+	<insert id="addAllMember" parameterType="List">
+     <![CDATA[
+    insert into patrolGroupMember ( employeeId, 
+      employeeName, patrolGroupID,description,availability
+      )
+    values
+    ]]>
+		<foreach collection="list" item="obj" index="index" separator=",">
+			(#{obj.employeeId,jdbcType=INTEGER},
+			#{obj.employeeName,jdbcType=VARCHAR},
+			#{obj.patrolGroupID,jdbcType=INTEGER},
+			#{obj.description,jdbcType=VARCHAR},
+			1
+			)
+		</foreach>
+	</insert>
+	<insert id="insert" parameterType="ig.device.domain.model.patrol.PatrolGroupMember">
+		insert into patrolGroupMember
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="patrolGroupMemberID != null">
+				patrolGroupMemberID,
+			</if>
+			<if test="employeeId != null">
+				employeeId,
+			</if>
+			<if test="employeeName != null">
+				employeeName,
+			</if>
+			<if test="availability != null">
+				availability,
+			</if>
+			<if test="patrolGroupID != null">
+				patrolGroupID,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="patrolGroupMemberID != null">
+				#{ID,jdbcType=INTEGER},
+			</if>
+			<if test="employeeId != null">
+				#{employeeId,jdbcType=INTEGER},
+			</if>
+			<if test="employeeName != null">
+				#{employeeName,jdbcType=VARCHAR},
+			</if>
+			<if test="availability != null">
+				#{availability,jdbcType=TINYINT},
+			</if>
+			<if test="patrolGroupID != null">
+				#{patrolGroupID,jdbcType=INTEGER},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="ig.device.domain.model.patrol.PatrolGroupMember">
+		update patrolGroupMember
+		<set>
+			<if test="employeeId != null">
+				employeeId = #{employeeId,jdbcType=INTEGER},
+			</if>
+			<if test="employeeName != null">
+				employeeName = #{employeeName,jdbcType=VARCHAR},
+			</if>
+			<if test="availability != null">
+				availability = #{availability,jdbcType=TINYINT},
+			</if>
+			<if test="patrolGroupID != null">
+				patrolGroupID = #{patrolGroupID,jdbcType=INTEGER},
+			</if>
+			<if test="description != null">
+				description = #{description,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where patrolGroupMemberID = #{ID,jdbcType=INTEGER}
+	</update>
+	
+	<select id="findByEmployeeIdAndPatrolGroupId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		select
+		count(1)
+		from patrolGroupMember
+		where employeeId =
+		#{0} and patrolGroupID=#{1} and availability=1
+	</select>
+</mapper>

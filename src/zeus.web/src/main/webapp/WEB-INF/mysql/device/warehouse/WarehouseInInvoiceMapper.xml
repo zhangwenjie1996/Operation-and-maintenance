@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.warehouse.IWarehouseInInvoiceMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.model.warehouse.bill.WarehouseInInvoice" >
+    <constructor >
+      <idArg column="storageInInvoiceID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="storageInInvoiceNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="invoiceState" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="storageID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="storageName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="creatTime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="createrID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="createrName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="approverID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="approverName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="availability" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    storageInInvoiceID ID, storageInInvoiceNo, invoiceState, storageID, storageName, creatTime, 
+    createrID, createrName, approverID, approverName, availability, description
+  </sql>
+  
+  <select id="findByID" resultType="ig.device.domain.model.warehouse.bill.WarehouseInInvoice" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from warehouseInInvoice
+    where storageInInvoiceID = #{id}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from warehouseInInvoice
+    where storageInInvoiceID = #{storageInInvoiceID,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="ig.device.domain.model.warehouse.bill.WarehouseInInvoice" useGeneratedKeys="true" keyProperty="ID">
+    insert into warehouseInInvoice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ID != null" >
+        storageInInvoiceID,
+      </if>
+      <if test="storageInInvoiceNo != null" >
+        storageInInvoiceNo,
+      </if>
+      <if test="invoiceState != null" >
+        invoiceState,
+      </if>
+      <if test="storageID != null" >
+        storageID,
+      </if>
+      <if test="storageName != null" >
+        storageName,
+      </if>
+      <if test="creatTime != null" >
+        creatTime,
+      </if>
+      <if test="createrID != null" >
+        createrID,
+      </if>
+      <if test="createrName != null" >
+        createrName,
+      </if>
+      <if test="approverID != null" >
+        approverID,
+      </if>
+      <if test="approverName != null" >
+        approverName,
+      </if>
+      <if test="availability != null" >
+        availability,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ID != null" >
+        #{ID,jdbcType=INTEGER},
+      </if>
+      <if test="storageInInvoiceNo != null" >
+        #{storageInInvoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceState != null" >
+        #{invoiceState,jdbcType=TINYINT},
+      </if>
+      <if test="storageID != null" >
+        #{storageID,jdbcType=INTEGER},
+      </if>
+      <if test="storageName != null" >
+        #{storageName,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null" >
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrID != null" >
+        #{createrID,jdbcType=INTEGER},
+      </if>
+      <if test="createrName != null" >
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="approverID != null" >
+        #{approverID,jdbcType=INTEGER},
+      </if>
+      <if test="approverName != null" >
+        #{approverName,jdbcType=VARCHAR},
+      </if>
+      <if test="availability != null" >
+        #{availability,jdbcType=BIT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="ig.device.domain.model.warehouse.bill.WarehouseInInvoice" >
+    update warehouseInInvoice
+    <set >
+      <if test="storageInInvoiceNo != null" >
+        storageInInvoiceNo = #{storageInInvoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceState != null" >
+        invoiceState = #{invoiceState,jdbcType=TINYINT},
+      </if>
+      <if test="storageID != null" >
+        storageID = #{storageID,jdbcType=INTEGER},
+      </if>
+      <if test="storageName != null" >
+        storageName = #{storageName,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null" >
+        creatTime = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrID != null" >
+        createrID = #{createrID,jdbcType=INTEGER},
+      </if>
+      <if test="createrName != null" >
+        createrName = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="approverID != null" >
+        approverID = #{approverID,jdbcType=INTEGER},
+      </if>
+      <if test="approverName != null" >
+        approverName = #{approverName,jdbcType=VARCHAR},
+      </if>
+      <if test="availability != null" >
+        availability = #{availability,jdbcType=BIT},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where storageInInvoiceID = #{ID,jdbcType=INTEGER}
+  </update>
+
+</mapper>

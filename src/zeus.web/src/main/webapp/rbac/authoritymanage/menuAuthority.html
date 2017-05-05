@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../src/css/quote/themes/default/style.min.css"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link href="../../src/css/quote/lib/jquery.bootgrid.min.css" rel="stylesheet"/>
+    <!--<link href="//rubaxa.github.io/Ply/ply.css" rel="stylesheet" type="text/css"/>-->
+    <!--<link href="//fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet" type="text/css"/>-->
+
+    <link href="../../src/css/quote/app.css" rel="stylesheet" type="text/css"/>
+
+    <link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+    <!--<script type="text/javascript" src="dist/js/jquery.i18n.properties-1.0.9.js"></script>-->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript" src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript" src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+    <!-- highlight.js -->
+    <style>
+        /* Tomorrow Theme */
+        /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+        /* Original theme - https://github.com/chriskempson/tomorrow-theme */
+        /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+        .tomorrow-comment, pre .comment, pre .title {
+            color: #8e908c;
+        }
+
+        .tomorrow-red, pre .variable, pre .attribute, pre .tag, pre .regexp, pre .ruby .constant, pre .xml .tag .title, pre .xml .pi, pre .xml .doctype, pre .html .doctype, pre .css .id, pre .css .class, pre .css .pseudo {
+            color: #c82829;
+        }
+
+        .tomorrow-orange, pre .number, pre .preprocessor, pre .built_in, pre .literal, pre .params, pre .constant {
+            color: #f5871f;
+        }
+
+        .tomorrow-yellow, pre .class, pre .ruby .class .title, pre .css .rules .attribute {
+            color: #eab700;
+        }
+
+        .tomorrow-green, pre .string, pre .value, pre .inheritance, pre .header, pre .ruby .symbol, pre .xml .cdata {
+            color: #718c00;
+        }
+
+        .tomorrow-aqua, pre .css .hexcolor {
+            color: #3e999f;
+        }
+
+        .tomorrow-blue, pre .function, pre .python .decorator, pre .python .title, pre .ruby .function .title, pre .ruby .title .keyword, pre .perl .sub, pre .javascript .title, pre .coffeescript .title {
+            color: #4271ae;
+        }
+
+        .tomorrow-purple, pre .keyword, pre .javascript .function {
+            color: #8959a8;
+        }
+
+        pre {
+            border: 0;
+            background-color: #fff;
+        }
+
+        pre code {
+            display: block;
+            color: #4d4d4c;
+            font-size: 15px;
+            font-family: Menlo, Monaco, Consolas, monospace;
+            line-height: 1.5;
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="row menuA">
+    <div class="col-sm-4 col-md-3 col-lg-3">
+        <div class="row-tree-menu">
+            <div class="role-btn">
+                <button type="button" class="btn  btn-sm view-role" onclick="viewRole();"><i
+                        class="fa fa-eye"></i> 查看角色
+                </button>
+                <button type="button" class="btn  btn-sm assign-roles" onclick="assignRoles();"><i
+                        class="fa fa-anchor"></i> 分配角色
+                </button>
+            </div>
+
+            <!--<ol class="breadcrumb drop-down">-->
+            <!--<li><a href="#">筛选</a> <i style="color: #ffffff;" class="fa fa-sort-down"></i></li>-->
+            <!--</ol>-->
+            <div class="search-tree"><span class="fa fa-search"></span><input type="text" class="form-control" id="search-tree" placeholder="搜索"></div>
+            <div class="treeList">
+                <div id="ajax" class="menu-load"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-8 col-md-9 col-lg-9">
+        <div class=" qx">
+            <ol class="breadcrumb drop-down">
+                <li><a href="#">当前角色 </a></li>
+            </ol>
+            <div>
+                <!--<a class="addBtn btn btn-primary " data-toggle="modal" data-target="#myModal">添加权限组</a>-->
+                <table id="grid-data" class="table table-condensed table-hover table-striped ">
+                    <thead>
+                    <tr>
+                        <th data-column-id="roleMenuID" data-identifier="true" data-type="numeric">序号</th>
+                        <th data-column-id="roleMenuName" data-identifier="true" data-type="numeric">角色名称</th>
+                        <th data-column-id="commands" data-formatter="commands" data-sortable="false">操作</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">编辑</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">名称</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="name" placeholder="名称">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">序号</label>
+
+                            <div class="col-sm-10">
+                                <select class="form-control">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="save" data-dismiss="modal" class="btn btn-primary">保存</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- cd-popup-container-start -->
+    <div class="cd-popup" role="alert">
+        <div class="cd-popup-container">
+            <a class="cd-popup-close icon-close fa fa-times"></a>
+            <!-- Connected lists -->
+            <div class="container row">
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    <div data-force="30" class="layer block rights" style="margin-top: 20px;">
+                        <div class="layer title">有权角色</div>
+                        <ul id="foo" class="block__list block__list_words">
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-5 col-md-5 col-lg-5">
+                    <div data-force="18" class="layer block no-rights" style="margin-top: 80px;">
+                        <div class="layer title">无权角色</div>
+                        <ul id="bar" class="block__list block__list_tags">
+                            <li></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="cd-buttons">
+                <button type="button" class="btn btn-primary cd-popup-close cd-btn cd-btn-save">保存</button>
+                <button type="button" class="btn btn-danger cd-popup-close cd-btn cd-btn-deal">取消</button>
+            </div>
+        </div>
+        <!-- cd-popup-container-end -->
+    </div>
+
+
+</div>
+<script src="http://cdn.gbtags.com/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="../../src/js/quote/bootstrapValidator.min.js"></script>
+<script src="../../src/js/quote/jstree.min.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+<script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+<script type="text/javascript" src="../../src/js/packtreegrid/pack.js"></script>
+<script src="../../src/js/dialog/dialog.js"></script>
+<script src="../../src/js/quote/Sortable.js"></script>
+<!--<script src="../../src/js/right/right.js"></script>-->
+<script src="//yandex.st/highlightjs/7.5/highlight.min.js"></script>
+
+<script>
+    $().right("foo", "../../src/json/right.json");
+    $().right("bar", "../../src/json/noright.json");
+</script>
+<script>
+    var planningFilter = function (url) {
+        $("#grid-data").bootgrid("destroy");
+        var idname = "roleMenuID";
+        var formatters={
+                "commands": function (column, row) {
+                    return "<a  abs=\"编辑\" class=\"btn-color btn btn-xs btn-default command-edit\"  data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-pencil\"></span></a> ";
+                }
+            }
+        pack.gridInit(url, "grid-data",formatters).on("loaded.rs.jquery.bootgrid", function () {
+            /* Executes after data is loaded and rendered */
+            grid.find(".command-delete").on("click", function (e) {
+                console.log($(this));
+                var _this = this;
+                alert("You pressed delete on row: " + $(this).attr("data-row-id"));
+                $.get('roleMenuController/delete', {roleMenuID: $(this).attr("data-row-id")}, function (data) {
+                    $(_this).parents('tr').remove();
+                }, 'json');
+            });
+        });
+
+    };
+    //    planningFilter("../../src/json/qx.json");
+</script>
+<script>
+    $("#myModal").draggable({
+        handle: ".modal-header"
+    });
+</script>
+<script>
+    ~function () {
+        $('#ajax').jstree(false);
+        var treeid = "ajax";
+        pack.showCheckboxTree("menuQueryController/findAll", treeid, "blue  fa fa-users", "search-tree", ["dnd", "search",
+                    "state", "types", "wholerow"], false, true
+        )
+    }();
+</script>
+<script>
+    var reg = /^j1_(\d+)/;
+    function viewRole() {
+        var ref = $('#ajax').jstree(true),
+                sel = ref.get_selected(true);
+        if (!sel.length) {
+            return false;
+        }
+        sel = sel[0];
+        $.post("roleMenuQueryController/findAll", {
+            "roleMenuID": sel.id.replace(reg, "$1"),
+            "roleMenuName": sel.text
+        }, function () {
+            planningFilter("roleMenuQueryController/findAll");
+        })
+    }
+    function assignRoles(e) {
+        var ref = $('#ajax').jstree(true),
+                sel = ref.get_selected(true);
+        if (!sel.length) {
+            return false;
+        }
+        sel = sel[0];
+        $.post("roleMenuQueryController/findById", {
+            "roleMenuID": sel.id.replace(reg, "$1"),
+            "roleMenuName": sel.text
+        }, function (data, e) {
+            $().dia(e);
+            var str = '', str2 = '';
+            $.each(data.permission[1], function (index, item) {
+                str += '<li id="' + item["roleMenuID"] + '">' + item["roleMenuName"] + '</li>';
+            });
+            $.each(data.permission[0], function (index, item) {
+                str2 += '<li id="' + item["roleMenuID"] + '">' + item["roleMenuName"] + '</li>';
+            });
+            $("#foo").html(str);
+            $("#bar").html(str2);
+        })
+    }
+</script>
+<script>
+    $("#foo").find("li").attr("class", 1);
+    $("#bar").find("li").attr("class", 0);
+    var a = Sortable.create(foo, {
+        group: 'a',
+        animation: 100,
+        onStart: function (evt) {
+
+        },
+        // dragging ended
+        onEnd: function (evt) {
+        },
+        onRemove: function (evt) {
+            $(".cd-btn-save").off("click");
+            $(".cd-btn-save").on("click", function (e) {
+
+                if ($(evt.item).attr("qx") == 0 && $(evt.item).attr("class") == "0") {
+                    $(evt.item).removeAttr("qx");
+                }
+                var roleMenuName, roleMenuID;
+                var ary = [], ary2 = [], obj = {};
+                $("#bar").find('li[qx =0]').each(function (index, item) {
+                    roleMenuName = $(item).text();
+                    roleMenuID = $(item).get(0).id;
+                    obj = {roleMenuName: roleMenuName, roleMenuID: roleMenuID};
+                    ary.push(obj);
+                });
+                $("#foo").find('li[qx =1]').each(function (index, item) {
+                    roleMenuName = $(item).text();
+                    roleMenuID = $(item).get(0).id;
+                    obj = {roleMenuName: roleMenuName, roleMenuID: roleMenuID};
+                    ary2.push(obj);
+                });
+                var params = {
+                    1: ary2,
+                    0: ary
+                };
+                $.post("../../src/json/qx.json", params, function (data) {
+
+                });
+                $("#foo,#bar").find('li').removeAttr("qx");
+                $("#foo").find("li").attr("class", 1);
+                $("#bar").find("li").attr("class", 0);
+            });
+            $(evt.item).attr({"qx": 0});
+        }
+    });
+
+    var b = Sortable.create(bar, {
+        group: 'a',
+        animation: 100,
+        onStart: function (evt) {
+        },
+        // dragging ended
+        onEnd: function (evt) {
+        },
+        onRemove: function (evt) {
+            $(".cd-btn-save").off("click");
+            $(".cd-btn-save").on("click", function (e) {
+                if ($(evt.item).attr("qx") == 1 && $(evt.item).attr("class") == "1") {
+                    $(evt.item).removeAttr("qx");
+                }
+                var roleMenuName, roleMenuID;
+                var ary = [], ary2 = [], obj = {};
+                $("#bar").find('li[qx =0]').each(function (index, item) {
+                    roleMenuName = $(item).text();
+                    roleMenuID = $(item).get(0).id;
+                    obj = {roleMenuName: roleMenuName, roleMenuID: roleMenuID};
+                    ary.push(obj);
+                });
+                $("#foo").find('li[qx =1]').each(function (index, item) {
+                    roleMenuName = $(item).text();
+                    roleMenuID = $(item).get(0).id;
+                    obj = {roleMenuName: roleMenuName, roleMenuID: roleMenuID};
+                    ary2.push(obj);
+                });
+                var params = {
+                    1: ary2,
+                    0: ary
+                };
+                $.post("../../src/json/qx.json", params, function (data) {
+                });
+                $("#foo,#bar").find('li').removeAttr("qx");
+                $("#foo").find("li").attr("class", 1);
+                $("#bar").find("li").attr("class", 0);
+            });
+            $(evt.item).attr({"qx": 1});
+        }
+    });
+</script>
+</body>
+</html>

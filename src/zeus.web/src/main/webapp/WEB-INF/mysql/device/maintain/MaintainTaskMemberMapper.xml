@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.maintain.IMaintainTaskMemberMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.model.maintain.task.MaintainTaskMember" >
+    <constructor >
+      <idArg column="maintainTaskMemberID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="maintainTaskID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="maintainGroupID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="employeeID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="maintainTaskMemberName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    maintainTaskMemberID ID, maintainTaskID, maintainGroupID,employeeID, maintainTaskMemberName, availability, 
+    description
+  </sql>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from maintainTaskMember
+    where maintainTaskMemberID = #{maintainTaskMemberID,jdbcType=INTEGER}
+  </select>
+  <select id="findByTaskID" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from patrolTaskMember
+		where patrolTaskID =
+		#{patrolTaskID,jdbcType=INTEGER}
+	</select>
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from maintainTaskMember
+    where maintainTaskMemberID = #{maintainTaskMemberID,jdbcType=INTEGER}
+  </delete>
+  <update id="removeByTaskID" parameterType="java.lang.Integer">
+		update
+		patrolTaskMember
+		set availability = 0
+		where patrolTaskID =
+		#{patrolTaskID,jdbcType=INTEGER}
+	</update>
+	<update id="remove" parameterType="java.lang.Integer">
+		update patrolTaskMember
+		set
+		availability = 0
+		where patrolTaskMemberID = #{ID,jdbcType=INTEGER}
+	</update>
+  <insert id="add" parameterType="ig.device.domain.model.maintain.task.MaintainTaskMember" >
+    insert into maintainTaskMember (maintainTaskMemberID, maintainTaskID, 
+      maintainGroupID,employeeID, maintainTaskMemberName, 
+      availability, description)
+    values (#{maintainTaskMemberID,jdbcType=INTEGER}, #{maintainTaskID,jdbcType=INTEGER}, 
+      #{maintainGroupID,jdbcType=INTEGER}, #{employeeID,jdbcType=INTEGER}, #{maintainTaskMemberName,jdbcType=VARCHAR}, 
+      #{availability,jdbcType=TINYINT}, #{description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="ig.device.domain.model.maintain.task.MaintainTaskMember" >
+    insert into maintainTaskMember
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="maintainTaskMemberID != null" >
+        maintainTaskMemberID,
+      </if>
+      <if test="maintainTaskID != null" >
+        maintainTaskID,
+      </if>
+      <if test="maintainGroupID != null" >
+        maintainGroupID,
+      </if>
+       <if test="employeeID != null" >
+        employeeID,
+      </if>
+      <if test="maintainTaskMemberName != null" >
+        maintainTaskMemberName,
+      </if>
+      <if test="availability != null" >
+        availability,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="maintainTaskMemberID != null" >
+        #{maintainTaskMemberID,jdbcType=INTEGER},
+      </if>
+      <if test="maintainTaskID != null" >
+        #{maintainTaskID,jdbcType=INTEGER},
+      </if>
+      <if test="maintainGroupID != null" >
+        #{maintainGroupID,jdbcType=INTEGER},
+      </if>
+       <if test="employeeID != null" >
+        #{employeeID,jdbcType=INTEGER},
+      </if>
+      <if test="maintainTaskMemberName != null" >
+        #{maintainTaskMemberName,jdbcType=VARCHAR},
+      </if>
+      <if test="availability != null" >
+        #{availability,jdbcType=TINYINT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ig.device.domain.model.maintain.task.MaintainTaskMember" >
+    update maintainTaskMember
+    <set >
+      <if test="maintainTaskID != null" >
+        maintainTaskID = #{maintainTaskID,jdbcType=INTEGER},
+      </if>
+      <if test="maintainGroupID != null" >
+        maintainGroupID = #{maintainGroupID,jdbcType=INTEGER},
+      </if>
+       <if test="employeeID != null" >
+        employeeID = #{employeeID,jdbcType=INTEGER},
+      </if>
+      <if test="maintainTaskMemberName != null" >
+        maintainTaskMemberName = #{maintainTaskMemberName,jdbcType=VARCHAR},
+      </if>
+      <if test="availability != null" >
+        availability = #{availability,jdbcType=TINYINT},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where maintainTaskMemberID = #{maintainTaskMemberID,jdbcType=INTEGER}
+  </update>
+  <update id="update" parameterType="ig.device.domain.model.maintain.task.MaintainTaskMember" >
+    update maintainTaskMember
+    set maintainTaskID = #{maintainTaskID,jdbcType=INTEGER},
+      maintainGroupID = #{maintainGroupID,jdbcType=INTEGER},
+       employeeID = #{employeeID,jdbcType=INTEGER},
+      maintainTaskMemberName = #{maintainTaskMemberName,jdbcType=VARCHAR},
+      availability = #{availability,jdbcType=TINYINT},
+      description = #{description,jdbcType=VARCHAR}
+    where maintainTaskMemberID = #{ID,jdbcType=INTEGER}
+  </update>
+  <insert id="addTaskMembers" parameterType="List">
+    <![CDATA[
+    insert into maintainTaskMember (maintainTaskID, maintainGroupID,employeeID, maintainTaskMemberName, availability, 
+    description)
+    values
+    ]]>
+		<foreach collection="list" item="obj" index="index" separator=",">
+			(
+			#{obj.maintainTaskID,jdbcType=INTEGER},
+			#{obj.maintainGroupID,jdbcType=INTEGER},
+			#{obj.employeeID,jdbcType=INTEGER},
+			#{obj.maintainTaskMemberName,jdbcType=VARCHAR},
+			1,
+		    #{obj.description,jdbcType=VARCHAR}
+			)
+		</foreach>
+
+	</insert>
+</mapper>

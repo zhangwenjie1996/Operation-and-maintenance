@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+        <!-- 切入controller中放到扫描前面 -->
+       <bean  id="aopException" class="ig.zeus.intercept.AopException" /> 
+       <aop:config>
+			<aop:aspect id="myAop" ref="aopException" >
+		        	<aop:pointcut expression="(execution (* ig.device.controller.*.*.*(..))) or (execution (* ig.zeus.controller.domain.*.*(..))))" id="target"/>
+				      <aop:around method="doAround" pointcut-ref="target"/>
+		        </aop:aspect>
+        </aop:config>
+	 <!--mvc scan package -->
+	<context:component-scan
+		base-package="ig.zeus.controller,ig.zeus.domain.repository,ig.zeus.application,
+		ig.device.application,ig.device.domain.service,ig.device.domain.repository,ig.device.controller"></context:component-scan>
+
+	<!--配置视图解析器，用于送显页面。 -->
+	<!-- 会自动注册了validator ConversionService -->
+	<mvc:annotation-driven />
+
+	<!-- servlet在找页面时，走的是dispatcherServlet路线。找不到的时候会报404,加上这个默认的servlet时候，servlet在找不到的时候会去找静态的内容 -->
+	<mvc:default-servlet-handler />
+
+  	<!--<mvc:interceptors>-->
+		<!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->
+		 <!--<bean class="com.host.app.web.interceptor.AllInterceptor" /> -->
+ 		<!--<mvc:interceptor> -->
+ 			<!--<mvc:mapping path="/accountController/**" /> -->
+			 <!--&lt;!&ndash;定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 &ndash;&gt;-->
+ 			<!--<bean id="Interceptor" class="ig.zeus.intercept.FirstInterceptor" /> -->
+ 		<!--</mvc:interceptor> -->
+     		    <!--<mvc:interceptor>-->
+ 						<!--<mvc:mapping path="/**" />-->
+ 						<!--<bean id="Interceptor" class="ig.zeus.intercept.LoginInterceptor" />-->
+ 				<!--</mvc:interceptor>-->
+ 	 <!--</mvc:interceptors>-->
+
+	<!-- 中文处理 -->
+	<bean id="utf8Charset" class="java.nio.charset.Charset"
+		factory-method="forName">
+		<constructor-arg value="UTF-8" />
+	</bean>
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<constructor-arg ref="utf8Charset" />
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<mvc:cors>
+		<mvc:mapping path="/**" allowed-origins="*"
+			allow-credentials="true" max-age="1800" allowed-methods="GET,POST,OPTIONS" />
+	</mvc:cors>
+
+
+	<!--上传文件解析器-->
+	<!--加载ftp服务器配置文件-->
+
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="1000000"/>
+	</bean>
+</beans>

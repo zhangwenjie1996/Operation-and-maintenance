@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.patrol.IPatrolRouteDeviceMapper">
+	<resultMap id="BaseResultMap"
+		type="ig.device.domain.model.patrol.PatrolRouteDevice">
+		<constructor>
+			<idArg column="patrolRouteDeviceID" jdbcType="INTEGER"
+				javaType="java.lang.Integer" />
+			<arg column="patrolRouteID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="patrolRouteDeviceName" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="itemID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="orderCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+			<arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="deviceAddress" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="sequence" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="modelID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="state" jdbcType="TINYINT" javaType="java.lang.Byte" />
+		</constructor>
+	</resultMap>
+	<sql id="Base_Column_List">
+		patrolRouteDeviceID ID, patrolRouteID, patrolRouteDeviceName,
+		itemID, orderCode,
+		availability,
+		description, deviceAddress, sequence,
+		modelID,state
+	</sql>
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from patrolRouteDevice
+		where patrolRouteDeviceID =
+		#{ID,jdbcType=INTEGER}
+	</select>
+	<select id="findDeviceByRouteId" resultType="ig.device.domain.model.patrol.PatrolRouteDevice"
+		parameterType="java.lang.Integer">
+		select
+		*
+		from patrolRouteDevice
+		where patrolRouteID =
+		#{patrolRouteID,jdbcType=INTEGER}
+	</select>
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from patrolRouteDevice
+		where patrolRouteDeviceID = #{ID,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByRouteID" parameterType="java.lang.Integer">
+		delete from
+		patrolRouteDevice
+		where patrolRouteID =
+		#{patrolRouteID,jdbcType=INTEGER}
+	</delete>
+	<update id="remove" parameterType="java.lang.Integer">
+		update patrolRouteDevice
+		set
+		availability = 0
+		where patrolRouteDeviceID = #{ID,jdbcType=INTEGER}
+	</update>
+	<update id="removeByRouteID" parameterType="java.lang.Integer">
+		update
+		patrolRouteDevice
+		set availability = 0
+		where patrolRouteID =
+		#{patrolRouteID,jdbcType=INTEGER}
+	</update>
+	<insert id="add" parameterType="ig.device.domain.model.patrol.PatrolRouteDevice">
+		insert into patrolRouteDevice
+		(patrolRouteID,
+		patrolRouteDeviceName, itemID,
+		orderCode,
+		availability, description, deviceAddress,
+		sequence, modelID,state)
+		values (
+		#{patrolRouteID,jdbcType=INTEGER},
+		#{patrolRouteDeviceName,jdbcType=VARCHAR}, #{itemID,jdbcType=INTEGER},
+		#{orderCode,jdbcType=VARCHAR},
+		#{availability,jdbcType=TINYINT},
+		#{description,jdbcType=VARCHAR}, #{deviceAddress,jdbcType=VARCHAR},
+		#{sequence,jdbcType=INTEGER}, #{modelID,jdbcType=INTEGER},
+		 #{state,jdbcType=TINYINT})
+	</insert>
+	<insert id="addAllDevice" parameterType="List">
+    <![CDATA[
+    insert into patrolRouteDevice ( patrolRouteID, patrolRouteDeviceName, itemID, orderCode, availability, 
+     deviceAddress, sequence, modelID,state)
+    values
+    ]]>
+		<foreach collection="list" item="obj" index="index" separator=",">
+			(
+			#{obj.patrolRouteID,jdbcType=INTEGER},
+			#{obj.patrolRouteDeviceName,jdbcType=VARCHAR},
+			#{obj.itemID,jdbcType=INTEGER},
+			#{obj.orderCode,jdbcType=VARCHAR},
+			1,
+			#{obj.deviceAddress,jdbcType=VARCHAR},
+			#{obj.sequence,jdbcType=INTEGER},
+			#{obj.modelID,jdbcType=INTEGER},
+			 #{obj.state,jdbcType=TINYINT})
+		</foreach>
+
+	</insert>
+	<update id="update" parameterType="ig.device.domain.model.patrol.PatrolRouteDevice">
+		update patrolRouteDevice
+		set
+		patrolRouteID = #{patrolRouteID,jdbcType=INTEGER},
+		patrolRouteDeviceName = #{patrolRouteDeviceName,jdbcType=VARCHAR},
+		itemID = #{itemID,jdbcType=INTEGER},
+		orderCode =
+		#{orderCode,jdbcType=VARCHAR},
+		availability =
+		#{availability,jdbcType=TINYINT},
+		description =
+		#{description,jdbcType=VARCHAR},
+		deviceAddress =
+		#{deviceAddress,jdbcType=VARCHAR},
+		sequence =
+		#{sequence,jdbcType=INTEGER},
+		modelID = #{modelID,jdbcType=INTEGER}
+		where patrolRouteDeviceID = #{patrolRouteDeviceID,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateSequence" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			update patrolRouteDevice
+			<set>
+				sequence=${item.sequence}
+			</set>
+			where
+			patrolRouteID =
+			#{item.patrolRouteID}
+			and itemID = #{item.itemID}
+		</foreach>
+	</update>
+
+	<select id="findByRouteIdAndItemId" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select
+		count(1)
+		from patrolRouteDevice
+		where
+		patrolRouteID =
+		#{0}
+		and itemID = #{1}
+
+	</select>
+</mapper>

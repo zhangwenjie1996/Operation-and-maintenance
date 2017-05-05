@@ -1,0 +1,37 @@
+{
+  "state": "Success",
+  "message": "请求成功！",
+  "current": 2,
+  "rowCount": 5,
+  "rows": [
+    {
+      "patrolGroupNumberID": 1,
+      "employeeid": 1,
+      "employeename": "成员1",
+      "availability": 0,
+      "patrolGroupID": 1
+    },
+    {
+      "patrolGroupNumberID": 2,
+      "employeeid": 2,
+      "employeename": "成员2",
+      "availability": 0,
+      "patrolGroupID": 1
+    },
+    {
+      "patrolGroupNumberID": 3,
+      "employeeid": 3,
+      "employeename": "成员3",
+      "availability": 0,
+      "patrolGroupID": 1
+    },
+    {
+      "patrolGroupNumberID": 4,
+      "employeeid": 4,
+      "employeename": "成员4",
+      "availability": 0,
+      "patrolGroupID": 1
+    }
+  ],
+  "total":100
+}

@@ -1,0 +1,17 @@
+eclipse.preferences.version=1
+encoding//src/main/java/ig/zeus/controller/domain/PermissionController.java=UTF-8
+encoding//src/main/java/ig/zeus/controller/domain/PostController.java=UTF-8
+encoding//src/main/java/ig/zeus/controller/domain/RoleActionController.java=UTF-8
+encoding//src/main/java/ig/zeus/controller/domain/RoleController.java=UTF-8
+encoding//src/main/java/ig/zeus/controller/domain/RoleControllerController.java=UTF-8
+encoding//src/main/java/ig/zeus/controller/domain/RoleModuleController.java=UTF-8
+encoding//src/main/java/ig/zeus/controller/domain/SystemController.java=UTF-8
+encoding//src/main/java/ig/zeus/controller/domain/UserController.java=UTF-8
+encoding//src/main/webapp/WEB-INF/log4j.properties=UTF-8
+encoding//src/main/webapp/login.html=UTF-8
+encoding//src/main/webapp/src/json=UTF-8
+encoding//src/main/webapp/src/json/departM.json=UTF-8
+encoding//src/main/webapp/src/json/qx.json=UTF-8
+encoding//src/main/webapp/src/json/roleAssignment.json=UTF-8
+encoding//src/main/webapp/src/json/usergrid.json=UTF-8
+encoding//src/main/webapp/src/json/usertree.json=UTF-8

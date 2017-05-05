@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../src/css/quote/themes/default/style.min.css">
+    <link rel="stylesheet" href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link href="../../src/css/quote/lib/jquery.bootgrid.min.css" rel="stylesheet">
+    <!-- alert -->
+	<link rel="stylesheet" type="text/css" href="../../src/alert/sweetalert2.min.css">
+    <link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+    <!--<script type="text/javascript" src="dist/js/jquery.i18n.properties-1.0.9.js"></script>-->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript" src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript" src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="row  patrolG">
+   
+    <div class="col-sm-4 col-md-3 col-lg-3">
+        <div class="row-tree-menu">
+            <ol class="breadcrumb">
+                <li><a href="#">路线管理</a></li>
+            </ol>
+            <button style="margin-bottom: 10px;" type="button" class="btn btn-primary btn-sm" onclick="demo_create();"><i
+                    class="glyphicon glyphicon-asterisk"></i> 添加路线
+            </button>
+
+            <div id="ajax" class="demo"></div>
+        </div>
+    </div>
+
+    <div class="col-sm-8 col-md-9 col-lg-9">
+ 
+        <div class="user-list-row">
+            <div class="tit">
+                <ol class="breadcrumb">
+                    <li><a><i class="fa  fa-tasks"></i>巡检设备列表</a></li>
+                </ol>
+            </div>
+            <button class="addBtn btn btn-primary btn-sm">
+                <i class="fa fa-plus">增加 </i>
+            </button>
+            <table id="grid-data" class="table table-condensed table-hover table-striped ">
+                <thead>
+                <tr>
+                    <!--data-identifier="true"id-->
+                    <!--
+                    <th data-column-id="patrolRouteDeviceID" data-identifier="true" data-type="numeric" data-visible="false">ID</th>
+                    -->
+                    <th data-column-id="patrolRouteDeviceName">巡检设备名称</th>
+                    <th data-column-id="orderCode">巡检设备编号</th>
+                    <th data-column-id="description">描述</th>
+                     <!--    <th data-column-id="availability" >是否有效</th>-->
+                    <th data-column-id="commands" data-formatter="commands" data-sortable="false">操作</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <!-- cd-popup-container-start -->
+    <div class="cd-popup" role="alert">
+        <div class="cd-popup-container" style="max-width: 1000px;">
+            <a class="cd-popup-close icon-close fa fa-times"></a>
+
+            <div class="tabbar"></div>
+            <div class="mnk">
+
+                <form id="form2" class="form-horizontal form-block" role="form">
+
+                    <table id="grid" class="table table-condensed table-hover table-striped ">
+                        <thead>
+                       <tr>
+                    <th data-column-id="itemID" data-identifier="true" data-type="numeric">ID</th>
+                    <th data-column-id="itemCode" data-identifier="true"
+                        data-type="numeric">设备编号
+                    </th>
+<!--                     <th data-column-id="storageID">存储id</th>
+                    <th data-column-id="categoryID" data-order="desc">分类id</th> -->                    
+                    <th data-column-id="categoryName" data-order="desc">设备类型</th>
+<!--                     <th data-column-id="modelID" data-order="desc"> 物资型号</th> -->
+                    <th data-column-id="modelName" data-order="desc">设备型号</th>
+                    
+                    <th data-column-id="deviceState" data-order="desc">设备状态
+
+                    </th>
+                    <th data-column-id="deviceGrade" data-order="desc">设备等级</th>
+                    <th data-column-id="organName" data-order="desc">所属部门</th>
+                    
+                    <th data-column-id="description" data-order="desc">描述</th>
+                </tr>
+                        </thead>
+                    </table>
+                </form>
+                <div class="cd-buttons">
+                    <button type="button" class="btn btn-primary cd-popup-close cd-btn cd-btn-save">保存</button>
+                    <button type="button" class="btn btn-danger cd-popup-close cd-btn cd-btn-deal">取消</button>
+                </div>
+
+            </div>
+        </div>
+        <!-- cd-popup-container-end -->
+    </div>
+
+
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">添加路线</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form1" class="form-horizontal">
+                  <input  type="hidden"  id="patrolRouteID" name="patrolRouteID" />
+                    <div class="form-group">
+                        <label for="patrolRouteName" class="col-sm-2 control-label">路线名称</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="patrolRouteName" name="patrolRouteName"
+                                   placeholder="路线名称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-sm-2 control-label">描述</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="description" name="description"
+                                   placeholder="描述">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="availability" class="col-sm-2 control-label">有效性</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="availability" name="availability">
+								<option value="1">有</option>
+								<option value="0">无</option>
+							</select>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="save" data-dismiss="modal"
+                        class="btn btn-primary">保存
+                </button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+	<script src="../../src/js/rowtree/rowtree.js"></script>
+<script src="../../src/alert/sweetalert2.min.js"></script> 
+<!-- for IE support -->
+<script src="../../src/alert/es6-promise.auto.min.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+<script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+<script src="../../src/js/quote/jstree.min.js"></script>
+<script src="../../src/js/packtreegrid/pack2.js"></script>
+<script src="../../src/js/dialog/dialog.js"></script>
+<script src="../../src/js/curd/curd2.js"></script>
+<script src="../../src/js/patrol/patrolRoute.js"></script>
+
+ 
+</body>
+</html>

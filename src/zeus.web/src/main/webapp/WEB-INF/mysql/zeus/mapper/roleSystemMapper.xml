@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.command.IPermission">
+	<resultMap id="RoleSystemResultMap" type="ig.zeus.domain.service.command.RoleSystemCommand">
+		<id column="roleID" property="roleid" jdbcType="INTEGER" />
+		<id column="systemID" property="systemid" jdbcType="INTEGER" />
+		<result column="permission" property="permission"
+			jdbcType="TINYINT" />
+	</resultMap>
+	<delete id="deleteRoleSystem" parameterType="map">
+		delete from roleSystem
+		where systemID = #{systemid,jdbcType=INTEGER}
+		and roleID = #{roleid,jdbcType=INTEGER}
+	</delete>
+	<insert id="insertRoleSystem" parameterType="ig.zeus.domain.service.command.RoleSystemCommand">
+		insert into roleSystem (systemID, roleID, permission
+		)
+		values (#{systemid,jdbcType=INTEGER}, #{roleid,jdbcType=INTEGER},
+		#{permission,jdbcType=TINYINT}
+		)
+	</insert>
+	<update id="updateRoleSystem" parameterType="ig.zeus.domain.service.command.RoleSystemCommand">
+		update roleSystem
+		set permission = #{permission,jdbcType=TINYINT}
+		where systemID = #{systemid,jdbcType=INTEGER}
+		and roleID = #{roleid,jdbcType=INTEGER}
+	</update>
+	<select id="findByIdRoleSystem" resultMap="RoleSystemResultMap"
+		parameterType="map">
+		select systemID, roleID, permission
+		from roleSystem
+		where systemID = #{systemid,jdbcType=INTEGER}
+		and roleID = #{roleid,jdbcType=INTEGER}
+	</select>
+	<select id="findAllRoleSystem" resultMap="RoleSystemResultMap">
+		select systemID, roleID, permission
+		from roleSystem
+	</select>
+</mapper>

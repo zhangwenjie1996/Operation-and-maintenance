@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet"
+          href="../../src/css/quote/themes/default/style.min.css"/>
+    <link rel="stylesheet"
+          href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet"
+          href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link href="../../src/css/quote/lib/jquery.bootgrid.min.css"
+          rel="stylesheet"/>
+          <!-- alert -->
+	<link rel="stylesheet" type="text/css" href="../../src/alert/sweetalert2.min.css">
+    <link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+    <!--<script type="text/javascript" src="dist/js/jquery.i18n.properties-1.0.9.js"></script>-->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript"
+            src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript"
+            src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="row deviceM">
+    <ol class="breadcrumb path-navigation">
+        <li><a href="deviceAccessories.html">型号管理</a></li>
+        <li class="active">型号信息</li>
+    </ol>
+
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <div class="device-filter-row">
+            <ol class="breadcrumb">
+                <li><a><i></i>基本信息</a></li>
+            </ol>
+            <form class="form-horizontal form-accessories" role="form">
+                <div class="form-group  ">
+                    <label for="materialModelName" class="  control-label">型号名称</label>
+                    <input type="text" class="form-control" id="materialModelName" placeholder=" " name="materialModelName">
+                    <input type="hidden" class="form-control" id="materialCategoryID" placeholder=" " name="materialCategoryID">
+                </div>
+                <div class="form-group  ">
+                    <label for="materialModelCode" class="  control-label">型号编码</label>
+                    <input type="text" class="form-control" id="materialModelCode" placeholder=" " name="materialModelCode">
+                </div>
+<!--                 <div class="form-group  "> -->
+<!--                     <label for="materialCategoryID" class="  control-label">类型</label> -->
+<!--                     <input type="text" class="form-control" id="materialCategoryID" placeholder=" " name="materialCategoryID"> -->
+<!--                 </div> -->
+<!--                 <div class="form-group  "> -->
+<!--                     <label for="supMaterialModelID" class="  control-label">配件所属设备</label> -->
+<!--                     <input type="text" class="form-control" id="supMaterialModelID" placeholder=" " name="supMaterialModelID"> -->
+<!--                 </div> -->
+                <div class="form-group  ">
+                    <label for="maxInventory" class="  control-label">最大库存</label>
+                    <input type="text" class="form-control" id="maxInventory" placeholder=" "
+                           name="maxInventory">
+                </div>
+                <div class="form-group  ">
+                    <label for="minInventory" class="  control-label">最小库存</label>
+                    <input type="text" class="form-control" id="minInventory" placeholder=" " name="minInventory">
+                </div>
+                <div class="form-group  ">
+                    <label for="providerID" class="  control-label">供应商ID</label>
+                    <input type="text" class="form-control" id="providerID" placeholder=" " name="providerID">
+                </div>
+                <div class="form-group  ">
+                    <label for="providerName" class="  control-label">供应商名称</label>
+                    <input type="text" class="form-control" id="providerName" placeholder="   " name="providerName">
+                </div>
+                <div class="form-group  ">
+                    <label for="description" class="  control-label">描述</label>
+                    <input type="text" class="form-control" id="description" placeholder="   " name="description">
+                </div>
+                <div class="form-group">
+                    <button type="button" class="query-save  btn btn-primary">保存</button>
+                </div>
+            </form>
+        </div>
+        <div class="device-list-row">
+            <ol class="breadcrumb">
+                <li><a><i></i>技术参数</a></li>
+            </ol>
+            <button class="addBtn2 btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i>新增
+            </button>
+            <table id="grid-data2"
+                   class="table table-condensed table-hover table-striped">
+                <thead>
+                <tr>
+                    <th data-column-id="parameterID" data-identifier="true" data-type="numeric"> ID</th>
+                    <th data-column-id="parameterName" data-order="desc">参数名称</th>
+                    <th data-column-id="parameterValue" data-order="desc"> 参数值</th>
+                    <th data-column-id=" priority" data-order="desc">优先级</th>
+                    <th data-column-id="commands" data-formatter="commands"
+                        data-sortable="false">Commands
+                    </th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="device-list-row">
+            <ol class="breadcrumb">
+                <li><a><i></i>规格信息</a></li>
+            </ol>
+            <button class="addBtn3 btn btn-primary btn-sm" id="a" type="button"><i class="fa fa-plus"></i>新增
+            </button>
+            <table id="grid-data3"
+                   class="table table-condensed table-hover table-striped">
+                <thead>
+                <tr>
+                    <th data-column-id="specificationID" data-identifier="true" data-type="numeric"> ID</th>
+                    <th data-column-id="specificationName" data-order="desc">规格名称</th>
+                    <th data-column-id="specificationValue" data-order="desc"> 规格值</th>
+
+                    <th data-column-id="commands" data-formatter="commands"
+                        data-sortable="false">Commands
+                    </th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- cd-popup-container-start -->
+<div class="cd-popup2" role="alert">
+    <div class="cd-popup-container">
+        <a class="cd-popup-close icon-close fa fa-times"></a>
+
+        <div class="tabbar"></div>
+        <div class="mnk">
+            <form id="formDevice" class="form-horizontal form-block">
+                <div class="form-group">
+                    <label for="parameterName" class="col-sm-2 control-label">参数名称</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="parameterName" placeholder=" "
+                               name="parameterName">
+<!--                         <input class="form-control" id="materialModelID" placeholder=" " -->
+<!--                                name="materialModelID" type="hidden"> -->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="parameterValue" class="col-sm-2 control-label">参数值</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="parameterValue" placeholder=" "
+                               name="parameterValue">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="priority" class="col-sm-2 control-label">优先级</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="priority" placeholder=" "
+                               name="priority">
+                    </div>
+                </div>
+            </form>
+            <div class="cd-buttons">
+                <button type="button"
+                        class="btn btn-primary cd-popup-close cd-btn cd-btn-save">保存
+                </button>
+                <button type="button"
+                        class="btn btn-danger cd-popup-close cd-btn cd-btn-deal">取消
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- cd-popup-container-end -->
+</div>
+<div class="cd-popup3" role="alert">
+    <div class="cd-popup-container">
+        <a class="cd-popup-close icon-close fa fa-times"></a>
+
+        <div class="tabbar"></div>
+        <div class="mnk">
+            <form id="formDevice" class="form-horizontal form-block">
+                <div class="form-group">
+                    <label for="specificationName" class="col-sm-2 control-label">规格名称</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="specificationName" placeholder="specificationName"
+                               name="specificationName">
+<!--                         <input class="form-control" id="materiaModelID" placeholder="materiaModelID" -->
+<!--                                name="materiaModelID" type="hidden"> -->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="specificationValue" class="col-sm-2 control-label">规格值</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="specificationValue" placeholder="specificationValue"
+                               name="specificationValue">
+                    </div>
+                </div>
+            </form>
+            <div class="cd-buttons">
+                <button type="button"
+                        class="btn btn-primary cd-popup-close cd-btn cd-btn-save">保存
+                </button>
+                <button type="button"
+                        class="btn btn-danger cd-popup-close cd-btn cd-btn-deal">取消
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- cd-popup-container-end -->
+</div>
+<script src="../../src/alert/sweetalert2.min.js"></script> 
+	<!-- for IE support -->
+	<script src="../../src/alert/es6-promise.auto.min.js"></script>
+<script src="http://cdn.gbtags.com/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+<script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+<script src="../../src/js/quote/jstree.js"></script>
+<script src="../../src/js/packtreegrid/pack2.js"></script>
+<script src="../../src/js/dialog/dialog2.js"></script>
+<script src="../../src/js/ajaxurl/ajax.js"></script>
+<script src="../../src/js/curd/curd.js"></script>
+<script src="../../src/js/grid/grid.js"></script>
+<script>
+
+    var flag, materialModelCode;
+    var id = localStorage.getItem("id");
+ 
+// 	var accessoriesAdd=localStorage.getItem("accessoriesAdd");
+ 
+	var parentId=localStorage.getItem("parentId");
+	console.log(parentId);
+	$("#materialCategoryID").val(parentId);
+ 
+    var $querySave = $(".query-save"), $form = $(".form-accessories");
+    $("#materialModelID").val(id);
+    $("#materiaModelID").val(id);
+    $querySave.off("click");
+    $querySave.on("click", function () {
+        var arr = $form.serialize();
+        curd.ajax("../../MaterialModelController/insert","post",arr,false,function(data){
+        	id=data.data.materialModelID;
+             xx(id);
+        },function(data){
+        	swal({text:data.message});
+        })
+   
+    });
+  //basic info
+ if(id!="null"){
+	 curd.showInfo("../../MaterialModelController/findById","get",{id:id},true) ;
+	 xx(id);
+ }
+ function xx(id){
+		var f2 = gridFn("../../ModelParameterController/findMaterialModelId?materialModelID=" + id, "grid-data2", "parameterID", function () {
+			 $(".addBtn2").off("click"); 
+			 $(".addBtn2").on("click", function (e) {
+		            $("grid-data2").bootgrid()
+		            $(".tabbar").html("添加");
+		            $().dia("cd-popup2");
+		           });
+			    var $cdBtnSave = $(".cd-popup2 .cd-btn-save");
+			  $cdBtnSave.off("click");
+		      $cdBtnSave.on("click", function (e) {
+		    	  var arr = $(".cd-popup2 #formDevice").serialize()+"&materialModelID="+id+"";
+		          curd.saveBtn("grid-data2","../../ModelParameterController/add", "post",arr,true);
+		     })
+		    }, function (n) {
+		    	console.log( $(n).attr("p"));
+//		         curd.delBtn("../../ModelParameterController/delete", n)
+		           curd.ajax("../../ModelParameterController/delete","get",{
+		               id: $(n).attr("a")
+		           },true, function (data) {
+		               $(n).parents('tr').remove();
+		           }, function (data) {
+		        		swal({text:data.message});
+		           })
+		    }, function (n) {
+		        $().dia("cd-popup2");
+		        $(".tabbar").html("编辑");
+		        var param = {
+		            id: $(n).attr("a")
+		        }
+		        curd.showInfo("../../ModelParameterController/findById", "get", param,true);
+		        var $cdBtnSave = $(".cd-popup2 .cd-btn-save");
+		        var parameterID=$(n).attr("a");
+		        $cdBtnSave.off("click");
+		        $cdBtnSave.on("click", function (e) {
+		        	  var arr = $(".cd-popup2 #formDevice").serialize()+"&parameterID="+parameterID;
+		        	  curd.saveBtn("grid-data2","../../ModelParameterController/update", "post",arr,true);
+		       })
+		  }, function (n) {
+		        $().dia2("cd-popup2");
+		        $(".tabbar").html("查看");
+		        var param = {
+		            id: $(n).attr("a")
+		        }
+		        curd.showInfo("../../MaterialModelController/findById", "get", param,true);
+		    })
+
+
+		    var f3 = gridFn("../../SpecificationController/findMaterialModelId?materialModelID=" + id, "grid-data3", "specificationID", function () {
+		    	 $(".addBtn3").off("click");
+		    	$(".addBtn3").on("click", function (e) {
+		            $(".tabbar").html("添加");
+		            $().dia("cd-popup3"); 
+		          });
+		        var $cdBtnSave = $(".cd-popup3 .cd-btn-save");
+		    	  $cdBtnSave.off("click");
+		          $cdBtnSave.on("click", function (e) {
+		          	 var arr = $(".cd-popup3 #formDevice").serialize()+"&materiaModelID="+id;
+		               curd.saveBtn("grid-data3","../../SpecificationController/add", "post",arr,true);	
+		          })
+		    }, function (n) {
+		        curd.delBtn("../../SpecificationController/delete", n)
+		    }, function (n) {
+		        $().dia("cd-popup3");
+		        $(".tabbar").html("编辑");
+		        var param = {
+		            id: $(n).attr("data-row-id")
+		        }
+		      
+		        curd.showInfo("../../SpecificationController/findById", "get", param,true);
+		        var $cdBtnSave = $(".cd-popup3 .cd-btn-save");
+		        $cdBtnSave.off("click");
+		        $cdBtnSave.on("click", function (e) {
+		        	   var arr = $(".cd-popup3 #formDevice").serialize()+"&specificationID="+ $(n).attr("data-row-id");
+		        	   curd.saveBtn("grid-data3","../../SpecificationController/update", "post",arr,true);
+		       })
+
+		    }, function (n) {
+		        $().dia2("cd-popup3");
+		        $(".tabbar").html("查看");
+		        var param = {
+		            id: $(n).attr("data-row-id")
+		        }
+		        curd.showInfo("../../SpecificationController/findById" , "get", param,true);
+		    }) 
+ }
+ 
+
+ 
+ 
+</script>
+
+</body>
+</html>

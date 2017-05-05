@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet"
+          href="../../src/css/quote/themes/default/style.min.css"/>
+    <link rel="stylesheet"
+          href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet"
+          href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link href="../../src/css/quote/lib/jquery.bootgrid.min.css"
+          rel="stylesheet"/>
+          <!-- alert -->
+	<link rel="stylesheet" type="text/css" href="../../src/alert/sweetalert2.min.css">
+    <link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+    <!--<script type="text/javascript" src="dist/js/jquery.i18n.properties-1.0.9.js"></script>-->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript"
+            src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript"
+            src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="row deviceM">
+  <div class="col-sm-4 col-md-3 col-lg-3">
+        <div class="row-tree-menu">
+            <ol class="breadcrumb">
+                <li><a href="#">类型列表</a></li>
+            </ol>
+             <ol class="breadcrumb path-navigation">
+                <li><a href="#">当前类型</a></li>
+                <li class="active" id="currentDepart"></li>
+            </ol>
+            <div class="search-tree">
+                <input type="text" class="form-control" id="search-tree"
+                       placeholder="搜索">
+            </div>
+           
+            <div id="ajax" class="demo"></div>
+        </div>
+    </div>
+    <div class="col-sm-8 col-md-9 col-lg-9">
+        <div class="device-filter-row common-filter">
+            <ol class="breadcrumb">
+                <li><a><i></i>筛选条件</a></li>
+            </ol>
+            <form class="form-horizontal  form-common   filter-criteria"  role="form" id="filter-criteria">
+            	<div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-4">
+            		<input type="hidden" id="p_materialCategoryID" name="materialCategoryID"/>
+                    <label class=" col-sm-4 control-label" for="p_materialModelName">型号名称</label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="p_materialModelName"
+                           placeholder=" " name="materialModelName"></div>
+                </div>
+                <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-4">
+                    <label class="col-sm-4  control-label" for="p_materialModelCode">型号编号</label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="p_materialModelCode"
+                           placeholder=" " name="materialModelCode">
+                           </div>
+                </div>
+                <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-4">
+                    <label class=" col-sm-4 control-label" for="p_providerName">供应商</label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" id="p_providerName"
+                           placeholder=" " name="providerName">
+                           </div>
+                </div>
+                <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-4">
+                    <label class="col-sm-4 control-label" for="availability">有效性</label>
+
+                        <div class="col-sm-8">
+                            <select class="form-control" id="availability"   name="availability">
+                            	<option value="0">无效</option>
+		                        <option value="1" selected="selected">有效</option>
+                    		</select>   
+                </div>
+                </div>
+                
+                <button type="button" class="searchBtn btn btn-primary">查询</button>
+            </form>
+        </div>
+        <div class="device-list-row">
+            <ol class="breadcrumb">
+                <li><a><i></i>型号列表</a></li>
+            </ol>
+				<button type="button" class="btn btn-primary" onclick="skip()">型号添加</button>
+				<div class="table-rp">
+           		 <table id="grid-data"
+                   class="table  table-condensed table-hover table-striped bootgrid-table">
+                <thead>
+                <tr>
+                    <th data-column-id="materialModelID" data-identifier="true"  data-type="numeric" data-visible="false">型号ID
+                    </th>
+<!--                     <th data-column-id="supMaterialModelID" data-identifier="true"  data-type="numeric" data-visible="false">supMaterialModelID -->
+<!--                     </th> -->
+<!--                     <th data-column-id="materialCategoryID" data-order="desc"  data-visible="false">materialCategoryID</th> -->
+<!--                     <th data-column-id="supMeterialModelID" data-order="desc"  data-visible="false">supMeterialModelID</th> -->
+                    <th data-column-id="materialModelName" data-order="desc" >型号名称
+                    </th>
+                    <th data-column-id="materialModelCode" data-order="desc">型号编码</th>
+                    <th data-column-id="maxInventory" data-order="desc">最大库存</th>
+                    <th data-column-id="minInventory" data-order="desc">最小库存</th>
+<!--                     <th data-column-id="providerID" data-order="desc">供应商ID</th> -->
+                    <th data-column-id="providerName" data-order="desc">供应商名称</th> 
+                    <th data-column-id="materialPrice" data-order="desc">单价</th> 
+                    <th id="ope" data-column-id="commands" data-formatter="commands"
+                        data-sortable="false"  data-visible="">操作
+                    </th>		
+                </tr>
+                </thead>
+            </table>
+            </div>
+<!--          <button   class="saveBtn btn btn-primary btn-sm" type="button" ><i class="fa fa-plus"></i>保存</button> -->
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="dialog modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">编辑</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formTree" class="form-horizontal">
+<!--                     <div class="form-group"> -->
+<!--                         <label for="materialCategoryID" class="col-sm-2 control-label">类型ID</label> -->
+<!--                         <div class="col-sm-10"> -->
+<!--                             <input type="text" class="form-control" id="materialCategoryID" -->
+<!--                                    placeholder=" " name="materialCategoryID"> -->
+<!--                         </div> -->
+<!--                     </div> -->
+                      <div class="form-group">
+                        <label for="materialCategoryName" class="col-sm-2 control-label">类型名称</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="materialCategoryName"
+                                   placeholder="" name="materialCategoryName">
+                        </div>
+                    </div>
+                      <div class="form-group">
+                        <label for="unitsID" class="col-sm-2 control-label">单位名称</label>
+
+                        <div class="col-sm-10">
+<!--                             <input type="text" class="form-control" id="unitID" -->
+<!--                                    placeholder="" name="unitsID"> -->
+                            <select class="form-control" id="unitsID"   name="unitsID">
+<!--                         <option>-请选择-</option> -->
+                    		</select>   
+                        </div>
+                    </div>
+<!--                       <div class="form-group"> -->
+<!--                         <label for="materialType" class="col-sm-2 control-label">类别</label> -->
+
+<!--                         <div class="col-sm-10"> -->
+<!--                             <input type="text" class="form-control" id="materialType" -->
+<!--                                    placeholder="" name="materialType"> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                       <div class="form-group"> -->
+<!--                         <label for="availability" class="col-sm-2 control-label">有效性</label> -->
+
+<!--                         <div class="col-sm-10"> -->
+<!--                             <input type="text" class="form-control" id="availability" -->
+<!--                                    placeholder="" name="availability"> -->
+<!--                         </div> -->
+<!--                     </div> -->
+                     <div class="form-group">
+                        <label for="description" class="col-sm-2 control-label">描述</label>
+
+                        <div class="col-sm-10">
+                            <textarea  class="form-control" id="description"
+                                   placeholder="" name="description"></textarea>
+                        </div>
+                    </div>
+                          <div class="form-group"> 
+<!--                         <label for="superiorID" class="col-sm-2 control-label">父id</label> -->
+
+                        <div class="col-sm-10">
+                            <input type="hidden" id="superiorID" name="superiorID"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="save" data-dismiss="modal"
+                        class="btn btn-primary">保存
+                </button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- cd-popup-container-start -->
+<!-- <div class="cd-popup" role="alert"> -->
+<!--     <div class="dialog cd-popup-container"> -->
+<!--         <a class="cd-popup-close icon-close fa fa-times"></a> -->
+
+         <div class="cd-popup" role="alert">
+         	<div class="dialog cd-popup-container" style="max-width:100%;width:100%;height:60%">
+		         <a class="cd-popup-close icon-close fa fa-times"></a>
+	         	<div class="tabbar"></div> 
+	         	<div class="mnk" style="height:800px"><iframe id="ifr" src=""></iframe></div>
+         	</div>
+         </div>
+         
+<!--         <div class="mnk"> -->
+<!--             <form id="formDevice" class="form-horizontal form-block"> -->
+<!--                 <div class="form-group" hidden="hidden"> -->
+<!--                     <label for="itemID" class="col-sm-2 control-label">设备详情ID</label> -->
+
+<!--                     <div class="col-sm-10"> -->
+<!--                         <input class="form-control" id="itemID" placeholder="itemID" name="itemID"> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--                 <div class="form-group" hidden="hidden"> -->
+<!--                     <label for="groupID" class="col-sm-2 control-label">库存物资ID</label> -->
+
+<!--                     <div class="col-sm-10"> -->
+<!--                         <input class="form-control" id="groupID" placeholder="groupID" name="groupID"> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--                 <div class="form-group"> -->
+<!--                     <label for="groupCode" class="col-sm-2 control-label">物资编号</label> -->
+
+<!--                     <div class="col-sm-10"> -->
+<!--                         <input class="form-control" id="groupCode" placeholder="postname" name="groupCode"> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--                 <div class="form-group"> -->
+<!--                     <label for="unitPrice" class="col-sm-2 control-label">单价</label> -->
+
+<!--                     <div class="col-sm-10"> -->
+<!--                         <input class="form-control" id="unitPrice" placeholder="unitPrice" -->
+<!--                                name="unitPrice"> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--                 <div class="form-group"> -->
+<!--                     <label for="amount" class="col-sm-2 control-label">数量</label> -->
+
+<!--                     <div class="col-sm-10"> -->
+<!--                         <input class="form-control" id="amount" placeholder="amount" name="amount"> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--                 <div class="form-group"> -->
+<!--                     <label for="providerID" class="col-sm-2 control-label">供应商ID</label> -->
+
+<!--                     <div class="col-sm-10"> -->
+<!--                         <input class="form-control" id="providerID" placeholder="providerID" name="providerID"> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--                 <div class="form-group"> -->
+<!--                     <label for="providerName" class="col-sm-2 control-label">供应商名</label> -->
+
+<!--                     <div class="col-sm-10"> -->
+<!--                         <input class="form-control" id="providerName" placeholder="providerName" name="providerName"> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--                 <div class="form-group"> -->
+<!--                     <label for="producer" class="col-sm-2 control-label">生产厂家</label> -->
+
+<!--                     <div class="col-sm-10"> -->
+<!--                         <input class="form-control" id="producer" placeholder="producer" name="producer"> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--                 <div class="form-group"> -->
+<!--                     <label for="operateTime" class="col-sm-2 control-label"> 操作时间</label> -->
+
+<!--                     <div class="col-sm-10"> -->
+<!--                         <input class="form-control" id="operateTime" placeholder="operateTime" name="operateTime"> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--                 <div class="form-group"> -->
+<!--                     <label for="description" class="col-sm-2 control-label">  描述</label> -->
+
+<!--                     <div class="col-sm-10"> -->
+<!--                         <input class="form-control" id="description" placeholder="description" name="description"> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--                 <div class="form-group"> -->
+<!--                     <label for="deviceState" class="col-sm-2 control-label">设备状态</label> -->
+
+<!--                     <div class="col-sm-10"> -->
+<!--                         <input class="form-control" id="deviceState" placeholder="deviceState" name="deviceState"> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--                 <div class="form-group"> -->
+<!--                     <label for="deviceGrade" class="col-sm-2 control-label">设备等级</label> -->
+
+<!--                     <div class="col-sm-10"> -->
+<!--                         <input class="form-control" id="deviceGrade" placeholder="deviceGrade" name="deviceGrade"> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--                 <div class="form-group"> -->
+<!--                     <label for="organName" class="col-sm-2 control-label">使用部门</label> -->
+
+<!--                     <div class="col-sm-10"> -->
+<!--                         <input class="form-control" id="organName" placeholder="organName" name="organName"> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--             </form> -->
+<!--             <div class="cd-buttons"> -->
+<!--                 <button type="button" -->
+<!--                         class="btn btn-primary cd-popup-close cd-btn cd-btn-save">保存 -->
+<!--                 </button> -->
+<!--                 <button type="button" -->
+<!--                         class="btn btn-danger cd-popup-close cd-btn cd-btn-deal">取消 -->
+<!--                 </button> -->
+<!--             </div> -->
+<!--         </div> -->
+<!--     </div> -->
+<!--     cd-popup-container-end -->
+<!-- </div> -->
+	<script src="../../src/js/rowtree/rowtree.js"></script>
+<script src="../../src/alert/sweetalert2.min.js"></script> 
+	<!-- for IE support -->
+	<script src="../../src/alert/es6-promise.auto.min.js"></script>
+<script src="../../src/js/quote/jquery.ui.min.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+<script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+<script src="../../src/js/quote/jstree.js"></script>
+<script src="../../src/js/packtreegrid/pack2.js"></script>
+<script src="../../src/js/dialog/dialog.js"></script>
+<script src="../../src/js/ajaxurl/ajax.js"></script>
+<script src="../../src/js/curd/curd.js"></script>
+  <script type="text/javascript" src="../../src/js/draggable/draggable.js"></script>
+<script>
+	$(function(){
+		//清空选择数的类型
+		  localStorage.setItem("parentId",null);
+		//给可用性初始值
+		  $("#availability").val(1);
+	});
+	
+	$("#availability").change(function(){
+		var availability=$("#availability").val();
+		var arr = $("#filter-criteria").serialize() ;
+		if(availability=="0" || availability==0){
+	        console.log(arr);
+	        planningFilter("../../MaterialModelController/findMultiCondition?"+arr,"grid-data");
+			$($("th[data-column-id='commands']")[0]).attr('data-visible','false');
+		}else{
+	        planningFilter("../../MaterialModelController/findMultiCondition?"+arr,"grid-data");
+		}
+	});
+	
+    var storageID = "",deviceArea=[];
+    function treeCallBack(){
+    	   $.ajax({
+    	        async: false,
+    	         url: "../../MaterialCategoryController/findCategoryTree",
+    	        type: "get",
+    	        success: function (data) {
+    	            var jsonData = JSON.parse(data);
+    	            callBack(jsonData.data);
+    	        }
+    	    });	
+    }
+    treeCallBack();
+    function callBack(data) {
+        var treeid = "ajax";
+        var tree = $("#" + treeid);
+      
+        var inst, clickedNode;
+        var $save = $("#save");
+        var reg = /^j1_(\d+)/;
+        tree.jstree(false);
+        pack.showCheckboxTree(
+                data,
+                treeid,
+                "blue  fa fa-sitemap",
+                "search-tree",
+                ["dnd", "search", "state", "types", "wholerow", "contextmenu", "checkbox"
+                ], false,
+                false,
+                {
+                    "items": {
+                        "create": {
+                            "label": "增加",
+                            "icon": "fa fa-plus",
+                            "_disabled": false,
+                            "action": function (obj) {//obj:右击菜单对象
+                                inst = jQuery.jstree.reference(obj.reference);
+                                clickedNode = inst.get_node(obj.reference);
+                                $('#myModal').modal().find("input").removeAttr("readonly", "readonly");
+                                $("#myModalLabel").html("增加");
+                                $(".modal-footer").show();
+                              
+                                $save.off("click");
+                                $save.on("click", function () {
+                                	$("#superiorID").val(clickedNode.id);
+                                    var arr = $("#formTree").serialize();
+                                    $.post("../../MaterialCategoryController/add", arr, function (data) {
+                                    	  treeCallBack();
+                                    	  var materialCategoryName=$("#materialCategoryName").val();
+                                        var ref = $('#ajax').jstree(true), sel = ref.get_selected();
+                                        if (!sel.length) {
+                                            return false;
+                                        }
+                                        sel = sel[0];
+                                        console.log(clickedNode, sel, data, clickedNode.children[0]);
+                                        sel = ref.create_node(sel, {
+                                            "type": "file", "text": materialCategoryName
+                                        });
+                                        if (sel) {
+                                            ref.edit(sel);
+                                        }
+                                    })
+                                })
+                            }
+                        },
+                        "remove": {
+                            "label": "删除",
+                            "icon": "fa fa-times",
+                            "action": function (obj) {
+                                var ref = $('#ajax').jstree(true), sel = ref.get_selected();
+                                sel = sel[0];
+                                if (confirm("确定要删除此菜单？删除后不可恢复。")) {
+                                    if (ref.get_children_dom(sel).length) {
+                                        swal({text:"有子节点不可删除"});
+   } else {
+                                        $.post("../../MaterialCategoryController/delete", {
+                                                    id: sel.replace(reg, "$1")
+                                                },
+                                                function (data) {
+                                                    if (!sel.length) {
+                                                        return false;
+                                                    }
+                                                    ref.delete_node(sel);
+                                                    swal({text:"删除菜单成功！"}); 
+                                                    $('#jstree').jstree("refresh");
+                                                });
+                                    }
+
+                                }
+                            }
+                        },
+                        "rename": {
+                            "label": "编辑",
+                            "icon": "fa fa-pencil",
+                            "_disabled": false,
+                            "action": function (obj) {
+                                inst = $.jstree.reference(obj.reference);
+                                clickedNode = inst.get_node(obj.reference);
+                                $('#myModal').modal().find("input").removeAttr("readonly", "readonly");
+                                $("#myModalLabel").html("编辑");
+                                $(".modal-footer").show();
+                                $.post("../../MaterialCategoryController/findById", {id: clickedNode.id.replace(reg, "$1")}, function (data) {
+                           var jsonData=JSON.parse(data).data;
+                                	 for (var key in jsonData) {
+                                  		 $("#" + key).val(jsonData[key])
+                                  		 if(key=="unitID"){
+                                  			var all_options=document.getElementById("unitsID").options;
+	                                       	 for (i=0; i<all_options.length; i++){
+	                                       		 if (all_options[i].value == jsonData[key]){
+	                                       			 all_options[i].selected = true;
+	                                       		 }
+	                                       	 }
+                                  		 }
+                                     }
+                                });
+                                $save.off("click");
+                                $save.on("click", function () {
+                                    var arr = $("#formTree").serialize()+"&materialCategoryID="+clickedNode.id;
+                                    $.post("../../MaterialCategoryController/update", arr,
+                                            function (data) {
+                                                var ref = $('#ajax').jstree(true), sel = ref.get_selected();
+                                                if (!sel.length) {
+                                                    return false;
+                                                }
+                                                sel = sel[0];
+                                                sel = ref.set_text(sel, $("#materialCategoryName").val());
+                                                if (sel) {
+                                                    ref.edit(sel);
+                                                }
+                                            })
+
+                                })
+                            }
+
+                        },
+                        "refresh": {
+                            "label": "刷新",
+                            "icon": "fa fa-refresh",
+                            "action": function (data) {
+                                tree.jstree("refresh");
+                            }
+                        }
+                    }
+                }).bind("activate_node.jstree", function (e, data) {
+                   var materialCategoryID = data.node.id;
+                   var materialCategoryName=data.node.text;
+                    
+                    $("#currentDepart").html(materialCategoryName);
+  						localStorage.setItem("parentId",materialCategoryID);
+  						localStorage.setItem("materialCategoryName",materialCategoryName);
+  						$("#p_materialCategoryID").val(materialCategoryID);
+                    planningFilter("../../MaterialModelController/findMultiCondition?materialCategoryID=" + materialCategoryID,"grid-data");
+                }).bind("loaded.jstree",function(e,data){
+					tree.jstree().clear_state();
+				});
+
+    }
+</script>
+
+<script>
+var currentID,rowIds=[], store = {};
+    var planningFilter = function (url,container) {
+        var $grid = $("#"+container), $cdBtnSave = $(".cd-btn-save");
+        $grid.bootgrid("destroy");
+        var idname = "materialModelID";
+       
+        var formatters = {
+            "commands": function (column, row) {
+                return "<a abs=\"查看\" class=\"btn-color btn btn-xs btn-default command-view\"   data-row-id=\"" + row[idname] + "\"><span class=\"fa  fa-eye\"></span></a>"
+                        + "<a  abs=\"编辑\" class=\"btn-color btn btn-xs btn-default command-edit\"   data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-pencil\"></span></a> " +
+                        "<a  abs=\"删除\" class=\"btn-color btn btn-xs btn-default command-delete\"   data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-trash\"></span></a>"+
+                        "<a id=\"addparts\" abs=\"添加配件\"  class=\"btn-color btn btn-xs btn-default command-add\"  data-row-id=\"" + row[idname] + "\"><span class=\"fa  fa-plus\"></span></a>";
+            } 
+        };
+      var grid=  pack.gridInit(url, container, formatters).on("loaded.rs.jquery.bootgrid",
+                function () {
+                    /* Executes after data is loaded and rendered */
+                    $().tip();
+                    grid.find(".command-delete").on("click", function (e) {
+                        var _this = this;
+                        swal({text:"删除第"+ $(this).attr("data-row-id")+"行"}); 
+                        
+                        var availability=$("#availability").val();
+                    	if(availability=="0"){
+                    		swal({text:"无效状态不允许删除"});
+                    	}else{
+                    		 $.get("../../MaterialModelController/delete", {
+                                 id: $(this).attr("data-row-id")
+                             }, function (data) {
+                                 $(_this).parents('tr').remove();
+                             }, 'json');
+                    	}
+                    }).end().find(".command-edit").on("click", function (e) {
+                    	localStorage.setItem("biaoshi","编辑");
+                    	currentID=$(this).attr("data-row-id");
+                    	localStorage.setItem("id",currentID);
+                    	
+                    	var availability=$("#availability").val();
+                    	if(availability=="0"){
+                    		swal({text:"无效状态不允许编辑"});
+                    	}else{
+                    		$(".tabbar").html("编辑");
+							$("#ifr").attr('src','accessories.html');
+							$().dia();
+                    	}
+//                         window.location.href="accessories.html";
+                    }).end().find(".command-view").on("click",
+                            function (e) {
+                    			localStorage.setItem("biaoshi","查看");
+								currentID=$(this).attr("data-row-id");
+// 								parentID=$(this).attr("P");
+								localStorage.setItem("id",currentID);
+// 								localStorage.setItem("parentID",parentID);
+ 								//curd.showInfo("../../DeviceInfoController/findPage",this);
+ 								$(".tabbar").html("添加");
+ 								$("#ifr").attr('src','accessories.html');
+ 								$().dia();
+//  								window.location.href="accessories.html";
+ 								
+                            }).end().find(".command-add").on("click",
+                            function (e) {
+                            	var availability=$("#availability").val();
+                            	if(availability=="0"){
+                            		swal({text:"无效状态不允许添加配件"});
+                            		//$("#addparts").attr('href','javascritp:void(0);');
+                            	}else{
+                            		//$("#addparts").attr('href','accessories2.html')
+                            		$(".tabbar").html("编辑");
+    								$("#ifr").attr('src','accessories2.html');
+    								$().dia("cd-popup1");
+                            	}
+                            	currentID=$(this).attr("data-row-id");
+// 								parentID=$(this).attr("P");
+								localStorage.setItem("id",currentID);
+// 								localStorage.setItem("parentID",parentID);
+ 								//curd.showInfo("../../DeviceInfoController/findPage",this);
+ 								
+//  								window.location.href="accessories.html";
+//  								curd.showInfo("../../MaterialModelController/findById1","post",{id:currentID})
+                            })
+                })
+//                 .on("selected.rs.jquery.bootgrid", function (e, rows) {	
+//                     $.each(rows, function (index, item) {
+//                     	item.parentId=localStorage.getItem("parentId");
+//                     	rowIds.push(item);
+//                     });
+//                     console.log(JSON.stringify(rowIds));
+//                 }).on("deselected.rs.jquery.bootgrid", function (e, rows) {
+//                   $.each(rows, function (index, item) {
+//                 		item.parentId=localStorage.getItem("parentId");
+//                     	var index = $.inArray(item,rowIds);
+//                     	console.log(index);
+//                         rowIds.splice(index, 1);
+//                     });
+//                     console.log(rowIds);
+//                 });
+
+    };
+    planningFilter("../../MaterialModelController/findMultiCondition?availability=1","grid-data");
+  //型号添加  
+	function skip(){ 
+//         store = {employeeCommands: rowIds};
+// 	        $.param(store, true);
+// 	        var data = JSON.stringify(store);
+// 	        console.log(rowIds);
+// 	        var rIds=[];
+// 	        $.each(rowIds,function(index,item){
+// 	        	var item2={};
+// 	        	item2.materialModelID=item.materialModelID;
+// 	        	item2.parentId=item.parentId;
+// 	        	rIds.push(item2);
+// 	        });
+// 	    	localStorage.setItem("accessoriesAdd",JSON.stringify(rIds));
+			var parentId=localStorage.getItem("parentId");
+			if(parentId=="null" || parentId==""){
+				swal({text:"请选择类型"});
+				return;
+			}
+// 	    	 window.location.href="accessories.html";
+	   		$(".tabbar").html("编辑");
+			$("#ifr").attr('src','accessories.html');
+			$().dia();
+	    	 localStorage.setItem("id",null);
+// 	    	 localStorage.clear();
+	}
+ 
+    $(".filter-criteria button").on("click", function () {
+        var arr = $("#filter-criteria").serialize() ;
+        console.log(arr);
+        planningFilter("../../MaterialModelController/findMultiCondition?"+arr,"grid-data");
+    });
+    function sel(container,url){
+ 		$.getJSON(url, function (data) {
+//              $("#patrolGroupID").append($("<option/>").text("-请选择-"));
+             $.each(data.data, function (index, item) { 
+                 $("#"+container).append("<option value='"+item.unitID+"'>"+item.unitnName+"</option>");
+                
+             });
+ 	}) 	
+    }	
+    sel("unitsID","../../UnitsController/findAll") ;
+</script>
+</body>
+</html>

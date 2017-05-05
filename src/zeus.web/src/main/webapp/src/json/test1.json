@@ -1,0 +1,41 @@
+{
+  "state": "Success",
+  "message": "请求成功！",
+  "data": {
+    "current": 1,
+    "rowCount": 10,
+    "rows": [
+      {
+        "patrolPlanID": 1,
+        "patrolGroupID": 1,
+        "patrolRouteID": 1,
+        "start": "Oct 19, 2016 12:00:00 AM",
+        "end": "Oct 20, 2016 12:00:00 AM",
+        "period": 1,
+        "availability": 1,
+        "description": "fdvfd"
+      },
+      {
+        "patrolPlanID": 2,
+        "patrolGroupID": 2,
+        "patrolRouteID": 2,
+        "start": "Oct 20, 2016 12:00:00 AM",
+        "end": "Oct 20, 2016 12:00:00 AM",
+        "period": 0,
+        "availability": 1,
+        "description": "cdscf"
+      },
+      {
+        "patrolPlanID": 3,
+        "patrolGroupID": 3,
+        "patrolRouteID": 3,
+        "start": "Oct 20, 2016 12:00:00 AM",
+        "end": "Oct 22, 2016 12:00:00 AM",
+        "period": 0,
+        "availability": 1,
+        "description": "dvdsfvf"
+      }
+    ],
+    "total": 3
+  }
+}

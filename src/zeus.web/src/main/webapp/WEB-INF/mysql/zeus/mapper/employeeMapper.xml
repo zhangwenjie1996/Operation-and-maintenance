@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.command.IUserRepository">
+	<resultMap id="BaseResultMap" type="ig.zeus.domain.model.user.User">
+		<id column="employeeID" property="ID" jdbcType="INTEGER" />
+		<result column="organID" property="organid" jdbcType="INTEGER" />
+		<result column="postID" property="postid" jdbcType="INTEGER" />
+		<result column="employeeName" property="userName" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="TINYINT" />
+		<result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+		<result column="identityCard" property="identitycard" jdbcType="CHAR" />
+		<result column="nativePlace" property="nativeplace" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="cellphone" property="cellphone" jdbcType="CHAR" />
+		<result column="politicsStatus" property="politicsstatus"
+			jdbcType="TINYINT" />
+		<result column="createDate" property="createdate" jdbcType="TIMESTAMP" />
+		<result column="availability" property="availability" jdbcType="BIT" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+	</resultMap>
+	<delete id="remove" parameterType="java.lang.Integer">
+		delete from employee
+		where
+		employeeID = #{ID,jdbcType=INTEGER}
+	</delete>
+	<insert id="add" parameterType="ig.zeus.domain.model.user.User">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="ID">
+			SELECT LAST_INSERT_ID() AS ID
+		</selectKey>
+		insert into employee (organID,
+		postID,
+		employeeName, sex, birthday,
+		identityCard, nativePlace, address,
+		phone, cellphone, politicsStatus,
+		createDate, availability, description
+		)
+		values (#{organid,jdbcType=INTEGER}, #{postid,jdbcType=INTEGER},
+		#{userName,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT},
+		#{birthday,jdbcType=TIMESTAMP},
+		#{identitycard,jdbcType=CHAR},
+		#{nativeplace,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+		#{phone,jdbcType=VARCHAR}, #{cellphone,jdbcType=CHAR},
+		#{politicsstatus,jdbcType=TINYINT},
+		now(),
+		#{availability,jdbcType=BIT}, #{description,jdbcType=VARCHAR}
+		)
+	</insert>
+	<update id="update" parameterType="ig.zeus.domain.model.user.User">
+		update employee
+		set organID =
+		#{organid,jdbcType=INTEGER},
+		postID = #{postid,jdbcType=INTEGER},
+		employeeName = #{userName,jdbcType=VARCHAR},
+		sex =
+		#{sex,jdbcType=TINYINT},
+		birthday = #{birthday,jdbcType=TIMESTAMP},
+		identityCard = #{identitycard,jdbcType=CHAR},
+		nativePlace =
+		#{nativeplace,jdbcType=VARCHAR},
+		address = #{address,jdbcType=VARCHAR},
+		phone = #{phone,jdbcType=VARCHAR},
+		cellphone =
+		#{cellphone,jdbcType=CHAR},
+		politicsStatus =
+		#{politicsstatus,jdbcType=TINYINT},
+		availability =
+		#{availability,jdbcType=BIT},
+		description =
+		#{description,jdbcType=VARCHAR}
+		where employeeID =
+		#{ID,jdbcType=INTEGER}
+	</update>
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select employeeID, organID, postID, employeeName, sex, birthday,
+		identityCard, nativePlace,
+		address, phone, cellphone, politicsStatus,
+		createDate, availability,
+		description
+		from employee
+		where employeeID =
+		#{ID,jdbcType=INTEGER}
+	</select>
+	<select id="findAll" resultMap="BaseResultMap">
+		select employeeID, organID,
+		postID, employeeName, sex, birthday,
+		identityCard, nativePlace,
+		address, phone, cellphone, politicsStatus, createDate, availability,
+		description
+		from employee
+	</select>
+	<!-- 员工账户关系操作 -->
+	<insert id="addEmployeeAccount" parameterType="java.lang.Integer">
+		insert into
+		employeeAccount (employeeID,accountID) values(#{0},#{1})
+	</insert>
+	<select id="findAccountId" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		select accountID from employeeAccount where employeeID=#{0}
+	</select>
+	<delete id="removeEmployeeAccount" parameterType="java.lang.Integer">
+		delete from employeeAccount where employeeID=#{0}
+	</delete>
+</mapper>

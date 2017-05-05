@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+	<!-- import bean setting files -->
+	<import resource="beans/zeus/account.xml" />
+	<import resource="beans/zeus/resource.xml" />
+	<import resource="beans/device/material.xml" />
+	<import resource="beans/device/manage.xml" />
+    <import resource="beans/device/patrol.xml" />
+    <import resource="beans/device/maintain.xml" />
+    <import resource="beans/device/customer.xml" />
+	<import resource="beans/device/warehouse.xml" />
+    <import resource="beans/task/quartz-config.xml" />
+    <import resource="beans/device/fault.xml" />
+	<bean id="message" class="ig.zeus.data.StateMessage"></bean>
+	<bean id="logger" class="ig.zeus.Logger"></bean>
+
+	<!--配置总线功能-->
+	<bean id="bus" abstract="true" class="ig.archer.infrastructure.bus.IBus" scope="singleton"></bean>
+	<bean id="springBus" class="ig.zeus.SpringEventBus" parent="bus"></bean>
+	
+	<!-- <bean id="domainRegister" class="ig.zeus.DomainRegister" scope="singleton">
+		需要扫描的包名，使用英文逗号分隔，若需要扫描全部包文件则留空即可。如：""或则"ig.zeus,ig.device.domain"
+		<constructor-arg name="packageName" value="ig"></constructor-arg>
+	</bean> -->
+</beans>

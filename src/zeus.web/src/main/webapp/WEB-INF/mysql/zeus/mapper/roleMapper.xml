@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.command.IRoleRepository" >
+  <resultMap id="BaseResultMap" type="ig.zeus.domain.model.Role" >
+    <id column="roleID" property="ID" jdbcType="INTEGER" />
+    <result column="roleName" property="roleName" jdbcType="VARCHAR" />
+    <result column="roleType" property="roletype" jdbcType="TINYINT" />
+    <result column="quota" property="quota" jdbcType="INTEGER" />
+    <result column="availability" property="availability" jdbcType="BIT" />
+  </resultMap>
+  <delete id="remove" parameterType="java.lang.Integer" >
+    delete from role
+    where roleID = #{ID,jdbcType=INTEGER}
+  </delete>
+  <insert id="add" parameterType="ig.zeus.domain.model.Role" >
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="ID">
+      SELECT LAST_INSERT_ID() AS ID
+    </selectKey>
+    insert into role (roleName, roleType, 
+      quota, availability)
+    values (#{roleName,jdbcType=VARCHAR}, #{roletype,jdbcType=TINYINT}, 
+      #{quota,jdbcType=INTEGER}, #{availability,jdbcType=BIT})
+  </insert>
+  <update id="update" parameterType="ig.zeus.domain.model.Role" >
+    update role
+    set roleName = #{roleName,jdbcType=VARCHAR},
+      roleType = #{roletype,jdbcType=TINYINT},
+      quota = #{quota,jdbcType=INTEGER},
+      availability = #{availability,jdbcType=BIT}
+    where roleID = #{ID,jdbcType=INTEGER}
+  </update>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select roleID, roleName, roleType, quota, availability
+    from role
+    where roleID = #{ID,jdbcType=INTEGER}
+  </select>
+  <select id="findAll" resultMap="BaseResultMap" >
+    select roleID, roleName, roleType, quota, availability
+    from role
+  </select>
+</mapper>

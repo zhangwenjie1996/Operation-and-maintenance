@@ -1,0 +1,38 @@
+[
+  {
+    "roleID": 1,
+    "roleName": "数据架构"
+  },
+  {
+    "roleID": 2,
+    "roleName": "管理员"
+  },
+  {
+    "roleID": 3,
+    "roleName": "超级管理员"
+  },
+  {
+    "roleID": 4,
+    "roleName": "用户"
+  },
+  {
+    "roleID": 5,
+    "roleName": "钳工"
+  },
+  {
+    "roleID": 6,
+    "roleName": "财务"
+  },
+  {
+    "roleID": 7,
+    "roleName": "客服"
+  },
+  {
+    "roleID": 8,
+    "roleName": "配送员"
+  },
+  {
+    "roleID": 9,
+    "roleName": "账单管理员"
+  }
+]

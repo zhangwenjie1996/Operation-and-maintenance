@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.query.IPermissionQuery" >
+  <resultMap id="RoleActionResultMap" type="ig.zeus.domain.repository.viewmodel.RoleActionViewModel" >
+    <id column="roleID" property="roleid" jdbcType="INTEGER" />
+    <id column="actionID" property="actionid" jdbcType="INTEGER" />
+    <result column="permission" property="permission" jdbcType="TINYINT" />
+  </resultMap>
+  <delete id="deleteRoleAction" parameterType="map" >
+    delete from roleAction
+    where roleID = #{roleid,jdbcType=INTEGER}
+      and actionID = #{actionid,jdbcType=INTEGER}
+  </delete>
+  <insert id="saveRoleAction" parameterType="ig.zeus.domain.repository.viewmodel.RoleActionViewModel" >
+    insert into roleAction (roleID, actionID, permission
+      )
+    values (#{roleid,jdbcType=INTEGER}, #{actionid,jdbcType=INTEGER}, #{permission,jdbcType=TINYINT}
+      )
+  </insert>
+  <update id="updateRoleAction" parameterType="ig.zeus.domain.repository.viewmodel.RoleActionViewModel" >
+    update roleAction
+    set permission = #{permission,jdbcType=TINYINT}
+    where roleID = #{roleid,jdbcType=INTEGER}
+      and actionID = #{actionid,jdbcType=INTEGER}
+  </update>
+  <select id="findByIdRoleAction" resultMap="RoleActionResultMap" parameterType="map" >
+    select roleID, actionID, permission
+    from roleAction
+    where roleID = #{roleid,jdbcType=INTEGER}
+      and actionID = #{actionid,jdbcType=INTEGER}
+  </select>
+  <select id="findAllRoleAction" resultMap="RoleActionResultMap" >
+    select roleID, actionID, permission
+    from roleAction
+  </select>
+</mapper>

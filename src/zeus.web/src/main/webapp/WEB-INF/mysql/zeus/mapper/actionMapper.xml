@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.command.IActionRepository" >
+  <resultMap id="BaseResultMap" type="ig.zeus.domain.model.resource.server.Action" >
+    <id column="actionID" property="ID" jdbcType="INTEGER" />
+    <result column="actionName" property="name" jdbcType="VARCHAR" />
+    <result column="signature" property="signature" jdbcType="VARCHAR" />
+    <result column="sequence" property="index" jdbcType="INTEGER" />
+    <result column="availability" property="availability" jdbcType="BIT" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="controllerID" property="controllerid" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="remove" parameterType="java.lang.Integer" >
+    delete from action
+    where actionID = #{ID,jdbcType=INTEGER}
+  </delete>
+  <insert id="add" parameterType="ig.zeus.domain.model.resource.server.Action" >
+    insert into action (actionName, signature, 
+      sequence, availability, description, 
+      controllerID)
+    values (#{name,jdbcType=VARCHAR}, #{signature,jdbcType=VARCHAR}, 
+      #{index,jdbcType=INTEGER}, #{availability,jdbcType=BIT}, #{description,jdbcType=VARCHAR}, 
+      #{controllerid,jdbcType=INTEGER})
+  </insert>
+  <update id="update" parameterType="ig.zeus.domain.model.resource.server.Action" >
+    update action
+    set actionName = #{name,jdbcType=VARCHAR},
+      signature = #{signature,jdbcType=VARCHAR},
+      sequence = #{index,jdbcType=INTEGER},
+      availability = #{availability,jdbcType=BIT},
+      description = #{description,jdbcType=VARCHAR},
+      controllerID = #{controllerid,jdbcType=INTEGER}
+    where actionID = #{ID,jdbcType=INTEGER}
+  </update>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select actionID, actionName, signature, sequence, availability, description, controllerID
+    from action
+    where actionID = #{ID,jdbcType=INTEGER}
+  </select>
+  <select id="findAll" resultMap="BaseResultMap" >
+    select actionID, actionName, signature, sequence, availability, description, controllerID
+    from action
+  </select>
+</mapper>

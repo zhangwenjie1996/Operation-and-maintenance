@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.material.querymapper.ISpecificationsQueryMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.viewmodel.material.SpecificationsViewModel" >
+    <constructor >
+      <idArg column="specificationID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="materialModelID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="specificationName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="specificationValue" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="unitsIDs" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    specificationID, materialModelID, specificationName, specificationValue, unitsID
+  </sql>
+  <select id="findById" resultType="ig.device.domain.viewmodel.material.SpecificationsViewModel" parameterType="java.lang.Integer" >
+    select 
+    n.specificationID, n.materialModelID, n.specificationName, n.specificationValue, n.unitsID unitsIDs,t.unitnName unitsName
+    from specification n,unit t
+    where n.unitsID=t.unitID and specificationID = #{specificationID,jdbcType=INTEGER}
+  </select>
+  
+  <select id="findAll" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from specification
+  </select>
+  
+  <select id="findMaterialModel" resultType="ig.device.domain.viewmodel.material.SpecificationsViewModel" parameterType="java.lang.Integer" >
+    select 
+    n.specificationID, n.materialModelID, n.specificationName, n.specificationValue, n.unitsID unitsIDs,t.unitnName unitsName
+    from specification n,unit t
+    where n.unitsID=t.unitID and  materialModelID = #{2} limit #{0}, #{1}
+  </select>
+  
+  <select id="findmmCount" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    select 
+    count(1)
+    from specification
+    where materialModelID = #{materiaModelID,jdbcType=INTEGER}
+  </select>
+  
+</mapper>

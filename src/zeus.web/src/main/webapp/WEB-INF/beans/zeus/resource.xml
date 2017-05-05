@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+	<!-- ============== Repository ============== -->
+	<!-- Command -->
+	<bean id="iSystemRespository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.command.ISystemRespository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iModuleRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.command.IModuleRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iControllerRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.command.IControllerRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iActionRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.command.IActionRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMenuRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.command.IMenuRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iElementRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.command.IElementRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iPermissionRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="ig.zeus.domain.repository.command.IPermissionRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+	<!-- Query -->
+	<bean id="iSystemQueryRespository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.query.ISystemQueryRespository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iModuleQueryRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.query.IModuleQueryRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iControllerQueryRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.query.IControllerQueryRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iActionQueryRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.query.IActionQueryRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iMenuQueryRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.query.IMenuQueryRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iElementQueryRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.query.IElementQueryRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iPermissionQueryRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.query.IPermissionQueryRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+	<!-- ============== Service ============== -->
+	<!-- Command -->
+	<bean id="iSystemService" name="ISystemService"
+		class="ig.zeus.domain.service.basis.SystemService" autowire="byName">
+	</bean>
+	<bean id="iModuleService" name="IModuleService"
+		class="ig.zeus.domain.service.basis.ModuleService" autowire="byName">
+	</bean>
+	<bean id="iControllerService" name="IControllerService"
+		class="ig.zeus.domain.service.basis.ControllerService"
+		autowire="default">
+	</bean>
+	<bean id="iActionService" name="IActionService"
+		class="ig.zeus.domain.service.basis.ActionService" autowire="byName">
+	</bean>
+	<bean id="iMenuService" name="IMenuService"
+		class="ig.zeus.domain.service.basis.MenuService" autowire="byName">
+	</bean>
+	<bean id="iElementService" name="IElementService"
+		class="ig.zeus.domain.service.basis.ElementService" autowire="byName">
+	</bean>
+	<bean id="iPermissionService" name="IPermissionService"
+		class="ig.zeus.domain.service.basis.PermissionService"
+		autowire="byName">
+	</bean>
+	<!-- ============== Application ============== -->
+	<!-- Command -->
+	<bean id="SystemApp" name="ISystemApp"
+		class="ig.zeus.application.command.basis.SystemApp" autowire="byName">
+	</bean>
+	<bean id="ModuleApp" name="IModuleApp"
+		class="ig.zeus.application.command.basis.ModuleApp" autowire="byName">
+	</bean>
+	<bean id="ControllerApp" name="IControllerApp"
+		class="ig.zeus.application.command.basis.ControllerApp" autowire="byName">
+	</bean>
+	<bean id="ActionApp" name="IActionApp"
+		class="ig.zeus.application.command.basis.ActionApp" autowire="byName">
+	</bean>
+	<bean id="MenuApp" name="IMenuApp"
+		class="ig.zeus.application.command.basis.MenuApp" autowire="byName">
+	</bean>
+	<bean id="ElementApp" name="IElementApp"
+		class="ig.zeus.application.command.basis.ElementApp" autowire="byName">
+	</bean>
+	<bean id="PermissionApp" name="IPermissionApp"
+		class="ig.zeus.application.command.basis.PermissionApp" autowire="byName">
+	</bean>
+
+	<!-- Query -->
+	<bean id="SystemQueryApp" name="ISystemQueryApp"
+		class="ig.zeus.application.query.basis.SystemQueryApp" autowire="byName">
+	</bean>
+	<bean id="ModuleQueryApp" name="IModuleQueryApp"
+		class="ig.zeus.application.query.basis.ModuleQueryApp" autowire="byName">
+	</bean>
+	<bean id="ControllerQueryApp" name="IControllerQueryApp"
+		class="ig.zeus.application.query.basis.ControllerQueryApp" autowire="byName">
+	</bean>
+	<bean id="ActionQueryApp" name="IActionQueryApp"
+		class="ig.zeus.application.query.basis.ActionQueryApp" autowire="byName">
+	</bean>
+	<bean id="MenuQueryApp" name="IMenuQueryApp"
+		class="ig.zeus.application.query.basis.MenuQueryApp" autowire="byName">
+	</bean>
+	<bean id="ElementQueryApp" name="IElementQueryApp"
+		class="ig.zeus.application.query.basis.ElementQueryApp" autowire="byName">
+	</bean>
+	<bean id="PermissionQueryApp" name="IPermissionQueryApp"
+		class="ig.zeus.application.query.basis.PermissionQueryApp" autowire="byName">
+	</bean>
+</beans>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="ig.device.domain.mapper.patrol.querymapper.IPatrolDeviceDetailsQueryMapper">
+	<resultMap id="BaseResultMap"
+		type="ig.device.domain.viewmodel.patrol.PatrolDeviceDetailsViewModel">
+		<constructor>
+			  <idArg column="patrolDeviceDetailsID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="patrolDeviceID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="parameterName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="referenceValue" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="patrolValue" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="priority" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="state" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="unitID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+		</constructor>
+	</resultMap>
+	<sql id="Base_Column_List">
+		patrolDeviceDetailsID, patrolDeviceID, parameterName, referenceValue, patrolValue, 
+    priority, state, availability, description, unitID
+	</sql>
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from patrolDeviceDetails
+		where patrolDeviceDetailsID = #{patrolDeviceDetailsID,jdbcType=INTEGER}
+	</select>
+	<select id="findAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from patrolDeviceDetails
+	</select>
+	<select id="findByPatrolDeviceId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from patrolDeviceDetails
+		where  patrolDeviceID = #{2} and availability=1 limit #{0}, #{1}
+	</select>
+	<select id="findAllByPatrolDeviceId" resultType="ig.device.domain.viewmodel.patrol.PatrolDeviceDetailsViewModel" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from patrolDeviceDetails
+		where  patrolDeviceID = #{2} and availability=1 
+	</select>
+	<select id="countDeviceDetails" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		SELECT COUNT(1)FROM patrolDeviceDetails
+		where patrolDeviceID =
+		#{patrolDeviceID,jdbcType=INTEGER} and availability=1
+	</select>
+</mapper>

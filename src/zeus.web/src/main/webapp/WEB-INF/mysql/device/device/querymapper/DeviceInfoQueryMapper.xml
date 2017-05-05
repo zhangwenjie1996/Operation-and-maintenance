@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.manage.query.IDeviceInfoQueryMapper">
+	<resultMap id="BaseResultMap"
+		type="ig.device.domain.viewmodel.manage.DeviceInfoViewModel">
+		<constructor>
+			<idArg column="itemID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="groupID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="itemCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="unitPrice" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+			<arg column="amount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="providerID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="providerName" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="producer" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="operateTime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+			<arg column="availability" jdbcType="BIT" javaType="java.lang.Boolean" />
+			<arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="deviceState" jdbcType="TINYINT" javaType="java.lang.Byte" />
+			<arg column="deviceGrade" jdbcType="TINYINT" javaType="java.lang.Byte" />
+			<arg column="organID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="organName" jdbcType="VARCHAR" javaType="java.lang.String" />
+		</constructor>
+	</resultMap>
+	<sql id="Base_Column_List">
+		itemID, groupID, itemCode, unitPrice, amount, providerID,
+		providerName,
+		producer,
+		DATE_FORMAT(operateTime,'%Y-%m-%d %H:%i:%s') operateTime, availability, description,
+		deviceState, deviceGrade, organID, organName,deviceAddress
+	</sql>
+
+	<select id="findByID"
+		resultType="ig.device.domain.viewmodel.manage.DeviceInfoViewModel"
+		parameterType="java.lang.Integer">
+		SELECT
+		itemID, d.groupID, d.itemCode, d.unitPrice,
+		d.amount, d.providerID,
+		d.providerName,
+		d.producer,
+		DATE_FORMAT(d.operateTime,'%Y-%m-%d %H:%i:%s') operateTime,
+		d.availability,
+		d.description,
+		deviceState, deviceGrade,organID,
+		organName,categoryID,categoryName,modelID,modelName,deviceAddress,storageID
+		FROM
+		deviceInfo
+		d,device
+		where
+		itemID = #{id,jdbcType=INTEGER} AND
+		device.groupID =
+		d.groupID AND d.availability = 1
+	</select>
+
+	<select id="findPageByDeviceArea"
+		resultType="ig.device.domain.viewmodel.manage.DeviceInfoViewModel"
+		parameterType="java.lang.Integer">
+		SELECT
+		itemID, d.groupID, d.itemCode, d.unitPrice,
+		d.amount, d.providerID,
+		d.providerName,
+		d.producer,
+		DATE_FORMAT(d.operateTime,'%Y-%m-%d %H:%i:%s') operateTime,
+		d.availability,
+		d.description,
+		deviceState, deviceGrade,organID,
+		organName,deviceAddress
+		FROM
+		deviceInfo
+		d,device
+		WHERE device.storageID = #{2} AND
+		device.groupID =
+		d.groupID AND d.availability = 1
+		limit #{0}, #{1}
+	</select>
+	<select id="findTotalByDeviceArea" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		SELECT COUNT(1)
+		FROM deviceInfo,device
+		WHERE
+		device.storageID = #{deviceAreaID} AND device.groupID =
+		deviceInfo.groupID AND deviceInfo.availability = 1
+	</select>
+
+
+	<select id="findPageByCategory"
+		resultType="ig.device.domain.viewmodel.manage.DeviceInfoViewModel"
+		parameterType="java.lang.Integer">
+		SELECT itemID, d.groupID, d.itemCode, d.unitPrice,
+		d.amount, d.providerID,
+		d.providerName,
+		d.producer,
+		DATE_FORMAT(d.operateTime,'%Y-%m-%d %H:%i:%s') operateTime,
+		d.availability,
+		d.description,
+		deviceState, deviceGrade, organID,
+		organName,deviceAddress
+		FROM
+		deviceInfo d,device
+		WHERE
+		device.categoryID = #{2} AND
+		device.groupID =
+		d.groupID AND d.availability = 1 limit #{0}, #{1}
+	</select>
+	<select id="findTotalByCategory" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		SELECT COUNT(1)
+		FROM deviceInfo,device
+		WHERE
+		device.categoryID = #{categoryID} AND device.groupID =
+		deviceInfo.groupID AND deviceInfo.availability = 1
+	</select>
+
+
+	<select id="findPageByDeviceState"
+		resultType="ig.device.domain.viewmodel.manage.DeviceInfoViewModel"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from deviceInfo
+		where deviceState = #{2} AND availability = 1 limit #{0}, #{1}
+	</select>
+	<select id="findTotalByDeviceState" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select
+		count(1)
+		from deviceInfo
+		where deviceState =
+		#{deviceState} AND availability = 1
+	</select>
+
+
+	<select id="findPageByDeviceGrade"
+		resultType="ig.device.domain.viewmodel.manage.DeviceInfoViewModel"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from deviceInfo
+		where deviceGrade = #{2} AND availability = 1 limit #{0}, #{1}
+	</select>
+	<select id="findTotalByDeviceGrade" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select
+		count(1)
+		from deviceInfo
+		where deviceGrade =
+		#{deviceGrade} AND availability = 1
+	</select>
+
+
+	<select id="findPageByOrganName"
+		resultType="ig.device.domain.viewmodel.manage.DeviceInfoViewModel"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from deviceInfo
+		where organID = #{2} AND availability = 1 limit #{0}, #{1}
+	</select>
+	<select id="findTotalByOrganName" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select
+		count(1)
+		from deviceInfo
+		where organID =
+		#{organID} AND availability = 1
+	</select>
+
+	<select id="findAllTotal" resultType="java.lang.Integer"
+		parameterType="ig.device.domain.viewmodel.manage.queryobject.FindAllPage">
+		SELECT count(1)
+		FROM
+		deviceInfo d,device
+		WHERE
+		device.groupID = d.groupID AND d.availability = 1
+		<if test="itemCode != null">
+                AND itemCode LIKE concat(concat('%',#{itemCode}),'%')
+		</if>
+		<if test="deviceState != null">
+                <![CDATA[
+                AND deviceState = #{deviceState}
+                ]]>
+		</if>
+		<if test="deviceGrade != null">
+                <![CDATA[
+                AND deviceGrade = #{deviceGrade}
+                ]]>
+		</if>
+		<if test="deviceOrgan != null">
+			AND organID in
+			<foreach collection="deviceOrgan" item="id" open="(" close=")"
+				separator=",">
+				#{id}
+			</foreach>
+		</if>
+		<if test="deviceArea != null">
+			AND storageID in
+			<foreach collection="deviceArea" item="id" open="(" close=")"
+				separator=",">
+				#{id}
+			</foreach>
+		</if>
+		<if test="deviceCategory != null">
+			AND categoryID in
+			<foreach collection="deviceCategory" item="id" open="(" close=")"
+				separator=",">
+				#{id}
+			</foreach>
+		</if>
+	</select>
+	<select id="findAllPage"
+		resultType="ig.device.domain.viewmodel.manage.DeviceInfoViewModel"
+		parameterType="ig.device.domain.viewmodel.manage.queryobject.FindAllPage">
+		SELECT itemID, d.groupID, d.itemCode, d.unitPrice,
+		d.amount,
+		d.providerID,
+		d.providerName,
+		d.producer,
+		DATE_FORMAT(d.operateTime,'%Y-%m-%d %H:%i:%s') operateTime,
+		d.availability,
+		d.description,
+		deviceState, deviceGrade,organID,
+		organName,categoryID,categoryName,modelID,modelName,deviceAddress,storageID
+		FROM
+		deviceInfo
+		d,device
+		WHERE
+		device.groupID = d.groupID AND d.availability = 1
+		<if test="itemCode != null">
+                AND itemCode LIKE concat(concat('%',#{itemCode}),'%')
+		</if>
+		<if test="deviceState != null">
+                <![CDATA[
+                AND deviceState = #{deviceState}
+                ]]>
+		</if>
+		<if test="deviceGrade != null">
+                <![CDATA[
+                AND deviceGrade = #{deviceGrade}
+                ]]>
+		</if>
+		<if test="deviceOrgan != null">
+			AND organID in
+			<foreach collection="deviceOrgan" item="id" open="(" close=")"
+				separator=",">
+				#{id}
+			</foreach>
+		</if>
+		<if test="deviceArea != null">
+			AND storageID in
+			<foreach collection="deviceArea" item="id" open="(" close=")"
+				separator=",">
+				#{id}
+			</foreach>
+		</if>
+		<if test="deviceCategory != null">
+			AND categoryID in
+			<foreach collection="deviceCategory" item="id" open="(" close=")"
+				separator=",">
+				#{id}
+			</foreach>
+		</if>
+		limit #{pageStart}, #{rowCount}
+	</select>
+
+
+	<select id="findByItemCode" resultType="java.lang.Integer"
+		parameterType="java.lang.String">
+		SELECT COUNT(1)
+		FROM deviceInfo
+		WHERE
+		itemCode = #{itemCode} AND availability = 1
+	</select>
+
+
+
+
+
+
+</mapper>

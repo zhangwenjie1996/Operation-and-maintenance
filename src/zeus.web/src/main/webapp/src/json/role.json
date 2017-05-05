@@ -1,0 +1,23 @@
+[
+{
+"text": "超级管理员",
+  "children":[
+    {"text": "a"} ,
+    {"text": "b"}
+  ]
+},
+{
+"text": "管理员",
+  "children":[
+    {"text": "a"} ,
+    {"text": "b"}
+  ]
+},
+{
+"text": "用户",
+  "children":[
+    {"text": "a"} ,
+    {"text": "b"}
+  ]
+}
+]

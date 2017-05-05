@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.command.IPermission" >
+  <resultMap id="RoleMenuResultMap" type="ig.zeus.domain.service.command.RoleMenuCommand" >
+  	<id column="roleID" property="roleid" jdbcType="INTEGER" />
+    <id column="menuID" property="menuid" jdbcType="INTEGER" />
+    <result column="permission" property="permission" jdbcType="TINYINT" />
+  </resultMap>
+  <delete id="deleteRoleMenu" parameterType="map" >
+    delete from roleMenu
+    where menuID = #{menuid,jdbcType=INTEGER}
+      and roleID = #{roleid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertRoleMenu" parameterType="ig.zeus.domain.service.command.RoleMenuCommand" >
+    insert into roleMenu (menuID, roleID, permission
+      )
+    values (#{menuid,jdbcType=INTEGER}, #{roleid,jdbcType=INTEGER}, #{permission,jdbcType=TINYINT}
+      )
+  </insert>
+  <update id="updateRoleMenu" parameterType="ig.zeus.domain.service.command.RoleMenuCommand" >
+    update roleMenu
+    set permission = #{permission,jdbcType=TINYINT}
+    where menuID = #{menuid,jdbcType=INTEGER}
+      and roleID = #{roleid,jdbcType=INTEGER}
+  </update>
+  <select id="findByIdRoleMenu" resultMap="RoleMenuResultMap" parameterType="map" >
+    select menuID, roleID, permission
+    from roleMenu
+    where menuID = #{menuid,jdbcType=INTEGER}
+      and roleID = #{roleid,jdbcType=INTEGER}
+  </select>
+  <select id="findAllRoleMenu" resultMap="RoleMenuResultMap" >
+    select menuID, roleID, permission
+    from roleMenu
+  </select>
+</mapper>

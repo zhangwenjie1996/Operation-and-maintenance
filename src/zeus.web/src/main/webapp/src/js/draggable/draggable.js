@@ -1,0 +1,1 @@
+ $( ".dialog" ).draggable({   containment: "document", scroll: false });

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.warehouse.IWarehouseMapper">
+	<resultMap id="BaseResultMap" type="ig.device.domain.model.warehouse.Warehouse">
+		<constructor>
+			<idArg column="storageID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="storageName" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="supStorageID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="hasChildren" jdbcType="BIT" javaType="java.lang.Boolean" />
+			<arg column="storagable" jdbcType="BIT" javaType="java.lang.Boolean" />
+			<arg column="capacity" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="unusedCapacity" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="usedCapacity" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="availability" jdbcType="BIT" javaType="java.lang.Boolean" />
+			<arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="address" jdbcType="VARCHAR" javaType="java.lang.String" />
+		</constructor>
+	</resultMap>
+	<sql id="Base_Column_List">
+		storageID ID, storageName, supStorageID, hasChildren,
+		storagable, capacity,
+		unusedCapacity,
+		usedCapacity, availability,
+		description, address, organID, organName, employeeID,
+		employeeName
+	</sql>
+
+	<select id="findByID" resultType="ig.device.domain.model.warehouse.Warehouse"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from warehouse
+		where storageID = #{id}
+	</select>
+
+	<select id="findTotalBySupID" resultType="ig.device.domain.model.warehouse.Warehouse"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from warehouse
+		where supStorageID = #{id}
+	</select>
+
+	<update id="delete" parameterType="java.lang.Integer">
+		update warehouse set
+		availability = 0
+		where storageID = #{id}
+	</update>
+
+	<insert id="insert" parameterType="ig.device.domain.model.warehouse.Warehouse">
+		insert into warehouse
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ID != null">
+				storageID,
+			</if>
+			<if test="storageName != null">
+				storageName,
+			</if>
+			<if test="supStorageID != null">
+				supStorageID,
+			</if>
+			<if test="hasChildren != null">
+				hasChildren,
+			</if>
+			<if test="storagable != null">
+				storagable,
+			</if>
+			<if test="capacity != null">
+				capacity,
+			</if>
+			<if test="unusedCapacity != null">
+				unusedCapacity,
+			</if>
+			<if test="usedCapacity != null">
+				usedCapacity,
+			</if>
+			<if test="availability != null">
+				availability,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="organID != null">
+				organID,
+			</if>
+			<if test="organName != null">
+				organName,
+			</if>
+			<if test="employeeID != null">
+				employeeID,
+			</if>
+			<if test="employeeName != null">
+				employeeName,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ID != null">
+				#{ID,jdbcType=INTEGER},
+			</if>
+			<if test="storageName != null">
+				#{storageName,jdbcType=VARCHAR},
+			</if>
+			<if test="supStorageID != null">
+				#{supStorageID,jdbcType=INTEGER},
+			</if>
+			<if test="hasChildren != null">
+				#{hasChildren,jdbcType=BIT},
+			</if>
+			<if test="storagable != null">
+				#{storagable,jdbcType=BIT},
+			</if>
+			<if test="capacity != null">
+				#{capacity,jdbcType=INTEGER},
+			</if>
+			<if test="unusedCapacity != null">
+				#{unusedCapacity,jdbcType=INTEGER},
+			</if>
+			<if test="usedCapacity != null">
+				#{usedCapacity,jdbcType=INTEGER},
+			</if>
+			<if test="availability != null">
+				#{availability,jdbcType=BIT},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="organID != null">
+				#{organID},
+			</if>
+			<if test="organName != null">
+				#{organName},
+			</if>
+			<if test="employeeID != null">
+				#{employeeID},
+			</if>
+			<if test="employeeName != null">
+				#{employeeName},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="ig.device.domain.model.warehouse.Warehouse">
+		update warehouse
+		<set>
+			<if test="storageName != null">
+				storageName = #{storageName,jdbcType=VARCHAR},
+			</if>
+			<if test="supStorageID != null">
+				supStorageID = #{supStorageID,jdbcType=INTEGER},
+			</if>
+			<if test="hasChildren != null">
+				hasChildren = #{hasChildren,jdbcType=BIT},
+			</if>
+			<if test="storagable != null">
+				storagable = #{storagable,jdbcType=BIT},
+			</if>
+			<if test="capacity != null">
+				capacity = #{capacity,jdbcType=INTEGER},
+			</if>
+			<if test="unusedCapacity != null">
+				unusedCapacity = #{unusedCapacity,jdbcType=INTEGER},
+			</if>
+			<if test="usedCapacity != null">
+				usedCapacity = #{usedCapacity,jdbcType=INTEGER},
+			</if>
+			<if test="availability != null">
+				availability = #{availability,jdbcType=BIT},
+			</if>
+			<if test="description != null">
+				description = #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				address = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="organID != null">
+				organID = #{organID},
+			</if>
+			<if test="organName != null">
+				organName = #{organName},
+			</if>
+			<if test="employeeID != null">
+				employeeID = #{employeeID},
+			</if>
+			<if test="employeeName != null">
+				employeeName = #{employeeName},
+			</if>
+		</set>
+		where storageID = #{ID}
+	</update>
+</mapper>

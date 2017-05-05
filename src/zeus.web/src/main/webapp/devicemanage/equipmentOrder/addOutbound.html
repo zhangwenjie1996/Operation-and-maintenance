@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet"
+          href="../../src/css/quote/themes/default/style.min.css"/>
+    <link rel="stylesheet"
+          href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet"
+          href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link href="../../src/css/quote/lib/jquery.bootgrid.min.css"
+          rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="../../src/alert/sweetalert2.min.css">
+    <link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+    <!--<script type="text/javascript" src="dist/js/jquery.i18n.properties-1.0.9.js"></script>-->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript"
+            src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript"
+            src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="row deviceM addOutBound page-nun">
+<!--     <ol class="breadcrumb path-navigation">
+        <li><a href="inboundOrder.html">出库管理</a></li>
+        <li class="active">新增出库</li>
+    </ol> -->
+
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <div class="device-filter-row">
+            <ol class="breadcrumb">
+                <li><a><i></i>设备报废单</a></li>
+            </ol>
+                <form class="form-horizontal" role="form" style="overflow:hidden">
+                <div class="form-group  col-sm-6 col-md-4 col-lg-3"  >
+                    <label for="storageOutInvoiceID" class="col-sm-4  control-label"  >报废单号</label>
+                      <div class="col-sm-8">
+                    <input type="email" class="form-control" id="storageOutInvoiceID" placeholder="自动生成"
+                           name="storageOutInvoiceID" readOnly>
+                           </div>
+                </div>
+                <div class="form-group locate-p col-sm-6 col-md-4 col-lg-3">
+                    <label class=" col-sm-4  control-label" for="unit">报废位置</label>
+                     <div class="col-sm-8">
+                    <input type="text" class="form-control" id="storageName" placeholder="自动生成" readOnly>
+                        </div>
+                    <!-- <input type="text" class="form-control drop-down-unit " id="unit" readonly="readonly"
+                           placeholder="">
+                             <input type="hidden" class="form-control drop-down-unit " id="clickID" readonly="readonly"
+                           placeholder="" >
+                    <div id="ajax" class=" form-control unit-tree" style="display: none;"></div> -->
+                </div>
+                <div class="form-group   col-sm-6 col-md-4 col-lg-3">
+                    <label for="createName" class=" col-sm-4 control-label">创建人</label>
+                          <div class="col-sm-8">
+                    <input type="text" class="form-control" id="createName" readOnly>
+                    </div>
+                </div>
+                <div class="form-group  col-sm-6 col-md-4 col-lg-3">
+                    <label for="createDate" class=" col-sm-4 control-label">创建时间</label>
+                       <div class="col-sm-8">
+                    <input type="text" class="form-control" id="createDate" readOnly>
+                    </div>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="description" class=" col-sm-4 control-label" >描述</label>
+                      <div class="col-sm-8">
+                    	<textarea class="form-control" id="p_description" placeholder="" name="description"></textarea>
+                     </div>
+                </div>
+            </form>
+        </div>
+        <div class="device-list-row">
+            <ol class="breadcrumb">
+                <li><a><i></i>设备列表</a></li>
+            </ol>
+           <button class="btn btn-primary btn-sm" id="a" type="button" onclick="loadx()"> <i class="fa fa-plus"></i>添加设备
+            </button>
+            <table id="grid-data2"
+                   class="table table-condensed table-hover table-striped "  >
+                <thead>
+                <tr>
+                    <!--<th data-column-id="id" data-identifier="true" data-type="numeric">Article ID</th>-->
+                    <th  data-column-id="itemID" data-identifier="true" data-order="desc" data-visible="false">设备ID</th>
+                    <th data-column-id="itemCode"  data-type="numeric">设备编号</th>                   
+                    <th data-column-id="categoryName" data-order="desc">设备类型</th>
+                    <th data-column-id="modelName" data-order="desc">设备型号</th>                    
+                    <th data-column-id="unitPrice" data-order="desc">设备价格</th>                   
+                    <th data-column-id="providerName" data-order="desc">供应商</th>                    
+                    <th data-column-id="producer" data-order="desc">生产商</th>                    
+                    <th data-column-id="description" data-order="desc">描述</th>
+                    <th data-column-id="commands" data-formatter="commands"
+                        data-sortable="false">操作
+                    </th>
+                    <!-- data-visible="false" -->
+
+                </tr>
+                </thead>
+            </table>
+ 			<div class="form-group  ">
+                    <button type="button" class="rightBtn save-out btn btn-info" onclick="loadInvoice()"><i class="fa fa-floppy-o" aria-hidden="true"></i>保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">编辑</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formTree" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="storageName" class="col-sm-2 control-label">名称</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="storageName"
+                                   placeholder="名称" name="storageName">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="save" data-dismiss="modal"
+                        class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>保存
+                </button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- cd-popup-container-start -->
+<div class="cd-popup" role="alert">
+    <div class="cd-popup-container">
+        <a class="cd-popup-close icon-close fa fa-times"></a>
+
+        <div class="tabbar"></div>
+        <div class="mnk">
+            <form id="formDevice" class="form-horizontal form-block">
+                <div class="form-group" hidden="hidden">
+                    <label for="itemID" class="col-sm-2 control-label">设备ID</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="itemID" placeholder="itemID" name="itemID">
+                    </div>
+                </div>
+                <div class="form-group" hidden="hidden">
+                    <label for="groupID" class="col-sm-2 control-label">库存物资ID</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="groupID" placeholder="groupID" name="groupID">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="itemCode" class="col-sm-2 control-label">设备编号</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="itemCode" placeholder="itemCode" name="itemCode">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="categoryID" class="col-sm-2 control-label">设备类型</label>
+                    <div class="col-sm-10 ">
+                    <select  id="categoryID" name="categoryID" class="col-sm-12 form-control">
+                        <option value="0">电气设备</option>
+                        <option value="1">机械设备</option>
+                        <option value="2">动力设备</option>
+                        <option value="3">特种设备</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="modelName" class="col-sm-2 control-label">设备型号</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="modelName" placeholder="modelName" name="modelName">
+                    </div>
+                </div>
+          
+                <div class="form-group" hidden="hidden">
+                    <label for="providerID" class="col-sm-2 control-label">供应商ID</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="providerID" placeholder="providerID" name="providerID">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="providerName" class="col-sm-2 control-label">供应商名</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="providerName" placeholder="providerName" name="providerName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="producer" class="col-sm-2 control-label">生产厂家</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="producer" placeholder="producer" name="producer">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="deviceState" class="col-sm-2 control-label">设备状态</label>
+                    <div class="col-sm-10 ">
+                   <select class="col-sm-12 form-control" id="deviceState" name="deviceState">
+                        <option value="0">运行</option>
+                        <option value="1">停机</option>
+                        <option value="2">故障</option>
+                        <option value="3">警告</option>
+                    </select>
+                    </div>
+<!--                <div class="col-sm-10">
+                        <input class="form-control" id="deviceState" placeholder="deviceState" name="deviceState">
+                    </div> -->
+                </div>
+                <div class="form-group">
+                    <label for="deviceGrade" class="col-sm-2 control-label">设备等级</label>
+                    <div class="col-sm-10 ">
+                      <select class="col-sm-12 form-control" id="deviceGrade" name="deviceGrade">
+                        <option value="0">常规设备</option>
+                        <option value="1">重要设备</option>
+                        <option value="2">关键设备</option>
+                        <option value="3">特殊设备</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="organName" class="col-sm-2 control-label">使用部门</label>
+                    <div class="col-sm-10">
+                    <input class="form-control" id="organName" placeholder="organName" name="organName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description" class="col-sm-2 control-label">  描述</label>
+
+                    <div class="col-sm-10">
+                        <textarea class="form-control" id="description" placeholder="" name="description"></textarea>
+                    </div>
+                </div>
+            </form>
+<!--             <div class="cd-buttons">
+                <button type="button"
+                        class="btn btn-primary cd-popup-close cd-btn cd-btn-save">保存
+                </button>
+                <button type="button"
+                        class="btn btn-danger cd-popup-close cd-btn cd-btn-deal">取消
+                </button>
+            </div>  -->  
+        </div>
+    </div>
+    <!-- cd-popup-container-end -->
+</div>
+
+<div class="cd-popup2"  role="alert"><!-- overflow:auto -->
+	<div class="cd-popup-container" style="max-width:1000px;max-height:1500px; min-height:500px; ">
+        <a class="cd-popup-close icon-close fa fa-times"></a>
+
+        <div class="tabbar"></div>
+        <div class="mnk">
+	<div class="row  ">
+	    <div class="col-sm-4 col-md-3 col-lg-3">
+	        <div class="row-tree-menu">
+	            <ol class="breadcrumb">
+	                <li><a href="#">区域查询</a></li>
+	            </ol>
+	            <div class="search-tree">
+	                <input type="text" class="form-control" id="search-tree"
+	                       placeholder="搜索">
+	            </div>
+	            <ol class="breadcrumb path-navigation">
+	                <li><a href="#">当前区域</a></li>
+	                <li class="active" id="currentDepart"></li>
+	            </ol>
+	            <div id="ajax" class="demo"></div>
+	        </div>
+	    </div>
+	    <div class="col-sm-8 col-md-9 col-lg-9">
+	        <div class="device-filter-row">
+	            <ol class="breadcrumb">
+	                <li><a><i></i>筛选条件</a></li>
+	            </ol>
+	            <form class="form-inline filter-criteria" role="form" id="filter-criteria">
+	                <div class="form-group">
+							<label for="unit" class="control-label">使用部门</label>
+							 <input type="text" class="form-control drop-down-unit " id="unit"
+								    readonly="readonly" placeholder=" -请选择-" name="unit">
+							<div id="organSelect" class="form-control unit-tree" style="display: none;"></div>
+							<input type="hidden" id="serachorganid" name="organID">
+					</div>
+	                <div class="form-group ">
+	                    <label class="  control-label" for="deviceState">设备状态</label>
+	                    <select class="  device-state form-control" id="p_deviceState" name="deviceState">
+	                        <option value="">-请选择-</option>
+	                        <option value="0">运行</option>
+	                        <option value="1">停机</option>
+	                        <option value="2">故障</option>
+	                        <option value="3">警告</option>
+	                    </select>
+	                </div>
+	                <div class="form-group">
+	                    <label class="  control-label" for="deviceGrade">重要等级</label>
+	                    <select class="  device-grade form-control" id="p_deviceGrade" name="deviceGrade">
+	                        <option value="">-请选择-</option>
+	                        <option value="0">常规设备</option>
+	                        <option value="1">重要设备</option>
+	                        <option value="2">关键设备</option>
+	                        <option value="3">特殊设备</option>
+	                    </select>
+	                </div>
+	                <div class="form-group">
+	                    <label class="  control-label" for="categoryID">设备类型</label>
+	                    <!-- <select class="  device-grade form-control" id="p_categoryID" name="categoryID">
+	                    </select> -->
+	                     <input   type="text" class="form-control drop-down-unit " id="p_categoryID" readonly="readonly"
+	                           placeholder=" -请选择-" name="categoryName">
+	
+	                    <div id="deviceCategory" class=" form-control unit-tree" style="display: none;"></div>
+	                </div>
+	                <button type="button" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i>查询</button>
+	            </form>
+	        </div>
+	        <div class="device-list-row">
+	            <ol class="breadcrumb">
+	                <li><a><i></i>设备列表</a></li>
+	            </ol>
+	            <!-- <button class="addBtn btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i>增加</button> -->
+	            <table id="grid-data"
+	                   class="table table-condensed table-hover table-striped">
+	                <thead>
+	                <tr>
+	                    <th data-column-id="itemID"  data-identifier="true" data-type="numeric" data-visible="false">Article ID</th>
+	                    <th data-column-id="itemCode"  
+	                        data-type="numeric">设备编号
+	                    </th>
+	                                        <!--  <th data-column-id="storageID">存储id</th> -->
+	                                       <!-- <th data-column-id="categoryID" data-order="desc">分类id</th> -->
+	                    <th data-column-id="categoryName" data-order="desc">设备类型</th>
+	                    <!--                     <th data-column-id="modelID" data-order="desc"> 物资型号</th> -->
+	                    <th data-column-id="modelName" data-order="desc">设备型号</th>
+	
+	                    <th data-column-id="deviceState" data-order="desc">设备状态
+	
+	                    </th>
+	                    <th data-column-id="deviceGrade" data-order="desc">重要等级</th>
+	                    <th data-column-id="organName" data-order="desc">使用部门</th>
+	                </tr>
+	                </thead>
+	            </table>
+	            <button id="saveDeviceOutInvoice" class="rightBtn btn btn-primary cd-popup-close cd-btn cd-btn-save" type="button"  onclick="loaddevice()"><i class="fa fa-floppy-o" aria-hidden="true"></i>保存</button>
+	        </div>
+	    </div>
+	</div>
+
+</div></div>
+</div>
+<script src="../../src/js/rowtree/rowtree.js"></script>
+<script src="../../src/alert/sweetalert2.min.js"></script> 
+<script src="../../src/alert/es6-promise.auto.min.js"></script>
+<script src="http://cdn.gbtags.com/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+<script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+<script src="../../src/js/quote/jstree.js"></script>
+<script src="../../src/js/packtreegrid/pack2.js"></script>
+<script src="../../src/js/dialog/dialog2.js"></script>
+<script src="../../src/js/ajaxurl/ajax.js"></script>
+
+<script>
+function loadx(e){
+	//window.open ('addOutbound2.html', 'newwindow', 'height=100, width=400, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=n o, status=no');
+// 	$('.cd-popup2').addClass('is-visible');
+	  $().dia2("cd-popup2",e);
+	$().cdPopUp("cd-popup2") ; 
+	loadxcategory();
+}
+
+    var flag,clickID ; 
+    var planningFilter = function (url,name) {
+        var $grid = $("#"+name), $cdBtnSave = $(".cd-btn-save");
+    
+        $grid.bootgrid("destroy");
+        var idname = "storageOutMaterialID";
+        var iditem = "deviceInfoID";
+        var formatters = {
+            "commands": function (column, row) {
+                return "<a abs=\"查看\" class=\"btn-color btn btn-xs btn-default command-view\"  data-row-id=\"" + row[iditem] + "\"><span class=\"fa  fa-eye\"></span></a>"
+                + "<a  abs=\"删除\" class=\"btn-color btn btn-xs btn-default command-delete\"  data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+            }
+        };
+       var grid= pack.gridInit(url, name, formatters) .on("loaded.rs.jquery.bootgrid",
+               function () {
+                   var values, obj, value;
+                   var o = {}, ary = [], key;
+
+                   /* Executes after data is loaded and rendered */
+                   $().tip();
+                   grid.find(".command-delete").on("click", function (e) {
+                       var _this = this;
+                       $.get("../../DeviceInOut/deleteDeviceByDeviceOutInvoice", {
+                           id: $(this).attr("data-row-id")
+                       }, function (data) {
+                    	   if (data.state == "Success") {
+								swal({text: "删除成功！"})
+                             $(_this).parents('tr').remove();
+							}else {
+								swal({text: data.message})
+							}
+                       }, 'json');
+                   }).end().find(".command-view").on("click",
+                           function (e) {
+                               $().dia2("cd-popup",e);
+                               $().cdPopUp("cd-popup")
+                               $(".tabbar").html("查看");
+                               $.get("../../DeviceInfo/findByID", {
+                                   id: $(this).attr("data-row-id")
+                               }, function (data) {
+  								//console.log(data);
+                              for (var key in data.data) {
+                                       $("#" + key).val(data.data[key])
+                                   }
+                               }, 'json');
+                           })
+ 
+
+               });
+    }
+    
+    //添加详细信息加载
+//     planningFilter("../../DeviceInfo/findPage");
+   //planningFilter("../../src/json/equipmentOrder.json","grid-data")
+</script>
+
+<script >
+	$.get('../../DeviceRelate/findCreateTimeAndName', "", function (data) {
+		$("#createName").val(data.data.createName);
+		$("#createDate").val(data.data.createDate);
+	}, 'json')
+</script>
+
+<!-- <script type="text/javascript" data-main="../../src/js/main" src="../../src/js/quote/require.js"></script>
+    <script type="text/javascript">
+        require(["jquery","rowtree"], function ($,rowtree){
+            rowtree.dosome();
+        });
+    </script>
+ -->
+<script>
+//模态框tree
+    var storageID = "",storageName = "", deviceArea = [], deviceIDs = [];
+    $.ajax({
+        async: false,
+        url: "../../DeviceArea/findTreeByDeviceArea",
+        type: "get",
+        success: function (data) {
+            var jsonData = JSON.parse(data);
+            callBack(jsonData.data);
+        }
+    });
+    function callBack(data) {
+        var treeid = "ajax";
+        var tree = $("#" + treeid);
+        var inst, clickedNode;
+        var $save = $("#save");
+        var reg = /^j1_(\d+)/;
+        tree.jstree(false);
+        pack.showCheckboxTree(
+                data,
+                treeid,
+                "blue  fa fa-sitemap",
+                "search-tree",
+                ["dnd", "search", "state", "types", "wholerow", "checkbox"
+                ], false,
+                false,
+                null).bind("activate_node.jstree", function (e, data) {
+                    var cur = data.node, aryParentID = [], aryChildID = [];
+                    aryChildID = cur.children_d;
+                    aryParentID.push(cur.id);
+                    deviceArea = aryParentID.concat(aryChildID);
+                    $("#currentDepart").html(cur.text);
+                    storageID = cur.id;
+                    $("#storageID").val(storageID);
+                    storageName = cur.text;
+                    secondGrid("../../DeviceInfo/findPage?deviceArea=" + storageID+ "&" + $("#filter-criteria").serialize()+"&deviceCategory="+deviceCategory,"grid-data");
+                    deviceIDs = [];
+                })
+    }
+</script>
+<script>
+//模态框gird
+var secondGrid = function (url,name) {
+	 var $grid = $("#"+name);
+	   $grid.bootgrid("destroy");
+      var grid = pack.gridInit(url, name).on("loaded.rs.jquery.bootgrid",
+              function (data) {
+    	 
+                  $("tr").each(function (index, item) {
+
+                      var text = $($(item).find("td")[4]);
+                      if (text.text() == 0) {
+                          text.text("运行");
+                      }
+                      if (text.text() == 1) {
+                          text.text("停机");
+                      }
+                      if (text.text() == 2) {
+                          text.text("故障");
+                      }
+                      if (text.text() == 3) {
+                          text.text("警告");
+                      }
+
+                      var text = $($(item).find("td")[5]);
+                      if (text.text() == 0) {
+                          text.text("常规设备");
+                      }
+                      if (text.text() == 1) {
+                          text.text("重要设备");
+                      }
+                      if (text.text() == 2) {
+                          text.text("关键设备");
+                      }
+                      if (text.text() == 3) {
+                          text.text("特殊设备");
+                      }
+                  })
+
+              grid.find(".select-box").on("change",function(){
+                          	
+                         	 var id = this.value;
+                         	 if(deviceIDs.toString().indexOf(id)==-1){
+                         		 deviceIDs.push(id);
+                         	 }else{
+                         		 var index=$.inArray(id, deviceIDs);
+                         		 deviceIDs.splice(index,1);
+                         	 }
+                   });       
+              });
+}
+      
+    
+
+    //   planningFilter("../../src/json/deviceGrid.json")
+</script>
+<script>
+    $(".filter-criteria button").on("click", function () {
+ 
+        secondGrid("../../DeviceInfo/findPage?deviceArea=" + storageID + "&" + $("#filter-criteria").serialize()+"&deviceCategory="+deviceCategory,"grid-data");
+
+    })
+</script>
+<script>
+	$(window).on("resize", resize);
+	function resize() {
+	    $("#organSelect").width($("#unit").width());
+	}
+	resize();
+	$("#unit").on("click", function () {
+	    $("#organSelect").toggle();
+	});
+/* 	$(".serarchEmployee").on("click",function(){
+	// 	alert($("#serachorganid").val());
+		planningFilter("../../user/findAll?"+$("#searchForm").serialize());
+	}); */
+	
+	loadOrganSelect();
+	//所属单位下拉树
+	function loadOrganSelect() {
+	    $.ajax({
+	        url: "../../organ/getOrganListTree",
+	        type: "get",
+	        success: function (data) {
+	        var jsonData = JSON.parse(data);
+	        callBack(jsonData.data,"organSelect");
+	        }
+	    });
+	}
+	function callBack(data,treeid) {
+	 var tree = $("#" + treeid);
+	 var inst, clickedNode;
+	 var $save = $("#save");
+	 var reg = /^j1_(\d+)/;
+	 tree.jstree(false);
+	 pack.showCheckboxTree(
+	         data,
+	         treeid,
+	         "blue  fa fa-sitemap",
+	         "search-tree",
+	         ["dnd", "search", "state", "types", "wholerow"
+	         ], false,
+	         false,
+	         null).bind("activate_node.jstree", function (e, data) {
+	             // 处理代码
+	             // 获取当前节点
+	             var currentNode = data.node;
+	             clickID = currentNode.id;
+	             console.log(currentNode);
+	             $("#unit").val(currentNode.text);
+	             $('#organSelect').hide();
+	             $("#serachorganid").val(clickID);
+	         })
+	}
+</script>
+<!-- <script >
+	function loadxcategory(){
+		$.get('../../DeviceRelate/findAllMaterialCategory', "", function (data) {
+			$("#p_categoryID").append("<option value=''>-请选择-</option>");			
+			for(var i=0; i<data.data.length; i++){			    
+				$("#p_categoryID").append("<option value='" + data.data[i].categoryID + "'>" + data.data[i].categoryName + "</option>");				
+			}
+		}, 'json')
+	}
+</script> -->
+<script>
+	function loaddevice(){
+		
+ 		if(storageID == ""){
+			swal({text: "请先选择报废区域!"})
+			//模态框不关闭
+// 			  $().dia2("cd-popup2" ); 
+			  $(".cd-popup2").addClass("block") ;
+			
+		}else {			
+	      $.post("../../DeviceInOut/storageOutByID",{
+				deviceID: deviceIDs,
+	 	 		storageID: storageID,
+				storageName: storageName,
+				storageOutInvoiceID:$("#storageOutInvoiceID").val()
+	  		},function(data){
+	  			if (data.state == "Success") {
+	  				 $(".cd-popup2").removeClass("block") ;
+	  				swal({text: data.message})
+
+	  			 	$("#storageOutInvoiceID").val(data.data.storageOutInvoiceID);
+	  			 	$("#storageName").val(data.data.storageName);
+                	//回显
+	  				planningFilter("../../DeviceInOut/findStorageOutByID?id="+data.data.storageOutInvoiceID,"grid-data2");
+	            } else {
+	            	swal({text: data.message})
+	            }
+		   })
+		} 
+	}
+</script>
+<script>
+ 	function loadInvoice(){
+	     if($("#storageOutInvoiceID").val() != ""){
+		  		$.get("../../DeviceInOut/approvalDeviceOutInvoice",{
+		    	    description:$("#p_description").val(),
+					storageOutInvoiceID:$("#storageOutInvoiceID").val()
+		  		},function(data){
+		  			if (data.state == "Success") {
+		                //清空页面
+		  				//swal({text: "报废成功!"})
+		  				//alert("报废成功!")
+		  				 window.location.href= window.location.href;
+		            } else {
+		            	swal({text: data.message})
+		            }
+		     })
+	     }else{
+	    	 swal({text: "设备报废单为空,请添加设备!"})
+	     }
+	} 
+</script>
+<script>
+	var deviceCategory=[];
+	$(window).on("resize2", resize2);
+	function resize2() {
+	    $("#deviceCategory").width($("#unit").width());
+	}
+	resize2();
+	$("#p_categoryID").off("click");
+	$("#p_categoryID").on("click", function () {
+	    $("#deviceCategory").toggle();
+	});
+	treeCallBack2()
+	function treeCallBack2(){
+		   $.ajax({
+		        async: false,
+		         url: "../../MaterialCategoryController/findCategoryTree",
+		        type: "get",
+		        success: function (data) {
+		            var jsonData = JSON.parse(data);
+		            callBack2(jsonData.data);
+		        }
+		    });	
+	}
+	function callBack2(data) {
+	    var treeid = "deviceCategory";
+	    var tree = $("#" + treeid);
+	  
+	    var inst, clickedNode;
+	    var $save = $("#save");
+	    var reg = /^j1_(\d+)/;
+	    tree.jstree(false);
+	    pack.showCheckboxTree(
+	            data,
+	            treeid,
+	            "blue  fa fa-sitemap",
+	            "search-tree",
+	            ["dnd", "search", "state", "types", "wholerow"
+	            ], false,
+	            false,null).bind("activate_node.jstree", function (e, data) {
+	            	var currentNode = data.node,aryParentID2=[],aryChildID2=[];
+                    clickID = currentNode.id;
+                    $("#p_categoryID").val(currentNode.text);
+                    $('#deviceCategory').hide();
+                    aryChildID2=currentNode.children_d;
+                    aryParentID2.push(currentNode.id);
+                    deviceCategory= aryParentID2.concat(aryChildID2);
+					
+	            });	
+	}
+</script>
+</body>
+</html>

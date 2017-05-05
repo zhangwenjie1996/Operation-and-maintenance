@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.maintain.IMaintainPlanMapper">
+	<resultMap id="BaseResultMap"
+		type="ig.device.domain.model.maintain.plan.MaintainPlan">
+		<constructor>
+			<idArg column="maintainPlanID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="maintainPlanName" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="maintainGroupID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="maintainRouteID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="start" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+			<arg column="end" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+			<arg column="period" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+			<arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="taskStartTime" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="taskEndTime" jdbcType="VARCHAR" javaType="java.lang.String" />
+		</constructor>
+	</resultMap>
+	<sql id="Base_Column_List">
+		maintainPlanID ID, maintainPlanName, maintainGroupID, maintainRouteID, start, end,
+		period, availability,
+		description, taskStartTime, taskEndTime
+	</sql>
+	<select id="findAvailablePlan" resultType="ig.device.domain.model.maintain.plan.MaintainPlan"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from maintainPlan
+		where availability = 1
+	</select>
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from maintainPlan
+		where maintainPlanID = #{ID,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="ig.device.domain.model.maintain.plan.MaintainPlan">
+		insert into maintainPlan ( maintainGroupID, maintainPlanName,
+		maintainRouteID, start, end,
+		period, availability, description,
+		taskStartTime, taskEndTime)
+		values ( #{maintainGroupID,jdbcType=INTEGER},
+		#{maintainPlanName,jdbcType=VARCHAR},
+		#{maintainRouteID,jdbcType=INTEGER}, #{start,jdbcType=TIMESTAMP},
+		#{end,jdbcType=TIMESTAMP},
+		#{period,jdbcType=INTEGER}, #{availability,jdbcType=TINYINT}, #{description,jdbcType=VARCHAR},
+		#{taskStartTime,jdbcType=VARCHAR}, #{taskEndTime,jdbcType=VARCHAR})
+	</insert>
+	<insert id="add" useGeneratedKeys="true" keyProperty="ID"
+		parameterType="ig.device.domain.model.maintain.plan.MaintainPlan">
+		insert into maintainPlan
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ID != null">
+				maintainPlanID,
+			</if>
+			<if test="maintainPlanName != null">
+				maintainPlanName,
+			</if>
+			<if test="maintainGroupID != null">
+				maintainGroupID,
+			</if>
+			<if test="maintainRouteID != null">
+				maintainRouteID,
+			</if>
+			<if test="start != null">
+				start,
+			</if>
+			<if test="end != null">
+				end,
+			</if>
+			<if test="period != null">
+				period,
+			</if>
+			<if test="availability != null">
+				availability,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="taskStartTime != null">
+				taskStartTime,
+			</if>
+			<if test="taskEndTime != null">
+				taskEndTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ID != null">
+				#{ID,jdbcType=INTEGER},
+			</if>
+			<if test="maintainPlanName != null">
+				#{maintainPlanName,jdbcType=VARCHAR},
+			</if>
+			<if test="maintainGroupID != null">
+				#{maintainGroupID,jdbcType=INTEGER},
+			</if>
+			<if test="maintainRouteID != null">
+				#{maintainRouteID,jdbcType=INTEGER},
+			</if>
+			<if test="start != null">
+				#{start,jdbcType=TIMESTAMP},
+			</if>
+			<if test="end != null">
+				#{end,jdbcType=TIMESTAMP},
+			</if>
+			<if test="period != null">
+				#{period,jdbcType=INTEGER},
+			</if>
+			<if test="availability != null">
+				#{availability,jdbcType=TINYINT},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="taskStartTime != null">
+				#{taskStartTime,jdbcType=VARCHAR},
+			</if>
+			<if test="taskEndTime != null">
+				#{taskEndTime,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ig.device.domain.model.maintain.plan.MaintainPlan">
+		update maintainPlan
+		<set>
+			<if test="maintainPlanName != null">
+				maintainPlanName = #{maintainPlanName,jdbcType=VARCHAR},
+			</if>
+			<if test="maintainGroupID != null">
+				maintainGroupID = #{maintainGroupID,jdbcType=INTEGER},
+			</if>
+			<if test="maintainRouteID != null">
+				maintainRouteID = #{maintainRouteID,jdbcType=INTEGER},
+			</if>
+			<if test="start != null">
+				start = #{start,jdbcType=TIMESTAMP},
+			</if>
+			<if test="end != null">
+				end = #{end,jdbcType=TIMESTAMP},
+			</if>
+			<if test="period != null">
+				period = #{period,jdbcType=INTEGER},
+			</if>
+			<if test="availability != null">
+				availability = #{availability,jdbcType=TINYINT},
+			</if>
+			<if test="description != null">
+				description = #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="taskStartTime != null">
+				taskStartTime = #{taskStartTime,jdbcType=VARCHAR},
+			</if>
+			<if test="taskEndTime != null">
+				taskEndTime = #{taskEndTime,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where maintainPlanID = #{ID,jdbcType=INTEGER}
+	</update>
+	<update id="update" parameterType="ig.device.domain.model.maintain.plan.MaintainPlan">
+		update maintainPlan
+		set maintainPlanName = #{maintainPlanName,jdbcType=VARCHAR},
+		maintainGroupID = #{maintainGroupID,jdbcType=INTEGER},
+		maintainRouteID = #{maintainRouteID,jdbcType=INTEGER},
+		start = #{start,jdbcType=TIMESTAMP},
+		end = #{end,jdbcType=TIMESTAMP},
+		period = #{period,jdbcType=INTEGER},
+		availability = #{availability,jdbcType=TINYINT},
+		description = #{description,jdbcType=VARCHAR},
+		taskStartTime = #{taskStartTime,jdbcType=VARCHAR},
+		taskEndTime = #{taskEndTime,jdbcType=VARCHAR}
+		where maintainPlanID = #{ID,jdbcType=INTEGER}
+	</update>
+	<update id="updateAvailability" parameterType="java.lang.Integer">
+		update maintainPlan
+		set
+		availability = 0
+		where maintainPlanID = #{ID,jdbcType=INTEGER}
+	</update>
+	<update id="remove" parameterType="java.lang.Integer">
+		update maintainPlan
+		set
+		availability = 0
+		where maintainPlanID = #{ID,jdbcType=INTEGER}
+	</update>
+</mapper>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../src/css/quote/themes/default/style.min.css"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link href="../../src/css/quote/lib/jquery.bootgrid.min.css" rel="stylesheet"/>
+    <link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript" src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript" src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="row breadcrumb">角色授权</div>
+<div class="row menuM">
+    <div class="col-sm-4 col-md-3 col-lg-3">
+        <div class="row-tree-menu">
+            <ol class="breadcrumb">
+                <li><a href="#">菜单管理</a></li>
+            </ol>
+		            <div style="overflow: hidden;margin-bottom: 10px;">
+						<label class="col-sm-4 control-label">系统选择</label>
+								<div class="col-sm-8">
+								<select id="systemId" class="form-control" name="systemId"> 
+								</select>
+						</div>
+					</div>
+            <div class="treeList">
+                <div id="ajax" class="menu-load"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8 col-md-9 col-lg-9">
+
+        <div class="tit">
+            <ol class="breadcrumb">
+                <li><a><i></i>数据展示</a></li>
+            </ol>
+        </div>
+
+        <table id="grid-data" class="table table-condensed table-hover table-striped">
+            <thead>
+            <tr>
+                <th data-column-id="elementid" data-identifier="true" data-type="numeric">序号</th>
+                <th data-column-id="elementname" data-order="desc">名称</th>
+                <th data-column-id="signature">标识</th>
+                <th data-column-id="availability">有效性</th>
+                <th data-column-id="commands" data-formatter="commands" data-sortable="false">操作</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<!--Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">编辑</h4>
+            </div>
+            <div class="modal-body">
+                <form id="menuForm" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="menuName" class="col-sm-2 control-label">名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="menuname" placeholder="名称" name="menuname">
+                            <input  type="hidden" name="parentmenuid" id="parentmenuid"/>
+                            <input  type="hidden" name="menuid" id="menuid"/>
+                            <input  type="hidden" name="systemid" id="systemid"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sequence" class="col-sm-2 control-label">序列</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="sequence" placeholder="序列" name="sequence">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="iconstyle" class="col-sm-2 control-label">图标风格</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="iconstyle" placeholder="图标风格" name="iconstyle">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="urladdress" class="col-sm-2 control-label">路径</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="urladdress" placeholder="url" name="urladdress">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signature" class="col-sm-2 control-label">signature</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="signature" placeholder="signature" name="signature">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-sm-2 control-label">描述</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="description" placeholder="描述" name="description">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="save" data-dismiss="modal" class="btn btn-primary">保存</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- cd-popup-container-start -->
+<div class="cd-popup" role="alert">
+    <div class="cd-popup-container">
+        <a class="cd-popup-close icon-close fa fa-times"></a>
+<div class="tabbar"></div>
+<div class="mnk">
+        <form id="elementForm" class="form-horizontal form-block">
+            <div class="form-group" hidden="hidden">
+                <label for="elementid" class="col-sm-2 control-label">ID</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="elementid" placeholder="elementid" name="elementid">
+                </div>
+            </div>
+            <div class="form-group" hidden="hidden">
+                <label for="menuid" class="col-sm-2 control-label">页面id</label>
+                <div class="col-sm-10">
+                    <input class="form-control menuid"  placeholder="menuid" name="menuid">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="elementname" class="col-sm-2 control-label">名称</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" id="elementname" placeholder="elementname" name="elementname">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="signature2" class="col-sm-2 control-label">标识</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control"  id="signature2" placeholder="signature" name="signature" class="signature">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="elementtype" class="col-sm-2 control-label">页面元素类型</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" id="elementtype" placeholder="elementtype" name="elementtype">
+                   
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="availability" class="col-sm-2 control-label">有效性</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" id="availability" placeholder="availability" name="availability">
+                </div>
+            </div>
+        </form>
+        <div class="cd-buttons">
+            <button type="button" class="btn btn-primary cd-popup-close cd-btn cd-btn-save">保存</button>
+            <button type="button" class="btn btn-danger cd-popup-close cd-btn cd-btn-deal">取消</button>
+        </div>
+    </div></div>
+    <!-- cd-popup-container-end -->
+</div>
+	<script src="../../src/js/rowtree/rowtree.js"></script>
+<script src="http://cdn.gbtags.com/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="../../src/js/quote/bootstrapValidator.min.js"></script>
+<script src="../../src/js/quote/jstree.min.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+<script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+<script type="text/javascript" src="../../src/js/packtreegrid/pack2.js"></script>
+<script type="text/javascript" src="../../src/js/dialog/dialog.js"></script>
+<script>
+    var planningFilter = function (url,menuId) {
+        var $cdBtnSave = $(".cd-btn-save");
+        $("#grid-data").bootgrid("destroy");
+        var idname = "elementid";
+//         "<a abs=\"查看\" class=\"btn-color btn btn-xs btn-default command-view\"  data-row-id=\"" + row[idname] + "\"><span class=\"fa  fa-eye\"></span></a>"
+//         + "<a  abs=\"编辑\" class=\"btn-color btn btn-xs btn-default command-edit\"  data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-pencil\"></span></a> " +
+//         "<a  abs=\"删除\" class=\"btn-color btn btn-xs btn-default command-delete\"  data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+        var formatters={
+                "commands": function (column, row) {
+                    return '<select id="permisionId" >  <option value="0">通过</option> <option value="2">禁用</option>  <option value="3">只读</option> </select>';
+                }
+            }
+        var grid= pack.gridInit(url, "grid-data",formatters).on("loaded.rs.jquery.bootgrid", function () {
+            /* Executes after data is loaded and rendered */
+            $().tip();
+            grid.find(".command-delete").on("click", function (e) {
+                var _this = this;
+                $.post("../../element/delete", {elementid: $(this).attr("data-row-id")}, function (data) {
+                    $(_this).parents('tr').remove();
+                }, 'json');
+            }).end().find(".command-edit").on("click", function (e) {
+            	  $(".tabbar").html("编辑");
+                $().dia(e);
+                $("#elementForm")[0].reset();
+                $.post('../../element/findById', {elementid: $(this).attr("data-row-id")}, function (data) {
+                	var d = data.data;
+                	//因界面中有两个id为menuid元素故将其中的改为名为class
+                	$(".menuid").val(d["menuid"]);
+                	$("#signature2").val(d["signature"]);
+                    for (key in d) {
+                        $("#" + key).val(d[key]);
+                    }
+                }, 'json');
+                $cdBtnSave.off("click");
+                $cdBtnSave.on("click", function (e) {
+                    var arr = $("#elementForm").serialize();
+                    $.post('../../element/update', arr, function (data) {
+                        if (data.state == "Success") {
+                            alert(data.message)
+                        } else {
+                            alert(data.message)
+                        }
+                    }, 'json')
+                });
+            }).end().find(".command-view").on("click", function (e) {
+            	  $(".tabbar").html("查看");
+                $().dia2(e);
+                $("#elementForm")[0].reset();
+                $.post('../../element/findById', {elementid: $(this).attr("data-row-id")}, function (data) {
+                	var d = data.data;
+                	$("#signature2").val(d["signature"]);
+                    for (key in d) {
+                        $("#" + key).val(d[key]);
+                    }
+                }, 'json');
+            })
+            $(".text-left").remove("class").attr("class","text-center");
+        });
+
+    };
+</script>
+<script>
+//加载系统下拉菜单
+loadSystemSelect();
+function loadSystemSelect(){
+	  $.getJSON("../../system/findAllSelect", function (data) {
+          $.each(data.data, function (index, item) {
+              $("#systemId").append("<option value='"+item.systemid+"'>"+item.systemname+"</optiont>");
+          });
+          loadMenuTree();
+        
+          $("#systemId").change(loadMenuTree);
+      });
+}
+var systemId="";
+function loadMenuTree(){
+	 systemId = $("#systemId").val(); 
+	$.ajax({
+		async:true,
+		url:"../../menu/findMenuTree?systemId="+systemId,
+		type:"get",
+		success:function(data){ 
+			var  jsonData=JSON.parse(data);
+			var newData=jsonData.data;
+		    callBack(newData,"ajax",null);
+		}
+	});
+}
+function callBack(data, treeid, fun) {
+	var tree = $("#" + treeid);
+	var inst, clickedNode;
+	var $save = $("#save");
+	var reg = /^j1_(\d+)/;
+	pack.showCheckboxTree(data, treeid, "blue  fa fa-sitemap",
+			"search-tree",
+			[ "dnd", "search", "state", "types", "wholerow", "checkbox" ],
+			true, true, null).bind("activate_node.jstree",
+			function(e, data) {
+				var cur = data.node;
+				$("#currentDepart").html(cur.text);
+               var  menuId = cur.id.replace(reg, "$1");
+               if(""!=cur.original.URL){
+                	planningFilter("../../element/findAllByMenuId?menuId="+menuId,menuId);
+               }
+			})
+}
+</script>
+<script>
+ 
+//     $("#myModal").draggable({
+//         handle: ".modal-header"
+//     });
+    $( function() {
+        $( "#myModal" ).dialog();
+      } );
+</script>
+</body>
+</html>

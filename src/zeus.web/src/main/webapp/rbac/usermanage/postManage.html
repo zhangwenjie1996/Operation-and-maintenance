@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+      <link rel="stylesheet"
+          href="../../src/css/quote/themes/default/style.min.css"/>
+    <link rel="stylesheet"
+          href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet"
+          href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+    <link href="../../src/css/quote/lib/jquery.bootgrid.min.css"
+          rel="stylesheet"/>
+    <link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+    <!-- alert -->
+	<link rel="stylesheet" type="text/css" href="../../src/alert/sweetalert2.min.css">
+    <!--<script type="text/javascript" src="dist/js/jquery.i18n.properties-1.0.9.js"></script>-->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript" src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript" src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="postM">
+    <div class="tit">
+        <ol class="breadcrumb">
+            <li><a><i></i>岗位管理</a></li>
+        </ol>
+        
+    </div>
+<button class="addBtn btn btn-primary btn-sm"  type="button"> <i class="fa fa-plus"></i>增加
+            </button>
+              <div class="table-rp">
+    <table id="grid-data" class="table table-condensed table-hover table-striped">
+        <thead>
+        <tr>
+<!--             <th data-column-id="postid" data-identifier="true" data-type="numeric">ID</th> -->
+            <th data-column-id="postname">岗位名称</th>
+            <th data-column-id="standardnumber" data-order="desc">标准人数</th>
+            <th data-column-id="availability">有效性</th>
+            <th data-column-id="description">描述</th>
+            <th data-column-id="commands" data-formatter="commands" data-sortable="false">操作</th>
+        </tr>
+        </thead>
+    </table>
+    </div>
+</div>
+
+<div class="cd-popup" role="alert">
+    <div class="dialog cd-popup-container">
+        <a class="cd-popup-close icon-close fa fa-times"></a>
+<div class="tabbar"></div>
+<div class="mnk">
+        <form id="postForm" class="form-horizontal form-block">
+            <div class="form-group" hidden="hidden">
+                <label for="postid" class="col-sm-2 control-label">ID</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" id="postid" placeholder="postid" name="postid">
+                </div>
+            </div>
+            <div class="form-group locate-p">
+                    <label for="organname" class="col-sm-2 control-label">所属部门</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control drop-down-unit " id="organname"
+                               placeholder=" -请选择-" name="organname">
+                        <input type="hidden" id="serachorganid" name="organid">
+                        <div id="organSelect" class="form-control unit-tree" style="display: none;right:10px"></div>
+                    </div>
+            </div>
+<!--             <div class="form-group"> -->
+<!-- 				<label for="unit" class="col-sm-2 control-label">组织</label> -->
+<!-- 				<div class="col-sm-10"> -->
+<!-- 				 <input type="text" class="form-control drop-down-unit " id="unit" -->
+<!-- 					    readonly="readonly" placeholder=" -请选择-" name="unit"> -->
+<!-- 				</div> -->
+<!-- 				<div id="organSelect" class="form-control unit-tree" style="display: none;"></div> -->
+<!-- 				<input type="hidden" id="serachorganid" name="organid"> -->
+<!-- 			</div> -->
+<!--             <div class="form-group"> -->
+<!--                 <label for="organid" class="col-sm-2 control-label">组织</label> -->
+
+<!--                 <div class="col-sm-10"> -->
+<!--                     <input class="form-control" id="organid" placeholder="organid" name="organid"> -->
+<!--                 </div> -->
+<!--             </div> -->
+            <div class="form-group">
+                <label for="postname" class="col-sm-2 control-label">岗位名称</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" id="postname" placeholder="postname" name="postname">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="standardnumber" class="col-sm-2 control-label">标准人数</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" id="standardnumber" placeholder="standardnumber" name="standardnumber">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="availability" class="col-sm-2 control-label">有效性</label>
+
+                <div class="col-sm-10">
+                    <select class="form-control" id="availability" name="availability">
+								<option value="1">有</option>
+								<option value="0">无</option>
+							</select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="description" class="col-sm-2 control-label">描述</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" id="description" placeholder="description" name="description">
+                </div>
+            </div>
+        </form>
+        <div class="cd-buttons">
+            <button type="button" class="btn btn-primary cd-popup-close cd-btn cd-btn-save">保存</button>
+            <button type="button" class="btn btn-danger cd-popup-close cd-btn cd-btn-deal">取消</button>
+        </div>
+    </div></div>
+    <!-- cd-popup-container-end -->
+</div>
+	<script src="../../src/js/rowtree/rowtree.js"></script>
+<script src="../../src/js/quote/jquery.ui.min.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+<script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+<script src="../../src/js/quote/jstree.js"></script>
+<script src="../../src/js/packtreegrid/pack2.js"></script>
+<script src="../../src/js/dialog/dialog.js"></script>
+<script src="../../src/js/ajaxurl/ajax.js"></script>
+<script src="../../src/alert/sweetalert2.min.js"></script> 
+	<!-- for IE support -->
+	<script src="../../src/alert/es6-promise.auto.min.js"></script>
+<script type="text/javascript" src="../../src/js/draggable/draggable.js"></script> 
+<script>
+    var planningFilter = function (url) {
+        var $cdBtnSave = $(".cd-btn-save");
+        $(".addBtn").on("click", function (e) {
+            $().dia(e);
+            $(".tabbar").html("增加");
+            	$("#postForm")[0].reset();
+            $cdBtnSave.off("click");
+            $cdBtnSave.on("click", function (e) {
+                var arr = $("#postForm").serialize();
+                $.post('../../post/add', arr, function (data) {
+                	if (data.state == "Success") {
+                    	 $("#grid-data").bootgrid("reload");
+                        swal({text:data.message});
+                    } else {
+                    	  swal({text:data.message});
+                    }
+                }, 'json')
+
+            });
+        });
+        $("#grid-data").bootgrid("destroy");
+        var idname = "postid";
+        var formatters={
+                "commands": function (column, row) {
+                    return "<a abs=\"查看\" class=\"btn-color btn btn-xs btn-default command-view\"  data-row-id=\"" + row[idname] + "\"><span class=\"fa  fa-eye\"></span></a>"
+                            + "<a  abs=\"编辑\" class=\"btn-color btn btn-xs btn-default command-edit\"  data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-pencil\"></span></a> " +
+                            "<a  abs=\"删除\" class=\"btn-color btn btn-xs btn-default command-delete\"  data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                }
+            };
+        var grid= pack.gridInit(url, "grid-data",formatters).on("loaded.rs.jquery.bootgrid",//$("#postid").attr("id").replace('"','')
+                function () {
+                    /* Executes after data is loaded and rendered */
+                    $().tip();
+                    grid.find(".command-delete").on("click", function (e) {
+                        var _this = this;
+                        swal({text:"删除第"+$(this).attr("data-row-id")+"行"});
+                        $.get("../../post/delete", {
+                        	id: $(this).attr("data-row-id")
+                        }, function (data) {
+                            $(_this).parents('tr').remove();
+                        }, 'json');
+                    }).end().find(".command-edit").on("click", function (e) {
+                        $().dia(e);
+                        $(".tabbar").html("编辑");
+                        $("#postForm")[0].reset();
+                        $.get('../../post/findById', {
+                            id: $(this).attr("data-row-id")
+                        }, function (data) {
+                        	var d = data.data;
+                            for (key in d) {
+                                $("#" + key).val(d[key])
+                            }
+                        }, 'json');
+                        $cdBtnSave.off("click");
+                        $cdBtnSave.on("click", function (e) {
+                            var arr = $("#postForm").serialize();
+                            $.post('../../post/update', arr, function (data) { 
+                            	if (data.state == "Success") {
+                                	 $("#grid-data").bootgrid("reload");
+                                	  swal({text:data.message});
+                                } else {
+                                	 swal({text:data.message});
+                                }
+                            }, 'json')
+                        });
+                    }).end().find(".command-view").on("click",
+                            function (e) {
+                              $().dia2(e);
+                                $(".tabbar").html("查看");
+                                $("#postForm")[0].reset();
+                                $.get('../../post/findById', {
+                                    id: $(this).attr("data-row-id")
+                                }, function (data) {
+                                	var d = data.data;
+                                    for (var key in d) {
+                                        $("#" + key).val(d[key])
+                                    }
+                                }, 'json');
+                            })
+                            $(".text-left").remove("class").attr("class","text-center");
+                });
+
+    };
+    planningFilter("../../post/findAll");
+    
+</script>
+<script>
+$(window).on("resize", resize);
+function resize() {
+    $("#organSelect").width($("#organname").width());
+}
+resize();
+$("#organname").off("click");
+$("#organname").on("click", function () {
+    $("#organSelect").toggle();
+});
+	loadOrganSelect();
+	//所属单位下拉树
+	function loadOrganSelect() {
+	    $.ajax({
+	        url: "../../organ/getOrganListTree",
+	        type: "get",
+	        success: function (data) {
+	        var jsonData = JSON.parse(data);
+	        callBack2(jsonData.data,"organSelect");
+	        }
+	    });
+	}
+	function callBack2(data,treeid) {
+	 var tree = $("#" + treeid);
+	 var inst, clickedNode;
+	 var $save = $("#save");
+	 var reg = /^j1_(\d+)/;
+	 tree.jstree(false);
+	 pack.showCheckboxTree(
+	         data,
+	         treeid,
+	         "blue  fa fa-sitemap",
+	         "search-tree",
+	         ["dnd", "search", "state", "types", "wholerow"
+	         ], false,
+	         false,
+	         null).bind("activate_node.jstree", function (e, data) {
+	             // 处理代码
+	             // 获取当前节点
+	             var currentNode = data.node;
+	             clickID = currentNode.id;
+	             console.log(currentNode);
+	             $("#organname").val(currentNode.text);
+	             $('#organSelect').hide();
+	             $("#serachorganid").val(clickID);
+	         })
+	}
+</script>
+</body>
+</html>

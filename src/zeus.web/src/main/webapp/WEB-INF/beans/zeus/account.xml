@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+	<!-- ============== Repository ============== -->
+	<!-- Command -->
+	<bean id="iUserRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.command.IUserRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iOrganRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.command.IOrganRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iPostRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.command.IPostRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	
+	<bean id="iAccountRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.command.IAccountRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iRoleRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.command.IRoleRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+	<!-- Query -->
+	<bean id="iUserQueryRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.query.IUserQueryRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iOrganQueryRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.query.IOrganQueryRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iPostQueryRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.query.IPostQueryRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	
+	<bean id="iAccountQueryRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.query.IAccountQueryRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<bean id="iRoleQueryRepository" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface"
+			value="ig.zeus.domain.repository.query.IRoleQueryRepository"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+
+	<!-- ============== Service ============== -->
+	<!-- Command -->
+	<bean id="iUserService" name="IUserService"
+		class="ig.zeus.domain.service.basis.UserService">
+		<property name="iUserRepository" ref="IUserRepository"></property>
+	</bean>
+	<bean id="iOrganService" name="IOrganService"
+		class="ig.zeus.domain.service.basis.OrganService">
+		<property name="iOrganRepository" ref="IOrganRepository"></property>
+	</bean>
+	<bean id="iPostService" name="IPostService"
+		class="ig.zeus.domain.service.basis.PostService">
+		<property name="iPostRepository" ref="IPostRepository"></property>
+	</bean>
+	
+<!-- 	<bean id="iAccountService" name="IAccountService" -->
+<!-- 		class="ig.zeus.domain.service.basis.AccountService" autowire="byName"> -->
+<!-- 	</bean> -->
+	<bean id="iRoleService" name="IRoleService"
+		class="ig.zeus.domain.service.basis.RoleService" autowire="byName" >
+<!-- 		<property name="iRoleRepository" ref="IRoleRepository"></property> -->
+	</bean>
+
+	<!-- Query -->
+<!-- 	<bean id="iUserQueryService" name="IUserQueryService" -->
+<!-- 		class="ig.zeus.domain.service.query.basis.UserQueryService"> -->
+<!-- 		<property name="iUserQueryRepository" ref="IUserQueryRepository"></property> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="iOrganQueryService" name="IOrganQueryService" -->
+<!-- 		class="ig.zeus.domain.service.query.basis.OrganQueryService"> -->
+<!-- 		<property name="iOrganQueryRepository" ref="IOrganQueryRepository"></property> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="iPostQueryService" name="IPostQueryService" -->
+<!-- 		class="ig.zeus.domain.service.query.basis.PostQueryService"> -->
+<!-- 		<property name="iPostQueryRepository" ref="IPostQueryRepository"></property> -->
+<!-- 	</bean> -->
+	
+<!-- 	<bean id="iAccountQueryService" name="IAccountQueryService" -->
+<!-- 		class="ig.zeus.domain.service.query.basis.AccountQueryService" autowire="byName"> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="iRoleQueryService" name="IRoleQueryService" -->
+<!-- 		class="ig.zeus.domain.service.query.basis.RoleQueryService"> -->
+<!-- 		<property name="iRoleQueryRepository" ref="IRoleQueryRepository"></property> -->
+<!-- 	</bean> -->
+
+	<!-- ============== Application ============== -->
+	<!-- Command -->
+	<bean id="UserApp" name="IUserApp"
+		class="ig.zeus.application.command.basis.UserApp" autowire="byName">
+	</bean>
+	<bean id="OrganApp" name="IOrganApp"
+		class="ig.zeus.application.command.basis.OrganApp" autowire="byName">
+	</bean>
+	<bean id="PostApp" name="IPostApp"
+		class="ig.zeus.application.command.basis.PostApp" autowire="byName">
+	</bean>
+	
+<!-- 	<bean id="AccountApp" name="IAccountApp" -->
+<!-- 		class="ig.zeus.application.command.basis.AccountApp" autowire="byName"> -->
+<!-- 	</bean> -->
+	<bean id="RoleApp" name="IRoleApp"
+		class="ig.zeus.application.command.basis.RoleApp" autowire="byName">
+	</bean>
+
+	<!-- Query -->
+	<bean id="UserQueryApp" name="IUserQueryApp"
+		class="ig.zeus.application.query.basis.UserQueryApp" autowire="byName">
+	</bean>
+	<bean id="OrganQueryApp" name="IOrganQueryApp"
+		class="ig.zeus.application.query.basis.OrganQueryApp" autowire="byName">
+	</bean>
+	<bean id="PostQueryApp" name="IPostQueryApp"
+		class="ig.zeus.application.query.basis.PostQueryApp" autowire="byName">
+	</bean>
+	
+	<bean id="RoleQueryApp" name="IRoleQueryApp"
+		class="ig.zeus.application.query.basis.RoleQueryApp" autowire="byName">
+	</bean>
+	<bean id="iLoginQueryApp" name="iLoginQueryApp"
+		class="ig.zeus.application.query.basis.LoginQueryApp" autowire="byName">
+	</bean>
+
+</beans>

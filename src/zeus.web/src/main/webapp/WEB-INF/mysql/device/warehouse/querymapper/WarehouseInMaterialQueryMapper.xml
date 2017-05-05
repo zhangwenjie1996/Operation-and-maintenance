@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.warehouse.query.IWarehouseInMaterialQueryMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.viewmodel.warehouse.WarehouseInMaterialViewModel" >
+    <constructor >
+      <idArg column="storageInMaterialID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="storageInInvoiceID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="itemCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="categoryID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="categoryName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="modelID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="modelName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="amount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="unitName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="unitPrice" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="providerID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="providerName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="producer" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="availability" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    storageInMaterialID, storageInInvoiceID, itemCode, categoryID, categoryName, modelID, 
+    modelName, amount, unitName, unitPrice, providerID, providerName, producer, availability, 
+    description
+  </sql>
+  
+  <select id="findByWarehouseInInvoiceID" resultType="ig.device.domain.viewmodel.warehouse.WarehouseInMaterialViewModel" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from warehouseInMaterial
+    where storageInInvoiceID = #{warehouseInInvoiceID}
+  </select>
+  <select id="findByID" resultType="ig.device.domain.viewmodel.warehouse.WarehouseInMaterialViewModel" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from warehouseInMaterial
+    where storageInMaterialID = #{id}
+  </select>
+
+
+
+</mapper>

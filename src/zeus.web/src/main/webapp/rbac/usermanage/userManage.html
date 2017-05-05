@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link rel="stylesheet"
+	href="../../src/css/quote/themes/default/style.min.css" />
+<link rel="stylesheet"
+	href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css" />
+	    <link rel="stylesheet" href="../../src/css/quote/lib/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css"/>
+<link rel="stylesheet"
+	href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+<link href="../../src/css/quote/lib/jquery.bootgrid.min.css"
+	rel="stylesheet" />
+	<!-- alert -->
+	<link rel="stylesheet" type="text/css" href="../../src/alert/sweetalert2.min.css">
+<link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+<!--<script type="text/javascript" src="dist/js/jquery.i18n.properties-1.0.9.js"></script>-->
+<!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script type="text/javascript"
+	src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script type="text/javascript"
+	src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="row  userM">
+		<div class="col-sm-12 col-md-12 col-lg-12">
+			<div class="device-filter-row common-filter">
+				<ol class="breadcrumb">
+					<li><a><i class="fa fa-search"></i>用户搜索</a></li>
+				</ol>
+
+				<form class="form-horizontal  form-common" role="form" id="searchForm"  >
+					<div class="form-group col-xs-11 col-sm-6 col-md-4 col-lg-4">
+						<label for="unit" class="col-sm-4 control-label">所属单位</label>
+						  <div class="col-sm-8">
+						 <input type="text" class="form-control drop-down-unit " id="unit"
+							    readonly="readonly" placeholder="所属单位" name="unit">
+						<input type="hidden" id="serachorganid" name="organid">
+						<div id="organSelect" class="form-control unit-tree"style="display: none;right:15px"></div>
+						</div>
+					</div>
+
+					<div class="form-group col-xs-11 col-sm-6 col-md-4 col-lg-4">
+						<label class="col-sm-4 control-label" for="loginName">用户登录名</label> 
+						  <div class="col-sm-8">
+						<input type="text"
+							class="form-control" id="accountName" placeholder="" name="accountName"></div>
+					</div>
+					<div class="form-group col-xs-11 col-sm-6 col-md-4 col-lg-4">
+						<label class="col-sm-4 control-label" for="username">用户名称</label>
+						  <div class="col-sm-8"> <input type="text"
+							class="form-control" id="employeename2" name="employeename" placeholder=""></div>
+					</div>
+					<div class="form-group col-xs-11 col-sm-6 col-md-4 col-lg-4">
+						<label class="col-sm-4 control-label" for="role">角色</label> 
+						  <div class="col-sm-8"><input type="text"
+							class="form-control" id="role" placeholder="" name="roleName">
+					</div>
+						
+				</div>
+			
+			  <button type="button" class="searchBtn btn btn-primary serarchEmployee">查询</button>
+			
+				</form>
+					 
+					
+			</div>
+			<div class="user-list-row">
+				<div class="tit">
+					<ol class="breadcrumb">
+						<li><a><i class="fa  fa-tasks"></i>用户列表</a></li>
+					</ol>
+					
+					
+				</div>
+				<button class="addBtn btn btn-primary btn-sm"  type="button"> <i class="fa fa-plus"></i>增加
+            </button>
+              <div class="table-rp">
+				<table id="grid-data"
+					class="table table-condensed table-hover table-striped ">
+					<thead>
+						<tr>
+							<!--data-identifier="true"id-->
+<!-- 							<th data-column-id="employeeid" data-identifier="true" -->
+<!-- 								data-type="numeric" >ID</th> -->
+							<th data-column-id="employeename">用户名称</th>
+							<th data-column-id="sex">性别</th>
+							<th data-column-id="birthday" data-order="desc">出生日期</th>
+							<th data-column-id="address">地址</th>
+							<th data-column-id="phone">电话</th>
+							<th data-column-id="createdate">创建日期</th>
+							<th data-column-id="availability">有效</th>
+							<th data-column-id="description" data-visible=false>描述</th>
+							<th data-column-id="addAccount" data-formatter="addAccount"
+								 data-align="center">账户</th>
+							<th data-column-id="commands" data-formatter="commands"
+								data-sortable="false">操作</th>
+						</tr>
+					</thead>
+				</table>
+				</div>
+			</div>
+		</div>
+
+		<!-- cd-popup-container-start -->
+		<div class="cd-popup" role="alert">
+			<div class="dialog cd-popup-container">
+				<a class="cd-popup-close icon-close fa fa-times"></a>
+				<div class="tabbar"></div>
+				<div class="mnk">
+					<form id="form2" class="form-horizontal form-block" role="form" >
+						<input type="hidden" id="employeeid" name="employeeid" />
+			 			<div class="form-group col-sm-6">
+			                    <label for="organname" class="col-sm-4 control-label">组织部门</label>
+			                    <div class="col-sm-8">
+			                        <input type="text" class="form-control drop-down-unit " id="organname"
+			                               placeholder=" -请选择-" name="organname">
+			                        <input type="hidden" id="serachorganid2" name="organid">
+			                        <div id="organSelect2" class="form-control unit-tree" style="display: none;right:10px"></div>
+			                    </div>
+			            </div>
+						<div class="form-group col-sm-6">
+							<label for="postid" class="col-sm-4 control-label">岗位</label>
+							<div class="col-sm-8">
+								<select class="form-control" id="postid" class="form-control"
+									name="postid">
+									<option>-请选择-</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="employeename" class="col-sm-4 control-label">用户名称</label>
+
+							<div class="col-sm-8">
+								<input class="form-control" id="employeename" placeholder="用户名称"
+									name="employeename">
+							</div>
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="sex" class="col-sm-4 control-label">性别</label>
+
+							<div class="col-sm-8">
+								<select class="form-control" id="sex" name="sex">
+								<option value="1">男</option>
+								<option value="0">女</option>
+							</select>
+							</div>
+						</div>
+						<div class="form-group col-sm-6">
+							<label  for="birthday" class="col-sm-4 control-label">出生日期</label>
+
+							<div class="col-sm-8">
+								<input size="16" class="form-control form_datetime" id="birthday" placeholder="出生日期"
+									name="birthday">
+							</div>
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="identitycard" class="col-sm-4 control-label">身份证号</label>
+
+							<div class="col-sm-8">
+								<input class="form-control" id="identitycard" placeholder="身份证号"
+									name="identitycard">
+							</div>
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="nativeplace" class="col-sm-4 control-label">籍贯</label>
+
+							<div class="col-sm-8">
+								<input class="form-control" id="nativeplace" placeholder="籍贯"
+									name="nativeplace">
+							</div>
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="address" class="col-sm-4 control-label">家庭住址</label>
+
+							<div class="col-sm-8">
+								<input class="form-control" id="address" placeholder="家庭住址"
+									name="address">
+							</div>
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="phone" class="col-sm-4 control-label">联系电话</label>
+
+							<div class="col-sm-8">
+								<input class="form-control" id="phone" placeholder="联系电话"
+									name="phone">
+							</div>
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="cellphone" class="col-sm-4 control-label">手机</label>
+
+							<div class="col-sm-8">
+								<input class="form-control" id="cellphone" placeholder="手机"
+									name="cellphone">
+							</div>
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="politicsstatus" class="col-sm-4 control-label">政治面貌</label>
+
+							<div class="col-sm-8">
+									<select class="form-control" id="politicsstatus" name="politicsstatus">
+								<option value="0">群众</option>
+								<option value="1">团员</option>
+								<option value="2">党员</option>
+							</select>
+							</div>
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="createdate" class="col-sm-4 control-label">创建日期</label>
+
+							<div class="col-sm-8">
+								<input size="16" class="form-control form_datetime2" id="createdate" placeholder="创建日期"
+									name="createdate">
+							</div>
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="availability" class="col-sm-4 control-label">有效性</label>
+
+							<div class="col-sm-8">
+							<select class="form-control" id="availability" name="availability">
+								<option value="1">有</option>
+								<option value="0">无</option>
+							</select>
+							</div>
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="description" class="col-sm-4 control-label">描述</label>
+
+							<div class="col-sm-8">
+								<textarea class="form-control" id="description" placeholder="描述"
+									name="description"></textarea>
+							</div>
+						</div>
+					</form>
+					<div class="cd-buttons">
+						<button type="button"
+							class="btn btn-primary cd-popup-close cd-btn cd-btn-save">保存</button>
+						<button type="button"
+							class="btn btn-danger cd-popup-close cd-btn cd-btn-deal">取消</button>
+					</div>
+				</div>
+			</div>
+			<!-- cd-popup-container-end -->
+		</div>
+
+
+	</div>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">添加账户</h4>
+				</div>
+				<div class="modal-body">
+					<form id="form1" class="form-horizontal">
+						<div class="form-group">
+							<label for="employeeid" class="col-sm-2 control-label">员工序号</label>
+							<input type="hidden" name="accountid" id="accountid" />
+							<div class="col-sm-10">
+								<input type="text" class="form-control readInput"
+									id="employeeid" name="employeeid" placeholder="序号"
+									readonly="readonly">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="accountname" class="col-sm-2 control-label">账户名称</label>
+
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="accountname"
+									name="accountname" placeholder="名称">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="accountpass" class="col-sm-2 control-label">密码</label>
+
+							<div class="col-sm-10">
+								<input type="password" class="form-control" id="accountpass"
+									name="accountpass" placeholder="密码">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">角色分配</label>
+
+							<div class="col-sm-10">
+								<select id="roleId" name="roleId" class="form-control">
+								</select>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="saveAccount" data-dismiss="modal"
+						class="btn btn-primary">保存</button>
+					<button type="button" data-dismiss="modal" class="btn btn-primary">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="../../src/alert/sweetalert2.min.js"></script> 
+	<!-- for IE support -->
+	<script src="../../src/alert/es6-promise.auto.min.js"></script>
+	<script src="../../src/js/quote/jquery.ui.min.js"></script>
+<script src="../../src/css/quote/lib/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+<script src="../../src/css/quote/lib/bootstrap-datetimepicker-master/locals/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script src="../../src/js/quote/jquery.bootgrid.js"></script>
+	<script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+	<script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+	<script src="../../src/js/quote/jstree.min.js"></script>
+	<script src="../../src/js/packtreegrid/pack2.js"></script>
+	<script src="../../src/js/dialog/dialog.js"></script>
+	<script type="text/javascript" src="../../src/js/draggable/draggable.js"></script> 
+	<script>
+    $(window).on("resize", resize);
+    function resize() {
+        $(".unit-tree").width($("#unit").width());
+        $("#organSelect2").width($("#organname").width());
+    }
+    resize();
+    $("#organname").off("click");
+    $("#organname").on("click", function () {
+        $("#organSelect").toggle();
+    });
+    $(".drop-down-unit").on("click", function () {
+        $(".unit-tree").toggle();
+    });
+    $(".serarchEmployee").on("click",function(){
+//     	alert($("#serachorganid").val());
+    	planningFilter("../../user/findAll?"+$("#searchForm").serialize());
+    });
+   loadOrganSelect();
+    //所属单位下拉树
+  function loadOrganSelect() {
+        $.ajax({
+            url: "../../organ/getOrganListTree",
+            type: "get",
+            success: function (data) {
+            var jsonData = JSON.parse(data);
+            callBack(jsonData.data,"organSelect");
+            callBack2(jsonData.data,"organSelect2");
+            }
+        });
+    }
+ function callBack(data,treeid) {
+     var tree = $("#" + treeid);
+     var inst, clickedNode;
+     var $save = $("#save");
+     var reg = /^j1_(\d+)/;
+     tree.jstree(false);
+     pack.showCheckboxTree(
+             data,
+             treeid,
+             "blue  fa fa-sitemap",
+             "search-tree",
+             ["dnd", "search", "state", "types", "wholerow"
+             ], false,
+             false,
+             null).bind("activate_node.jstree", function (e, data) {
+                 // 处理代码
+                 // 获取当前节点
+                 var currentNode = data.node;
+                 clickID = currentNode.id;
+                 console.log(currentNode);
+                 $(".drop-down-unit").val(currentNode.text);
+                 $('#organSelect').hide();
+                 $("#serachorganid").val(clickID);
+             })
+ }
+ //查看修改model框
+ function callBack2(data,treeid) {
+	 var tree = $("#" + treeid);
+	 var inst, clickedNode;
+	 var $save = $("#save");
+	 var reg = /^j1_(\d+)/;
+	 tree.jstree(false);
+	 pack.showCheckboxTree(
+	         data,
+	         treeid,
+	         "blue  fa fa-sitemap",
+	         "search-tree",
+	         ["dnd", "search", "state", "types", "wholerow"
+	         ], false,
+	         false,
+	         null).bind("activate_node.jstree", function (e, data) {
+	             // 处理代码
+	             // 获取当前节点
+	             var currentNode = data.node;
+	             clickID = currentNode.id;
+	             console.log(currentNode);
+	             $("#organname").val(currentNode.text);
+	             $('#organSelect2').hide();
+	             $("#serachorganid2").val(clickID);
+	             loadPost(clickID);
+	         })
+	}
+ function loadPost(organid,postid){
+	 $("#postid").empty();
+	 $.get("../../post/findSelectPostByOrganID",{organid:organid},function(data){
+		 var jsonData = JSON.parse(data);
+		 if(jsonData.state=="Success"){
+			 var str="";
+			 $.each(jsonData.data,function(index,item){
+				 str += "<option value='" + item.postid + "'>" + item.postname + "</option>";
+			 });
+			 $("#postid").append(str);
+			 $("#postid").val(postid);
+		 }
+	 });
+ }
+</script>
+	<script>
+    var planningFilter = function (url) {
+    	
+        $(".addBtn").on("click", function (e) {
+            $("#form2 input").val("");
+            $().dia(e);
+            $(".tabbar").html("增加");
+            $(".cd-btn-save").off("click");
+            $("#form2")[0].reset();
+            $(".cd-btn-save").on("click", function (e) {
+                var arr = $("#form2").serialize();
+                $.post('../../user/add', arr, function (data) {
+                    if (data.state == "Success") {
+                    	   $("#grid-data").bootgrid("reload");
+                    	swal({text:data.message});
+                    } else {
+                    	swal({text:data.message});
+                    }
+                }, 'json')
+            });
+        });
+        // NOTE: I have multiple types of basic filters.
+        // eg: Planning, Approved, Completed
+        $("#grid-data").bootgrid("destroy");
+        var idname="employeeid";
+        var formatters= {
+                "commands": function (column, row) {
+                    return "<a abs=\"查看\" class=\"btn-color btn btn-xs btn-default command-view\"  data-row-id=\"" + row[idname] + "\"><span class=\"fa  fa-eye\"></span></a>"
+                            + "<a  abs=\"编辑\" class=\"btn-color btn btn-xs btn-default command-edit\"  data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-pencil\"></span></a> " +
+                            "<a  abs=\"删除\" class=\"btn-color btn btn-xs btn-default command-delete\"  data-row-id=\"" + row[idname] + "\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                },
+                "addAccount": function (column, row) {
+                    return "<a abs=\"添加账户\" class=\"btn-color btn btn-xs btn-default command-account\" data-row-id=\"" + row[idname] + "\"><span class=\"fa fa-plus\"></span></a>"
+                }
+            };
+
+         var grid=pack.gridInit(url, "grid-data",formatters).on("loaded.rs.jquery.bootgrid", function (rows) {
+            //$().tip();
+            /* Executes after data is loaded and rendered */
+            grid.find(".command-delete").on("click", function (e) {
+                var _this = this;
+                swal({text:"删除第"+$(this).attr("data-row-id")+"行"});
+                $.get("../../user/delete", {
+                	employeeid: $(this).attr("data-row-id")
+                }, function (data) {
+                    $(_this).parents('tr').remove();
+                }, 'json');
+            }).end().find(".command-edit").on("click", function (e) {
+            	  $(".tabbar").html("编辑");
+                $().dia(e);
+                $("#form2")[0].reset();
+      			 $.get('../../user/findById', {employeeid: $(this).attr("data-row-id")}, function (data) {
+                	var d = data.data;
+                    for (key in d) {
+                        $("#" + key).val(d[key]);
+                    }
+                    $("#serachorganid2").val(d["organid"]);
+                    loadPost(d["organid"],d["postid"]);
+                }, 'json');
+                $(".cd-btn-save").off("click");
+                $(".cd-btn-save").on("click", function (e) {
+                    var arr = $("#form2").serialize();
+                    $.post('../../user/update', arr, function (data) {
+                        if (data.state == "Success") {
+                        	   $("#grid-data").bootgrid("reload");
+                        	   swal({text:data.message});
+                        } else {
+                        	  swal({text:data.message});
+                        }
+                    }, 'json')
+                });
+            }).end().find(".command-view").on("click", function (e) {
+            	  $(".tabbar").html("查看");
+                $().dia2(e);
+                $("#form2")[0].reset();
+                $.get('../../user/findById', {employeeid: $(this).attr("data-row-id")}, function (data) {
+                	var d = data.data;
+                    for (key in d) {
+                        $("#" + key).val(d[key])
+                    }
+                    $("#serachorganid2").val(d["organid"]);
+                    loadPost(d["organid"],d["postid"]);
+                }, 'json');
+            }).end().find(".command-account").on("click", function (e) {
+                $('#myModal').modal();
+                $("#form1")[0].reset();
+                $('.readInput').val($(this).attr("data-row-id"));
+                $.post('../../user/findByAccountEmployeeId', {employeeid: $(this).attr("data-row-id")}, function (data) {
+                	var d = data.data;
+                	if(d!= undefined){
+	                    for (key in d) {
+	                        $("#" + key).val(d[key]);
+	                    }
+                	}
+                    $("#saveAccount").off("click");
+                    $("#saveAccount").on("click", function () {
+                        var arr = $("#form1").serialize();
+                        var url = "";
+                        if( d == undefined ||""==data.data.accountId){
+                        	//若为空则是add
+                        	url = "../../user/addAccount";
+                        }else{
+                        	url = "../../user/updateAccount";
+                        }
+                        $.post(url, arr, function (data) {
+                        	 if (data.state == "Success") {
+                        		  swal({text:data.message});
+                             } else {
+                            	  swal({text:data.message});
+                             }
+                        });
+                    })
+                }, 'json');
+
+            })
+//             $('th[data-column-id="description"]').attr("hidden","hidden");
+//             $('th[data-column-id="description"]').attr("data-visible","false");
+            $(".text-left").remove("class").attr("class","text-center");
+        });
+    };
+//加载员工列表
+    planningFilter("../../user/findAll");
+</script>
+
+	<script>
+    	//查询角色
+    	loadRoleSelect();
+    	function　loadRoleSelect(){
+	        var url = "../../role/findAllSelect";
+			//将选中的一级下拉列表项的id传过去
+	        $.getJSON(url, function (data) {
+	            $("#roleId").append($("<option value='-1' />").text("-请选择-"));
+	            $.each(data.data, function (index, item) {
+	                $("#roleId").append("<option value='"+item.roleid+"'>"+item.rolename+"</optiont>");
+	            });
+	        });
+    	}
+//         var url2 = "../../src/json/data1.json";
+//         var url3 = "../../src/json/data2.json";
+//         var formDat = {organid: $("#organid").val(), organName: $("#organid").text()};
+//         $.ajax({
+//             async: false,
+//             cache: false,
+//             type: 'get',//1.9.0之前用type
+//             method: 'get',//1.9.0之后用method
+//             url: url2
+//         }).done(function (data) {
+//             $.each(data, function (index, item) {
+//                 $("#organid").append($("<option/>").text(item.name).attr("value", item.id));
+//             });
+//             $("#organid").change(function () {
+//                 var str = "";
+//                 $.getJSON(url3, formDat, function (data) {
+//                     $.each(data, function (index, item) {
+//                         str += "<option id='" + item.name + "' value='" + item.id + "'>" + item.name + "</option>";
+//                     });
+//                     $("#postid").html(str);
+//                 });
+//             });
+//         }).fail(function (err) {
+//             console.error(err)
+//         })
+//     }();
+
+
+</script>
+<script type="text/javascript">
+//时间控件
+ $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd',  minView: "month", language:  'zh-CN',autoclose:'true',todayHighlight:'true'});
+ $(".form_datetime2").datetimepicker({format: 'yyyy-mm-dd hh:ii',  language:  'zh-CN',autoclose:'true',todayHighlight:'true',showMeridian:'true'});
+</script>
+</body>
+</html>

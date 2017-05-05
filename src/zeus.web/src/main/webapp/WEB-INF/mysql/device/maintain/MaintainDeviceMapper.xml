@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.device.domain.mapper.maintain.IMaintainDeviceMapper" >
+  <resultMap id="BaseResultMap" type="ig.device.domain.model.maintain.task.MaintainDevice" >
+    <constructor >
+      <idArg column="maintainDeviceID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="maintainTaskID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="maintainApproachID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="maintainDeviceName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="state" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="availability" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sequence" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="deviceAddress" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    maintainDeviceID ID, maintainTaskID, maintainApproachID, maintainDeviceName, state, 
+    availability, description, sequence, deviceAddress
+  </sql>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from maintainDevice
+    where maintainDeviceID = #{ID,jdbcType=INTEGER}
+  </select>
+   <update id="removeByTaskID" parameterType="ig.device.domain.model.maintain.task.MaintainDevice" >
+    update maintainDevice
+    set 
+      availability = 0
+    where maintainTaskID = #{maintainTaskID,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteByTaskID" parameterType="java.lang.Integer" >
+    delete from maintainDevice
+    where maintainTaskID = #{maintainTaskID,jdbcType=INTEGER}
+  </delete>
+  
+ <insert id="addMaintainDevices" parameterType="List">
+    <![CDATA[
+    insert into maintainDevice (maintainTaskID, maintainApproachID, maintainDeviceName, sequence, deviceAddress , 
+    availability)
+    values
+    ]]>
+		<foreach collection="list" item="obj" index="index" separator=",">
+			(
+			#{obj.maintainTaskID,jdbcType=INTEGER},
+			#{obj.maintainApproachID,jdbcType=INTEGER},
+			#{obj.maintainDeviceName,jdbcType=VARCHAR},
+		    #{obj.sequence,jdbcType=INTEGER},
+			#{obj.deviceAddress,jdbcType=VARCHAR},
+			1
+			)
+		</foreach>
+
+	</insert>
+  <update id="update" parameterType="ig.device.domain.model.maintain.task.MaintainDevice" >
+    update maintainDevice
+    set maintainTaskID = #{maintainTaskID,jdbcType=INTEGER},
+      maintainApproachID = #{maintainApproachID,jdbcType=INTEGER},
+      maintainDeviceName = #{maintainDeviceName,jdbcType=VARCHAR},
+      state = #{state,jdbcType=TINYINT},
+      availability = #{availability,jdbcType=TINYINT},
+      description = #{description,jdbcType=VARCHAR},
+      sequence = #{sequence,jdbcType=INTEGER},
+      deviceAddress = #{deviceAddress,jdbcType=VARCHAR}
+    where maintainDeviceID = #{ID,jdbcType=INTEGER}
+  </update>
+</mapper>

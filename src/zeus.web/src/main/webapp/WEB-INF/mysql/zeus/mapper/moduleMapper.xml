@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.command.IModuleRepository" >
+  <resultMap id="BaseResultMap" type="ig.zeus.domain.model.resource.server.Module" >
+    <id column="moduleID" property="id" jdbcType="INTEGER" />
+    <result column="moduleName" property="name" jdbcType="VARCHAR" />
+    <result column="signature" property="signature" jdbcType="VARCHAR" />
+    <result column="sequence" property="index" jdbcType="INTEGER" />
+    <result column="availability" property="availability" jdbcType="BIT" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="remove" parameterType="java.lang.Integer" >
+    delete from module
+    where moduleID = #{ID,jdbcType=INTEGER}
+  </delete>
+  <insert id="add" parameterType="ig.zeus.domain.model.resource.server.Module" >
+    insert into module (moduleName, signature, 
+      sequence, availability, description
+      )
+    values (#{name,jdbcType=VARCHAR}, #{signature,jdbcType=VARCHAR}, 
+      #{index,jdbcType=INTEGER}, #{availability,jdbcType=BIT}, #{description,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="update" parameterType="ig.zeus.domain.model.resource.server.Module" >
+    update module
+    set moduleName = #{name,jdbcType=VARCHAR},
+      signature = #{signature,jdbcType=VARCHAR},
+      sequence = #{index,jdbcType=INTEGER},
+      availability = #{availability,jdbcType=BIT},
+      description = #{description,jdbcType=VARCHAR}
+    where moduleID = #{ID,jdbcType=INTEGER}
+  </update>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select moduleID, moduleName, signature, sequence, availability, description
+    from module
+    where moduleID = #{ID,jdbcType=INTEGER}
+  </select>
+  <select id="findAll" resultMap="BaseResultMap" >
+    select moduleID, moduleName, signature, sequence, availability, description
+    from module
+  </select>
+</mapper>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link rel="stylesheet"
+	href="../../src/css/quote/themes/default/style.min.css" />
+<link rel="stylesheet"
+	href="../../src/css/quote/lib/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="../../src/css/quote/lib/font-awesome-4.6.3/css/font-awesome.min.css">
+<link href="../../src/css/quote/lib/jquery.bootgrid.min.css"
+	rel="stylesheet" />
+<link href="../../src/css/common.css" rel="stylesheet" type="text/css">
+<script type="text/javascript"
+	src="../../src/js/quote/jquery-1.11.1.min.js"></script>
+<script type="text/javascript"
+	src="../../src/js/quote/bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<div class="container-fluid">
+	<div class="row breadcrumb">角色授权</div>
+		<div class="row menuM">
+			<div class="col-sm-3 col-md-3 col-lg-3">
+				<div class="row-tree-menu">
+					<ol class="breadcrumb">
+						<li><a href="#">系统选择</a></li>
+					</ol>
+					<div class="treeList">
+						<div class="col-sm-8 col-md-8 col-lg-8">
+						</div>
+						<div class="col-sm-4 col-md-4 col-lg-4">
+							<div class="text-right">
+								<button type="button" class="btn btn-danger" id="saveSystem">保存</button>
+							</div>
+						</div>
+						<div id="systemList" class="col-sm-12 col-md-12 col-lg-12">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3 col-md-3 col-lg-3">
+				<div class="row-tree-menu">
+					<ol class="breadcrumb">
+						<li><a href="#">菜单选择</a></li>
+					</ol>
+					<div class="treeList">
+						<div class="col-sm-8 col-md-8 col-lg-8">
+						</div>
+						<div class="col-sm-4 col-md-4 col-lg-4">
+							<div class="text-right">
+								<button type="button" class="btn btn-danger" id="saveMenu">保存</button>
+							</div>
+						</div>
+						<div id="menuList" class="menu-load"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6 col-lg-6">
+				<div class="row-tree-menu">
+					<ol class="breadcrumb">
+						<li><a href="#">操作选择</a></li>
+					</ol>
+					<div class="treeList">
+						<div class="col-sm-8 col-md-8 col-lg-8"> </div>
+						<div class="col-sm-4 col-md-4 col-lg-4">
+							<div class="text-right">
+								<button type="button" class="btn btn-danger" id="saveElement">保存</button>
+							</div>
+						</div>
+						<div id="elementList" class="menu-load">
+						 <table id="grid-data" class="table table-condensed table-hover table-striped">
+				            <thead>
+				            <tr>
+				                <th data-column-id="elementid" data-identifier="true" data-type="numeric">序号</th>
+				                <th data-column-id="elementname" data-order="desc">名称</th>
+				                <th data-column-id="signature">标识</th>
+				                <th data-column-id="availability">有效性</th>
+				                <th data-column-id="commands" data-formatter="commands" data-sortable="false">操作</th>
+				            </tr>
+				            </thead>
+       					 </table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="http://cdn.gbtags.com/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="../../src/js/quote/bootstrapValidator.min.js"></script>
+<script src="../../src/js/quote/jstree.min.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.js"></script>
+<script src="../../src/js/quote/jquery.bootgrid.fa.min.js"></script>
+<script src="../../src/js/quote/moderniz.2.8.1.js"></script>
+<script type="text/javascript" src="../../src/js/packtreegrid/pack2.js"></script>
+<script type="text/javascript" src="../../src/js/dialog/dialog.js"></script>
+<script>
+	// var roleId = window.dialogArguments.obj.roleId;
+	loadSystem();
+	//加载菜单树
+	function loadMenu(id) {
+		$.ajax({
+			async : true,
+			url : "../../menuController/findMenuTree?systemId=" + id,
+			type : "get",
+			success : function(data) {
+				var jsonData = JSON.parse(data);
+				var newData = jsonData.data;
+				callBack(newData, "menuList", planningFilter);
+			}
+		});
+	}
+	//加载系统树
+	function loadSystem() {
+		$.ajax({
+			async : true,
+			url : "../../systemController/findSystemTree",
+			type : "get",
+			success : function(data) {
+				var jsonData = JSON.parse(data);
+				var newData = jsonData.data;
+				callBack(newData, "systemList", loadMenu);
+				loadRoleResource("../../permissionController/findSystemByRoleId");
+			}
+		});
+	}
+	function callBack(data, treeid, fun) {
+		var tree = $("#" + treeid);
+		var inst, clickedNode;
+		var $save = $("#save");
+		var reg = /^j1_(\d+)/;
+		pack.showCheckboxTree(data, treeid, "blue  fa fa-sitemap",
+				"search-tree",
+				[ "dnd", "search", "state", "types", "wholerow", "checkbox" ],
+				true, true, null).bind("activate_node.jstree",
+				function(e, data) {
+					var cur = data.node;
+					$("#currentDepart").html(cur.text);
+					var id = cur.id.replace(reg, "$1");
+					fun(id);
+				})
+	}
+	$("#saveSystem,#saveMenu,#saveElement").on("click", function() {
+		var url = "";
+		if("saveSystem"==this.id){
+			//保存角色系统关系
+			url = "../../permissionController/addRoleSystem"
+		} else if("saveMenu"==this.id){
+			//保存角色菜单关系
+			url = "../../permissionController/addRoleMenu"
+		}else if("saveElement"==this.id){
+			//保存角色元素关系
+			url = "../../permissionController/addRoleElement"
+		}
+		alert(url);
+	});
+	function loadRoleResource(url){
+		alert(url);
+	}
+	
+	
+	//加载元素grid
+	      var planningFilter = function (menuId) {
+	        $("#grid-data").bootgrid("destroy");
+	        var idname = "elementid";
+	        var formatters={
+                "commands": function (column, row) {
+                    return '<select id="permisionId" class="command-select" >  <option value="0">通过</option> <option value="2">禁用</option>  <option value="3">只读</option> </select>';
+                }
+            }
+        var grid= pack.gridInit("../../elementController/findAllByMenuId?menuId="+menuId, "grid-data",formatters).on("loaded.rs.jquery.bootgrid", function () {
+            $().tip();
+            grid.find(".command-select").on("change", function (e) {
+               alert("hello");
+            });
+//             $(".text-left").remove("class").attr("class","text-center");
+        });
+
+    };
+</script>
+</html>

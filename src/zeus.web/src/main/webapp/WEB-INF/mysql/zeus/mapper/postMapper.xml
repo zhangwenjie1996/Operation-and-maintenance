@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.command.IPostRepository" >
+  <resultMap id="BaseResultMap" type="ig.zeus.domain.model.user.Post" >
+    <id column="postID" property="ID" jdbcType="INTEGER" />
+    <result column="organID" property="organid" jdbcType="INTEGER" />
+    <result column="postName" property="postName" jdbcType="VARCHAR" />
+    <result column="standardNumber" property="standardnumber" jdbcType="INTEGER" />
+    <result column="availability" property="availability" jdbcType="BIT" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="remove" parameterType="java.lang.Integer" >
+    delete from post
+    where postID = #{ID,jdbcType=INTEGER}
+  </delete>
+  <insert id="add" parameterType="ig.zeus.domain.model.user.Post" >
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="ID">
+      SELECT LAST_INSERT_ID() AS ID
+    </selectKey>
+    insert into post (organID, postName, 
+      standardNumber, availability, description
+      )
+    values ( #{organid,jdbcType=INTEGER}, #{postName,jdbcType=VARCHAR}, 
+      #{standardnumber,jdbcType=INTEGER}, #{availability,jdbcType=BIT}, #{description,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="update" parameterType="ig.zeus.domain.model.user.Post" >
+    update post
+    set organID = #{organid,jdbcType=INTEGER},
+      postName = #{postName,jdbcType=VARCHAR},
+      standardNumber = #{standardnumber,jdbcType=INTEGER},
+      availability = #{availability,jdbcType=BIT},
+      description = #{description,jdbcType=VARCHAR}
+    where postID = #{ID,jdbcType=INTEGER}
+  </update>
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select postID, organID, postName, standardNumber, availability, description
+    from post
+    where postID = #{ID,jdbcType=INTEGER}
+  </select>
+  <select id="findAll" resultMap="BaseResultMap" >
+    select postID, organID, postName, standardNumber, availability, description
+    from post
+  </select>
+</mapper>

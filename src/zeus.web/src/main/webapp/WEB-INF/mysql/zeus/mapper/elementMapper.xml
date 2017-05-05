@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ig.zeus.domain.repository.command.IElementRepository" >
+  <delete id="remove" parameterType="java.lang.Integer" >
+    delete from element
+    where elementID = #{ID,jdbcType=INTEGER}
+  </delete>
+  <insert id="add" parameterType="ig.zeus.domain.model.resource.ui.Element" >
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="ID">
+      SELECT LAST_INSERT_ID() AS ID
+    </selectKey>
+    insert into element (menuID, elementName, 
+      signature, elementType, availability
+      )
+    values (#{menuid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{signature,jdbcType=VARCHAR}, #{elementType,jdbcType=TINYINT}, #{availability,jdbcType=BIT}
+      )
+  </insert>
+  <update id="update" parameterType="ig.zeus.domain.model.resource.ui.Element" >
+    update element
+    set menuID = #{menuid,jdbcType=INTEGER},
+      elementName = #{name,jdbcType=VARCHAR},
+      signature = #{signature,jdbcType=VARCHAR},
+      elementType = #{elementType,jdbcType=TINYINT},
+      availability = #{availability,jdbcType=BIT}
+    where elementID = #{ID,jdbcType=INTEGER}
+  </update>
+</mapper>
